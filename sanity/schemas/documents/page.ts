@@ -52,6 +52,7 @@ export default defineType({
         { type: "faqs" },
         { type: "form-newsletter" },
         { type: "all-posts" },
+        { type: "contactform" },
       ],
       options: {
         insertMenu: {
@@ -110,6 +111,11 @@ export default defineType({
               name: "all-posts",
               title: "All Posts",
               of: ["all-posts"],
+            },
+            {
+              name: "contactform",
+              title: "Contact Form",
+              of: ["contactform"],
             },
           ],
           views: [

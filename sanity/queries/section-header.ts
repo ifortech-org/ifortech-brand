@@ -11,7 +11,24 @@ export const sectionHeaderQuery = groq`
     stackAlign,
     tagLine,
     title,
-    description,
+    description[]{
+      ...,
+      _type == "image" => {
+        ...,
+        asset->{
+          _id,
+          url,
+          mimeType,
+          metadata {
+            lqip,
+            dimensions {
+              width,
+              height
+            }
+          }
+        }
+      }
+    },
     link,
   }
 `;

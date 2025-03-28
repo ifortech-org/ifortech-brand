@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import SectionContainer from "@/components/ui/section-container";
 import { stegaClean } from "next-sanity";
+import PortableTextRenderer from "@/components/portable-text-renderer";
 
 import { PAGE_QUERYResult } from "@/sanity.types";
 
@@ -28,11 +29,9 @@ export default function SectionHeader({
         className={cn(
           align === "center" ? "max-w-[48rem] text-center mx-auto" : undefined,
           isNarrow ? "max-w-[48rem] mx-auto" : undefined
-        )}
-      >
+        )}>
         <div
-          className={cn(color === "primary" ? "text-background" : undefined)}
-        >
+          className={cn(color === "primary" ? "text-background" : undefined)}>
           {tagLine && (
             <h1 className="leading-[0] mb-4">
               <span className="text-base font-semibold">{tagLine}</span>
@@ -40,7 +39,7 @@ export default function SectionHeader({
           )}
           <h2 className="text-3xl md:text-5xl mb-4">{title}</h2>
         </div>
-        <p>{description}</p>
+        {description && <PortableTextRenderer value={description} />}
       </div>
     </SectionContainer>
   );

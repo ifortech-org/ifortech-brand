@@ -49,7 +49,7 @@ export default defineType({
     }),
     defineField({
       name: "description",
-      type: "text",
+      type: "block-content",
     }),
   ],
   preview: {
