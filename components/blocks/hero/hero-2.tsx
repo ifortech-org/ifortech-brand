@@ -3,15 +3,37 @@ import Link from "next/link";
 import { stegaClean } from "next-sanity";
 import PortableTextRenderer from "@/components/portable-text-renderer";
 import { PAGE_QUERYResult } from "@/sanity.types";
+import { urlFor } from "@/sanity/lib/image";
 
 type Hero2Props = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
   { _type: "hero-2" }
 >;
 
-export default function Hero2({ tagLine, title, body, links }: Hero2Props) {
+export default function Hero2({
+  tagLine,
+  title,
+  body,
+  links,
+  backgroundImage,
+}: Hero2Props) {
+  const containerClassName = backgroundImage
+    ? "dark:bg-background py-20 lg:pt-40 text-center text-white relative"
+    : "container dark:bg-background py-20 lg:pt-40 text-center";
+
+  const background = backgroundImage ? urlFor(backgroundImage).url() : "";
+
   return (
-    <div className="container dark:bg-background py-20 lg:pt-40 text-center">
+    <div
+      className={containerClassName}
+      style={{
+        backgroundImage: background,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}>
+      {backgroundImage && (
+        <div className="absolute inset-0 bg-black/30 dark:bg-black/50" />
+      )}
       {tagLine && (
         <h1 className="leading-[0] font-sans animate-fade-up [animation-delay:100ms] opacity-0">
           <span className="text-base font-semibold">{tagLine}</span>
@@ -33,13 +55,11 @@ export default function Hero2({ tagLine, title, body, links }: Hero2Props) {
             <Button
               key={link.title}
               variant={stegaClean(link?.buttonVariant)}
-              asChild
-            >
+              asChild>
               <Link
                 href={link.href as string}
                 target={link.target ? "_blank" : undefined}
-                rel={link.target ? "noopener" : undefined}
-              >
+                rel={link.target ? "noopener" : undefined}>
                 {link.title}
               </Link>
             </Button>

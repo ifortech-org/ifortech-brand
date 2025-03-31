@@ -23,18 +23,21 @@ import { Textarea } from "../ui/textarea";
 import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "sonner";
+import { PAGE_QUERYResult } from "@/sanity.types";
+
+type ContactFormProps = Extract<
+  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
+  { _type: "contactform" }
+>;
 
 function ContactForm({
   title,
   description,
   button_text,
   side_image,
-}: {
-  title: string;
-  description: any;
-  side_image: Image;
-}) {
-  let imageUrl = urlFor(side_image.asset).url();
+}: ContactFormProps) {
+  let imageUrl =
+    side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
   let captchaRef = useRef<ReCAPTCHA>(null);
 
   let [isVerified, setIsverified] = useState(false);
@@ -51,10 +54,7 @@ function ContactForm({
     e.preventDefault();
 
     if (!isVerified) {
-      toast({
-        title: "Verifica reCAPTCHA fallita",
-        description: "Per favore, completa il reCAPTCHA.",
-      });
+      toast("Verifica reCAPTCHA fallita, Per favore, completa il reCAPTCHA.");
       return;
     }
 
@@ -74,10 +74,9 @@ function ContactForm({
     })
       .then((response) => response.json())
       .then((data) => {
-        toast({
-          title: "Richiesta di contatto registrata con successo",
-          description: "A breve verrà contattato da uno dei nostri operatori",
-        });
+        toast(
+          "Richiesta di contatto registrata con successo, a breve verrà contattato da uno dei nostri operatori"
+        );
       });
   }
 
@@ -103,9 +102,9 @@ function ContactForm({
 
   return (
     <Dialog>
-      <div className="grid grid-cols-2 bg-muted">
+      <div className="grid lg:grid-cols-2 bg-muted">
         <div
-          className="bg-no-repeat bg-cover"
+          className="bg-no-repeat bg-cover hidden lg:block"
           style={{
             backgroundImage: `url(${imageUrl})`,
             backgroundPosition: "-15% 30%",
@@ -113,7 +112,7 @@ function ContactForm({
         <div className="flex flex-col px-8 py-16 gap-4">
           <h2 className="text-3xl font-bold">{title}</h2>
           <div className="lg:w-1/2">
-            <PortableTextRenderer value={description} />
+            {description && <PortableTextRenderer value={description} />}
           </div>
           <DialogTrigger asChild className="lg:w-1/3">
             <Button>{button_text}</Button>

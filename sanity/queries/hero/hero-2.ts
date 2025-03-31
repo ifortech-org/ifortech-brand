@@ -7,6 +7,21 @@ export const hero2Query = groq`
     _key,
     tagLine,
     title,
+    backgroundImage{
+      asset->{
+        _id,
+        url,
+        mimeType,
+        metadata {
+          lqip,
+          dimensions {
+            width,
+            height
+          }
+        }
+      },
+      alt
+    },
     body[]{
       ...,
       _type == "image" => {

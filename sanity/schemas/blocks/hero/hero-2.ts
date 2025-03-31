@@ -25,6 +25,19 @@ export default defineType({
       of: [{ type: "link" }],
       validation: (rule) => rule.max(2),
     }),
+    defineField({
+      name: "backgroundImage",
+      title: "Background Image",
+      description: "This image will be used as the background.",
+      type: "image",
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative Text",
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
