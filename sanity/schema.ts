@@ -58,6 +58,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // blocks
     hero1,
     hero2,
+    contactform,
     sectionHeader,
     splitRow,
     splitContent,
@@ -79,6 +80,5 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     faqs,
     newsletter,
     allPosts,
-    contactform,
   ],
 };

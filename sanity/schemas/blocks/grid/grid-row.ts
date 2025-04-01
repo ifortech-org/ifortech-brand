@@ -28,6 +28,12 @@ export default defineType({
       },
       initialValue: "grid-cols-3",
     }),
+    defineField({
+      name: "title",
+      type: "string",
+      title: "Title",
+      description: "Optional title for the grid row",
+    }),
     // add only the blocks you need
     defineField({
       name: "columns",

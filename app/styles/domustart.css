@@ -43,59 +43,59 @@
 }
 
 :root {
-  --background: hsl(202 30% 98%);
-  --foreground: hsl(210 20% 10%);
-  --card: hsl(202 20% 95%);
-  --card-foreground: hsl(210 20% 10%);
-  --popover: hsl(202 20% 95%);
-  --popover-foreground: hsl(210 20% 10%);
-  --primary: hsl(202 68% 45%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(202 40% 90%);
-  --secondary-foreground: hsl(210 20% 10%);
-  --muted: hsl(202 30% 85%);
-  --muted-foreground: hsl(202 15% 40%);
-  --accent: hsl(28, 87%, 67%); /* Arancione caldo */
-  --accent-foreground: hsl(210, 20%, 10%); /* Testo scuro per contrasto */
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(210 20% 98%);
-  --border: hsl(202 25% 80%);
-  --input: hsl(202 25% 80%);
-  --ring: hsl(202 68% 45%);
-  --chart-1: hsl(12 76% 61%);
-  --chart-2: hsl(173 58% 39%);
-  --chart-3: hsl(197 37% 24%);
-  --chart-4: hsl(43 74% 66%);
-  --chart-5: hsl(27 87% 67%);
-  --radius: 0.5rem;
+  --background: hsl(0, 0%, 98%); /* Sfondo bianco */
+  --foreground: hsl(0, 0%, 10%); /* Testo principale (nero/grigio scuro) */
+  --card: hsl(0, 0%, 95%); /* Colore delle card (grigio chiaro) */
+  --card-foreground: hsl(0, 0%, 10%); /* Testo nelle card */
+  --popover: hsl(0, 0%, 95%); /* Sfondo dei popover */
+  --popover-foreground: hsl(0, 0%, 10%); /* Testo nei popover */
+  --primary: hsl(145, 63%, 49%); /* Verde smeraldo */
+  --primary-foreground: hsl(0, 0%, 100%); /* Testo bianco per contrasto */
+  --secondary: hsl(145, 40%, 35%); /* Verde scuro per elementi secondari */
+  --secondary-foreground: hsl(0, 0%, 10%); /* Testo scuro per contrasto */
+  --muted: hsl(0, 0%, 90%); /* Grigio molto chiaro per sfondi secondari */
+  --muted-foreground: hsl(0, 0%, 40%); /* Testo secondario */
+  --accent: hsl(43, 74%, 66%); /* Giallo dorato per accenti */
+  --accent-foreground: hsl(0, 0%, 10%); /* Testo scuro per contrasto */
+  --destructive: hsl(0, 84%, 60%); /* Rosso brillante per azioni distruttive */
+  --destructive-foreground: hsl(0, 0%, 100%); /* Testo bianco per contrasto */
+  --border: hsl(0, 0%, 85%); /* Colore dei bordi */
+  --input: hsl(0, 0%, 95%); /* Sfondo degli input */
+  --ring: hsl(145, 63%, 49%); /* Colore degli anelli di focus */
+  --chart-1: hsl(145, 63%, 49%); /* Verde smeraldo per grafici */
+  --chart-2: hsl(173, 58%, 39%); /* Verde acqua per grafici */
+  --chart-3: hsl(197, 37%, 24%); /* Blu scuro per grafici */
+  --chart-4: hsl(43, 74%, 66%); /* Giallo dorato per grafici */
+  --chart-5: hsl(27, 87%, 67%); /* Arancione caldo per grafici */
+  --radius: 0.5rem; /* Raggio di arrotondamento */
 }
 
 .dark {
-  --background: hsl(202 30% 10%);
-  --foreground: hsl(210 20% 98%);
-  --card: hsl(202 30% 15%);
-  --card-foreground: hsl(210 20% 98%);
-  --popover: hsl(202 30% 15%);
-  --popover-foreground: hsl(210 20% 98%);
-  --primary: hsl(202 68% 45%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(202 30% 20%);
-  --secondary-foreground: hsl(210 20% 98%);
-  --muted: hsl(202 25% 25%);
-  --muted-foreground: hsl(202 15% 65%);
-  --accent: hsl(28, 87%, 67%); /* Arancione caldo */
-  --accent-foreground: hsl(0, 0%, 100%); /* Testo chiaro per contrasto */
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(210 20% 98%);
-  --border: hsl(202 25% 25%);
-  --input: hsl(202 25% 25%);
-  --ring: hsl(202 68% 45%);
-  --chart-1: hsl(12 76% 61%);
-  --chart-2: hsl(173 58% 49%);
-  --chart-3: hsl(197 37% 44%);
-  --chart-4: hsl(43 74% 66%);
-  --chart-5: hsl(27 87% 67%);
-  --radius: 0.5rem;
+  --background: hsl(145, 20%, 10%); /* Sfondo molto scuro con tonalità verde */
+  --foreground: hsl(0, 0%, 95%); /* Testo chiaro per contrasto */
+  --card: hsl(145, 25%, 15%); /* Colore delle card */
+  --card-foreground: hsl(0, 0%, 95%); /* Testo nelle card */
+  --popover: hsl(145, 25%, 15%); /* Sfondo dei popover */
+  --popover-foreground: hsl(0, 0%, 95%); /* Testo nei popover */
+  --primary: hsl(145, 63%, 49%); /* Verde smeraldo */
+  --primary-foreground: hsl(0, 0%, 100%); /* Testo bianco per contrasto */
+  --secondary: hsl(145, 40%, 35%); /* Verde scuro per elementi secondari */
+  --secondary-foreground: hsl(0, 0%, 95%); /* Testo chiaro per contrasto */
+  --muted: hsl(145, 20%, 7%); /* Verde molto scuro per sfondi secondari */
+  --muted-foreground: hsl(145, 25%, 50%); /* Testo secondario */
+  --accent: hsl(43, 74%, 66%); /* Giallo dorato per accenti */
+  --accent-foreground: hsl(0, 0%, 100%); /* Testo bianco per contrasto */
+  --destructive: hsl(0, 84%, 60%); /* Rosso brillante per azioni distruttive */
+  --destructive-foreground: hsl(0, 0%, 100%); /* Testo bianco per contrasto */
+  --border: hsl(145, 25%, 20%); /* Colore dei bordi */
+  --input: hsl(145, 25%, 20%); /* Sfondo degli input */
+  --ring: hsl(145, 63%, 49%); /* Colore degli anelli di focus */
+  --chart-1: hsl(145, 63%, 49%); /* Verde smeraldo per grafici */
+  --chart-2: hsl(173, 58%, 49%); /* Verde acqua per grafici */
+  --chart-3: hsl(197, 37%, 44%); /* Blu scuro per grafici */
+  --chart-4: hsl(43, 74%, 66%); /* Giallo dorato per grafici */
+  --chart-5: hsl(27, 87%, 67%); /* Arancione caldo per grafici */
+  --radius: 0.5rem; /* Raggio di arrotondamento */
 }
 
 @theme inline {
@@ -221,5 +221,9 @@
   }
   .bg-accent-foreground {
     background-color: var(--accent-foreground);
+  }
+
+  .bg-secondary {
+    color: var(--secondary-foreground);
   }
 }

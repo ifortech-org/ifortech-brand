@@ -21,13 +21,13 @@ export default function Hero2({
     ? "dark:bg-background py-20 lg:pt-40 text-center text-white relative"
     : "container dark:bg-background py-20 lg:pt-40 text-center";
 
-  const background = backgroundImage ? urlFor(backgroundImage).url() : "";
+  const bgImage = backgroundImage ? urlFor(backgroundImage).url() : undefined;
 
   return (
     <div
       className={containerClassName}
       style={{
-        backgroundImage: background,
+        backgroundImage: backgroundImage ? `url(${bgImage})` : undefined,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}>
@@ -40,12 +40,12 @@ export default function Hero2({
         </h1>
       )}
       {title && (
-        <h2 className="mt-6 font-bold leading-[1.1] text-4xl md:text-5xl lg:text-6xl animate-fade-up [animation-delay:200ms] opacity-0">
+        <h2 className="mt-6 font-bold leading-[1.1] text-4xl md:text-5xl lg:text-6xl animate-fade-up [animation-delay:200ms] opacity-0 drop-shadow-lg">
           {title}
         </h2>
       )}
       {body && (
-        <div className="text-lg mt-6 max-w-2xl mx-auto animate-fade-up [animation-delay:300ms] opacity-0">
+        <div className="text-lg mt-6 max-w-2xl mx-auto animate-fade-up [animation-delay:300ms] opacity-0 drop-shadow-lg">
           <PortableTextRenderer value={body} />
         </div>
       )}

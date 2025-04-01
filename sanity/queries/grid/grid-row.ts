@@ -9,6 +9,7 @@ export const gridRowQuery = groq`
     _type,
     _key,
     padding,
+    title,
     colorVariant,
     gridColumns,
     columns[]{
