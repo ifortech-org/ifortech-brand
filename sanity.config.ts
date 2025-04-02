@@ -16,6 +16,8 @@ import { resolve } from "@/sanity/presentation/resolve";
 import { structure } from "./sanity/structure";
 import { codeInput } from "@sanity/code-input";
 
+import { itITLocale } from "@sanity/locale-it-it";
+
 export default defineConfig({
   basePath: "/studio",
   title: "Schema UI",
@@ -24,6 +26,7 @@ export default defineConfig({
   // Add and edit the content schema in the './sanity/schema' folder
   schema,
   plugins: [
+    itITLocale(),
     structureTool({ structure }),
     presentationTool({
       previewUrl: {

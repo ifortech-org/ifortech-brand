@@ -5,12 +5,12 @@ import { orderRankField } from "@sanity/orderable-document-list";
 export default defineType({
   name: "page",
   type: "document",
-  title: "Page",
+  title: "Pagine web",
   icon: Files,
   groups: [
     {
       name: "content",
-      title: "Content",
+      title: "Contenuti",
     },
     {
       name: "seo",
@@ -18,7 +18,7 @@ export default defineType({
     },
     {
       name: "settings",
-      title: "Settings",
+      title: "Impostazioni",
     },
   ],
   fields: [
@@ -64,32 +64,32 @@ export default defineType({
             },
             {
               name: "logo-cloud",
-              title: "Logo Cloud",
+              title: "Loghi a scorrimento",
               of: ["logo-cloud-1"],
             },
             {
               name: "section-header",
-              title: "Section Header",
+              title: "Intestazione Sezione",
               of: ["section-header"],
             },
             {
               name: "grid",
-              title: "Grid",
+              title: "Griglia",
               of: ["grid-row"],
             },
             {
               name: "split",
-              title: "Split",
+              title: "Diviso",
               of: ["split-row"],
             },
             {
               name: "carousel",
-              title: "Carousel",
+              title: "Carosello",
               of: ["carousel-1", "carousel-2"],
             },
             {
               name: "timeline",
-              title: "Timeline",
+              title: "Cronologia",
               of: ["timeline-row"],
             },
             {
@@ -99,22 +99,22 @@ export default defineType({
             },
             {
               name: "faqs",
-              title: "FAQs",
+              title: "Domande Frequenti",
               of: ["faqs"],
             },
             {
               name: "forms",
-              title: "Forms",
+              title: "Moduli",
               of: ["form-newsletter"],
             },
             {
               name: "all-posts",
-              title: "All Posts",
+              title: "Tutti i Post",
               of: ["all-posts"],
             },
             {
               name: "contactform",
-              title: "Contact Form",
+              title: "Modulo di Contatto",
               of: ["contactform"],
             },
           ],
@@ -130,13 +130,13 @@ export default defineType({
     }),
     defineField({
       name: "meta_title",
-      title: "Meta Title",
+      title: "Titolo Meta",
       type: "string",
       group: "seo",
     }),
     defineField({
       name: "meta_description",
-      title: "Meta Description",
+      title: "Descrizione Meta",
       type: "text",
       group: "seo",
     }),
@@ -149,7 +149,7 @@ export default defineType({
     }),
     defineField({
       name: "ogImage",
-      title: "Open Graph Image - [1200x630]",
+      title: "Immagine Open Graph - [1200x630]",
       type: "image",
       group: "seo",
     }),

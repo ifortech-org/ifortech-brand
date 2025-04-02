@@ -7,33 +7,37 @@ export const structure = (S: any, context: any) =>
     .items([
       orderableDocumentListDeskItem({
         type: "page",
-        title: "Pages",
+        title: "Pagine web",
         icon: Files,
         S,
         context,
       }),
       S.listItem()
-        .title("Posts")
+        .title("Articoli")
         .schemaType("post")
         .child(
           S.documentTypeList("post")
-            .title("Post")
+            .title("Articoli")
             .defaultOrdering([{ field: "_createdAt", direction: "desc" }]) // Default ordering
         ),
       orderableDocumentListDeskItem({
         type: "category",
-        title: "Categories",
+        title: "Categorie",
         icon: BookA,
         S,
         context,
       }),
       orderableDocumentListDeskItem({
         type: "author",
-        title: "Authors",
+        title: "Authori",
         icon: User,
         S,
         context,
       }),
+    ]);
+
+/*
+
       orderableDocumentListDeskItem({
         type: "faq",
         title: "FAQs",
@@ -48,4 +52,5 @@ export const structure = (S: any, context: any) =>
         S,
         context,
       }),
-    ]);
+
+*/

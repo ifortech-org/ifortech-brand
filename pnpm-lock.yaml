@@ -41,6 +41,9 @@ importers:
       '@sanity/image-url':
         specifier: ^1.1.0
         version: 1.1.0
+      '@sanity/locale-it-it':
+        specifier: ^1.1.15
+        version: 1.1.15(sanity@3.80.1(@emotion/is-prop-valid@1.2.2)(@types/node@22.13.13)(@types/react@19.0.12)(jiti@2.4.2)(lightningcss@1.29.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(styled-components@6.1.15(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(terser@5.39.0)(yaml@2.7.0))
       '@sanity/orderable-document-list':
         specifier: ^1.2.3
         version: 1.2.3(@emotion/is-prop-valid@1.2.2)(@types/react@19.0.12)(react-dom@19.0.0(react@19.0.0))(react-is@18.3.1)(react@19.0.0)(rxjs@7.8.2)(sanity@3.80.1(@emotion/is-prop-valid@1.2.2)(@types/node@22.13.13)(@types/react@19.0.12)(jiti@2.4.2)(lightningcss@1.29.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(styled-components@6.1.15(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(terser@5.39.0)(yaml@2.7.0))(styled-components@6.1.15(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
@@ -2247,6 +2250,11 @@ packages:
       react: ^18.3 || >=19.0.0-rc
       react-dom: ^18.3 || >=19.0.0-rc
       react-is: ^18.3 || >=19.0.0-rc
+
+  '@sanity/locale-it-it@1.1.15':
+    resolution: {integrity: sha512-i+aula2roZCTjig6Rv8HExJjUnptjeOeOgMlLghLR8wO9ne8+qb9qbbm2TWWuy6aC8f2P/LtemJpijDONMd0Tg==}
+    peerDependencies:
+      sanity: ^3.22.0
 
   '@sanity/logos@2.1.13':
     resolution: {integrity: sha512-PKAbPbM4zn+6wHYjCVwuhmlZnFqyZ9lT/O7OT3BVd2SGAqXoZTimfBOHrVPifytuazdoQ1T2M5eYJTtW/VXLyA==}
@@ -8751,6 +8759,10 @@ snapshots:
     transitivePeerDependencies:
       - '@emotion/is-prop-valid'
       - styled-components
+
+  '@sanity/locale-it-it@1.1.15(sanity@3.80.1(@emotion/is-prop-valid@1.2.2)(@types/node@22.13.13)(@types/react@19.0.12)(jiti@2.4.2)(lightningcss@1.29.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(styled-components@6.1.15(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(terser@5.39.0)(yaml@2.7.0))':
+    dependencies:
+      sanity: 3.80.1(@emotion/is-prop-valid@1.2.2)(@types/node@22.13.13)(@types/react@19.0.12)(jiti@2.4.2)(lightningcss@1.29.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(styled-components@6.1.15(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(terser@5.39.0)(yaml@2.7.0)
 
   '@sanity/logos@2.1.13(@sanity/color@3.0.6)(react@19.0.0)':
     dependencies:

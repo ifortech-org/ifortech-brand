@@ -1,9 +1,12 @@
 import SectionContainer from "@/components/ui/section-container";
-import PostCard from "@/components/ui/post-card";
-import Link from "next/link";
+
 import { stegaClean } from "next-sanity";
 import { fetchSanityPosts } from "@/sanity/lib/fetch";
 import { PAGE_QUERYResult } from "@/sanity.types";
+import CategoryFilter from "@/components/category-filter";
+import { Category } from "@/types";
+
+import PostList from "../post-list";
 
 type AllPostsProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
@@ -17,23 +20,22 @@ export default async function AllPosts({
   const color = stegaClean(colorVariant);
   const posts = await fetchSanityPosts();
 
+  const categories: Category[] = posts
+    .flatMap((post) => post?.categories ?? [])
+    .map((category) => ({
+      title: category.title ?? "",
+      slug: category.slug?.current ?? "",
+    }));
+
   return (
     <SectionContainer color={color} padding={padding}>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {posts.map((post) => (
-          <Link
-            key={post?.slug?.current}
-            className="flex w-full rounded-3xl ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            href={`/blog/${post?.slug?.current}`}
-          >
-            <PostCard
-              title={post?.title ?? ""}
-              excerpt={post?.excerpt ?? ""}
-              image={post?.image ?? null}
-            />
-          </Link>
-        ))}
+      <div className=" border-t border-b mb-4 py-2 flex justify-between items-center">
+        <h1 className="font-semibold text-xl self-center">Ultime notizie</h1>
+
+        <CategoryFilter categories={categories} />
       </div>
+
+      <PostList posts={posts} />
     </SectionContainer>
   );
 }
