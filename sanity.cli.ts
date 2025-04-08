@@ -3,6 +3,6 @@
  * Go to https://www.sanity.io/docs/cli to learn more.
  **/
 import { defineCliConfig } from "sanity/cli";
-import { projectId, dataset } from "./sanity/env";
+import { projectId, dataset } from "./shared/sanity/env";
 
 export default defineCliConfig({ api: { projectId, dataset } });

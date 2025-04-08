@@ -37,7 +37,7 @@ function CategoryFilter({ categories }: { categories: Category[] }) {
       <select
         value={currentCategory || "0"} // Imposta il valore della select
         onChange={(e) => setCurrentCategory(e.target.value)}
-        className="block w-full p-1 rounded-none text-base font-normal bg-background text-secondary  bg-clip-padding border border-solid border-secondary transition ease-in-out m-0 focus:text-primary focus:outline-none">
+        className="block w-full p-1 rounded-none text-base font-normal bg-background  bg-clip-padding border border-solid  transition ease-in-out m-0 focus:text-primary focus:outline-none">
         <option value="0">Tutte le categorie</option>
         {uniqueCategories.map((category) => (
           <option key={category?.title} value={category?.title}>

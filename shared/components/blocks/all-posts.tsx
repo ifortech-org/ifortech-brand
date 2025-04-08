@@ -7,6 +7,7 @@ import CategoryFilter from "@/shared/components/category-filter";
 import { Category } from "@/shared/types";
 
 import PostList from "../post-list";
+import React from "react";
 
 type AllPostsProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
@@ -24,18 +25,20 @@ export default async function AllPosts({
     .flatMap((post) => post?.categories ?? [])
     .map((category) => ({
       title: category.title ?? "",
-      slug: category.slug?.current ?? "",
+      slug: "",
     }));
 
   return (
     <SectionContainer color={color} padding={padding}>
-      <div className=" border-t border-b mb-4 py-2 flex justify-between items-center">
-        <h1 className="font-semibold text-xl self-center">Ultime notizie</h1>
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <div className="border-t border-b mb-4 py-2 flex justify-between items-center">
+          <h1 className="font-semibold text-xl self-center">Ultime notizie</h1>
 
-        <CategoryFilter categories={categories} />
-      </div>
+          <CategoryFilter categories={categories} />
+        </div>
 
-      <PostList posts={posts} />
+        <PostList posts={posts} />
+      </React.Suspense>
     </SectionContainer>
   );
 }
