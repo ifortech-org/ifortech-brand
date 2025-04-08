@@ -1,6 +1,6 @@
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import Custom404 from "@/components/404";
+import Header from "@/shared/components/header";
+import Footer from "@/shared/components/footer";
+import Custom404 from "@/shared/components/404";
 
 import type { Metadata } from "next";
 

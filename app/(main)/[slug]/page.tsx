@@ -1,10 +1,10 @@
-import Blocks from "@/components/blocks";
+import Blocks from "@/shared/components/blocks";
 import {
   fetchSanityPageBySlug,
   fetchSanityPagesStaticParams,
-} from "@/sanity/lib/fetch";
+} from "@/shared/sanity/lib/fetch";
 import { notFound } from "next/navigation";
-import { generatePageMetadata } from "@/sanity/lib/metadata";
+import { generatePageMetadata } from "@/shared/sanity/lib/metadata";
 
 export async function generateStaticParams() {
   const pages = await fetchSanityPagesStaticParams();

@@ -1,11 +1,11 @@
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import { DisableDraftMode } from "@/components/disable-draft-mode";
+import Header from "@/shared/components/header";
+import Footer from "@/shared/components/footer";
+import { DisableDraftMode } from "@/shared/components/disable-draft-mode";
 import { VisualEditing } from "next-sanity";
 import { draftMode } from "next/headers";
-import { SanityLive } from "@/sanity/lib/live";
+import { SanityLive } from "@/shared/sanity/lib/live";
 import { Suspense } from "react";
-import PageTracker from "@/components/PageTracker";
+import PageTracker from "@/shared/components/PageTracker";
 
 export default async function MainLayout({
   children,

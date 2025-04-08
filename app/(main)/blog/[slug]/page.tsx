@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
-import PostHero from "@/components/blocks/post-hero";
-import { BreadcrumbLink } from "@/types";
-import PortableTextRenderer from "@/components/portable-text-renderer";
+import Breadcrumbs from "@/shared/components/ui/breadcrumbs";
+import PostHero from "@/shared/components/blocks/post-hero";
+import { BreadcrumbLink } from "@/shared/types";
+import PortableTextRenderer from "@/shared/components/portable-text-renderer";
 import {
   fetchSanityPostBySlug,
   fetchSanityPostsStaticParams,
-} from "@/sanity/lib/fetch";
-import { generatePageMetadata } from "@/sanity/lib/metadata";
+} from "@/shared/sanity/lib/fetch";
+import { generatePageMetadata } from "@/shared/sanity/lib/metadata";
 
 export async function generateStaticParams() {
   const posts = await fetchSanityPostsStaticParams();
