@@ -2,7 +2,6 @@ import Link from "next/link";
 import Logo from "@/shared/components/logo";
 import MobileNav from "@/shared/components/header/mobile-nav";
 import DesktopNav from "@/shared/components/header/desktop-nav";
-import { ModeToggle } from "@/shared/components/menu-toggle";
 
 const navItems = [
   {
@@ -31,10 +30,8 @@ export default function Header() {
         </Link>
         <div className="hidden xl:flex gap-7 items-center justify-between">
           <DesktopNav navItems={navItems} />
-          <ModeToggle />
         </div>
         <div className="flex items-center xl:hidden">
-          <ModeToggle />
           <MobileNav navItems={navItems} />
         </div>
       </div>

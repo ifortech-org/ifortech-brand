@@ -4,8 +4,7 @@ import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { ThemeProvider } from "@/shared/components/theme-provider";
 import { Toaster } from "@/shared/components/ui/sonner";
-import { fetchSiteColors } from "@/shared/sanity/lib/siteColors";
-import { SiteColorsProvider } from "@/shared/components/site-colors-provider";
+import { ColorThemeProvider } from "@/shared/components/color-theme-provider";
 
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
@@ -35,37 +34,11 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const siteColors = await fetchSiteColors();
-
-  // Funzione aggiornata per supportare tutte le variabili e la dark mode
-  function getColorVars(colors: any): React.CSSProperties {
-    if (!colors) return {};
-    // Solo le variabili per il body (chiaro)
-    return {
-      // @ts-ignore
-      "--background": colors.background,
-      // @ts-ignore
-      "--primary": colors.primary,
-      // @ts-ignore
-      "--secondary": colors.secondary,
-      // @ts-ignore
-      "--card": colors.card,
-      // @ts-ignore
-      "--accent": colors.accent,
-      // @ts-ignore
-      "--destructive": colors.destructive,
-      // @ts-ignore
-      "--muted": colors.muted,
-      // @ts-ignore
-      "--foreground": colors.text,
-    };
-  }
-
   return (
     <html lang="en" suppressHydrationWarning>
       <link rel="icon" href="/favicon.ico" />
@@ -79,7 +52,7 @@ export default async function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <SiteColorsProvider>{children}</SiteColorsProvider>
+          <ColorThemeProvider>{children}</ColorThemeProvider>
         </ThemeProvider>
         <Toaster position="top-center" richColors />
       </body>
