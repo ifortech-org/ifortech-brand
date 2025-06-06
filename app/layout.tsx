@@ -79,9 +79,7 @@ export default async function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <SiteColorsProvider siteColors={siteColors}>
-            {children}
-          </SiteColorsProvider>
+          <SiteColorsProvider>{children}</SiteColorsProvider>
         </ThemeProvider>
         <Toaster position="top-center" richColors />
       </body>
