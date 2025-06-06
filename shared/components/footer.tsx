@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Logo from "@/shared/components/logo";
+import LogoDynamic from "@/shared/components/logo-dynamic";
 
 const navItems = [
   {
@@ -31,7 +31,7 @@ export default function Footer() {
           className="block w-[6.25rem] mx-auto"
           href="/"
           aria-label="Home page">
-          <Logo />
+          <LogoDynamic />
         </Link>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-7 text-primary">
           {navItems.map((navItem) => (

@@ -7,6 +7,7 @@ import category from "./schemas/documents/category";
 import faq from "./schemas/documents/faq";
 import testimonial from "./schemas/documents/testimonial";
 import siteColors from "./schemas/documents/siteColors";
+import siteLogo from "./schemas/documents/siteLogo";
 
 // Schema UI shared objects
 import blockContent from "./schemas/blocks/shared/block-content";
@@ -51,6 +52,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     faq,
     testimonial,
     siteColors,
+    siteLogo,
     // shared objects
     blockContent,
     link,

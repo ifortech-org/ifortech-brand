@@ -44,6 +44,16 @@ export const structure = (S: any, context: any) =>
             .documentId("siteColorsSingleton")
             .title("Colori del sito")
         ),
+      S.listItem()
+        .title("Logo del sito")
+        .icon(Palette)
+        .child(
+          S.editor()
+            .id("siteLogoSingleton")
+            .schemaType("siteLogo")
+            .documentId("siteLogoSingleton")
+            .title("Logo del sito")
+        ),
     ]);
 
 /*
