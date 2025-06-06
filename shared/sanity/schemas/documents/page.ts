@@ -1,6 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { Files } from "lucide-react";
 import { orderRankField } from "@sanity/orderable-document-list";
+import seo from "../seo";
 
 export default defineType({
   name: "page",
@@ -151,6 +152,12 @@ export default defineType({
       name: "ogImage",
       title: "Immagine Open Graph - [1200x630]",
       type: "image",
+      group: "seo",
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO avanzato",
+      type: "seo",
       group: "seo",
     }),
     orderRankField({ type: "page" }),

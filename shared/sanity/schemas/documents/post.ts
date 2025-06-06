@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { FileText } from "lucide-react";
+import seo from "../seo";
 
 export default defineType({
   name: "post",
@@ -104,6 +105,12 @@ export default defineType({
       name: "ogImage",
       title: "Open Graph Image - [1200x630]",
       type: "image",
+      group: "seo",
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO avanzato",
+      type: "seo",
       group: "seo",
     }),
   ],
