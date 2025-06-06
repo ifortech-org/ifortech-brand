@@ -73,6 +73,9 @@ NEXT_PUBLIC_SANITY_PROJECT_ID=il-tuo-project-id
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_READ_TOKEN=il-tuo-read-token
 
+# (Opzionale) Titolo del progetto per Sanity Studio
+NEXT_PUBLIC_SANITY_PROJECT_TITLE=NomeDelTuoProgetto
+
 # (Opzionale) reCAPTCHA per form
 CAPTCHA_SECRET_KEY=...
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=...

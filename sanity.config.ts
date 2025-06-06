@@ -20,7 +20,7 @@ import { itITLocale } from "@sanity/locale-it-it";
 
 export default defineConfig({
   basePath: "/studio",
-  title: "Schema UI",
+  title: process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || "Schema UI",
   projectId,
   dataset,
   // Add and edit the content schema in the './sanity/schema' folder
