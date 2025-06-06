@@ -1,0 +1,2180 @@
+[
+  {
+    "fields": [
+      {
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "name": "filename",
+        "type": "string"
+      },
+      {
+        "name": "code",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "type": "number",
+            "title": "Highlighted line"
+          }
+        ],
+        "name": "highlightedLines",
+        "type": "array",
+        "title": "Highlighted lines"
+      }
+    ],
+    "name": "code",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "insertMenu": {
+            "groups": [
+              {
+                "name": "hero",
+                "title": "Hero"
+              },
+              {
+                "name": "logo-cloud",
+                "title": "Loghi a scorrimento"
+              },
+              {
+                "name": "section-header",
+                "title": "Intestazione Sezione"
+              },
+              {
+                "name": "grid",
+                "title": "Griglia"
+              },
+              {
+                "name": "split",
+                "title": "Diviso"
+              },
+              {
+                "name": "carousel",
+                "title": "Carosello"
+              },
+              {
+                "name": "timeline",
+                "title": "Cronologia"
+              },
+              {
+                "name": "cta",
+                "title": "CTA"
+              },
+              {
+                "name": "faqs",
+                "title": "Domande Frequenti"
+              },
+              {
+                "name": "forms",
+                "title": "Moduli"
+              },
+              {
+                "name": "all-posts",
+                "title": "Tutti i Post"
+              },
+              {
+                "name": "contactform",
+                "title": "Modulo di Contatto"
+              }
+            ],
+            "views": [
+              {
+                "name": "grid"
+              },
+              {
+                "name": "list"
+              }
+            ]
+          }
+        },
+        "of": [
+          {
+            "type": "hero-1"
+          },
+          {
+            "type": "hero-2"
+          },
+          {
+            "description": "A section header with a tag line, title, and description",
+            "type": "section-header"
+          },
+          {
+            "description": "Split Row: Customizable split row with multiple columns variants",
+            "type": "split-row"
+          },
+          {
+            "type": "grid-row"
+          },
+          {
+            "description": "A carousel of images",
+            "type": "carousel-1"
+          },
+          {
+            "description": "A carousel of testimonials",
+            "type": "carousel-2"
+          },
+          {
+            "description": "Row of Timeline Sections",
+            "type": "timeline-row"
+          },
+          {
+            "type": "cta-1",
+            "title": "CTA 1"
+          },
+          {
+            "type": "logo-cloud-1"
+          },
+          {
+            "type": "faqs"
+          },
+          {
+            "description": "A subscription form ideal for collecting email addresses for newsletters and waitlists.",
+            "type": "form-newsletter",
+            "title": "Form: Newsletter"
+          },
+          {
+            "description": "A list of all posts",
+            "type": "all-posts"
+          },
+          {
+            "type": "contactform",
+            "title": "Contact Form"
+          }
+        ],
+        "name": "blocks",
+        "type": "array"
+      },
+      {
+        "name": "meta_title",
+        "type": "string",
+        "title": "Titolo Meta"
+      },
+      {
+        "name": "meta_description",
+        "type": "text",
+        "title": "Descrizione Meta"
+      },
+      {
+        "initialValue": false,
+        "name": "noindex",
+        "type": "boolean",
+        "title": "No Index"
+      },
+      {
+        "name": "ogImage",
+        "type": "image",
+        "title": "Immagine Open Graph - [1200x630]"
+      },
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "orderRank",
+        "type": "string"
+      }
+    ],
+    "name": "page",
+    "type": "document",
+    "title": "Pagine web"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "to": [
+          {
+            "type": "author"
+          }
+        ],
+        "name": "author",
+        "type": "reference"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "category"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to category"
+          }
+        ],
+        "name": "categories",
+        "type": "array"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      },
+      {
+        "name": "meta_title",
+        "type": "string"
+      },
+      {
+        "name": "meta_description",
+        "type": "text"
+      },
+      {
+        "initialValue": false,
+        "name": "noindex",
+        "type": "boolean",
+        "title": "No Index"
+      },
+      {
+        "name": "ogImage",
+        "type": "image",
+        "title": "Open Graph Image - [1200x630]"
+      }
+    ],
+    "name": "post",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "name",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "orderRank",
+        "type": "string"
+      }
+    ],
+    "name": "author",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "orderRank",
+        "type": "string"
+      }
+    ],
+    "name": "category",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      },
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "orderRank",
+        "type": "string"
+      }
+    ],
+    "name": "faq",
+    "type": "document",
+    "title": "FAQ"
+  },
+  {
+    "fields": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "rating",
+        "type": "number"
+      },
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "orderRank",
+        "type": "string"
+      }
+    ],
+    "name": "testimonial",
+    "type": "document",
+    "title": "Testimonials"
+  },
+  {
+    "of": [
+      {
+        "marks": {
+          "annotations": [
+            {
+              "fields": [
+                {
+                  "validation": [
+                    {
+                      "rules": [
+                        {
+                          "flag": "uri",
+                          "constraint": {
+                            "options": {
+                              "scheme": [
+                                "/^http$/",
+                                "/^https$/",
+                                "/^mailto$/",
+                                "/^tel$/"
+                              ],
+                              "allowRelative": true,
+                              "relativeOnly": false,
+                              "allowCredentials": false
+                            }
+                          }
+                        }
+                      ],
+                      "level": "error"
+                    }
+                  ],
+                  "name": "href",
+                  "type": "url",
+                  "title": "URL"
+                }
+              ],
+              "name": "link",
+              "type": "object",
+              "title": "URL"
+            }
+          ],
+          "decorators": [
+            {
+              "value": "strong",
+              "title": "Strong"
+            },
+            {
+              "value": "em",
+              "title": "Emphasis"
+            }
+          ]
+        },
+        "lists": [
+          {
+            "value": "bullet",
+            "title": "Bullet"
+          },
+          {
+            "value": "number",
+            "title": "Number"
+          }
+        ],
+        "styles": [
+          {
+            "value": "normal",
+            "title": "Normal"
+          },
+          {
+            "value": "h1",
+            "title": "H1"
+          },
+          {
+            "value": "h2",
+            "title": "H2"
+          },
+          {
+            "value": "h3",
+            "title": "H3"
+          },
+          {
+            "value": "h4",
+            "title": "H4"
+          },
+          {
+            "value": "blockquote",
+            "title": "Quote"
+          }
+        ],
+        "of": [],
+        "type": "block"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "type": "image"
+      },
+      {
+        "fields": [
+          {
+            "description": "YouTube Video ID",
+            "name": "videoId",
+            "type": "string",
+            "title": "Video ID"
+          }
+        ],
+        "type": "object",
+        "name": "youtube",
+        "title": "YouTube"
+      },
+      {
+        "options": {
+          "withFilename": true,
+          "language": "typescript",
+          "languageAlternatives": [
+            {
+              "title": "TypeScript",
+              "value": "typescript"
+            },
+            {
+              "title": "JavaScript",
+              "value": "javascript"
+            },
+            {
+              "title": "JSX",
+              "value": "jsx"
+            },
+            {
+              "title": "TSX",
+              "value": "tsx"
+            },
+            {
+              "title": "HTML",
+              "value": "html"
+            },
+            {
+              "title": "CSS",
+              "value": "css"
+            },
+            {
+              "title": "SCSS",
+              "value": "scss"
+            },
+            {
+              "title": "JSON",
+              "value": "json"
+            },
+            {
+              "title": "Python",
+              "value": "python"
+            },
+            {
+              "title": "PHP",
+              "value": "php"
+            },
+            {
+              "title": "Ruby",
+              "value": "ruby"
+            },
+            {
+              "title": "Shell",
+              "value": "shell"
+            },
+            {
+              "title": "Markdown",
+              "value": "markdown"
+            },
+            {
+              "title": "YAML",
+              "value": "yaml"
+            },
+            {
+              "title": "GraphQL",
+              "value": "graphql"
+            },
+            {
+              "title": "SQL",
+              "value": "sql"
+            }
+          ]
+        },
+        "type": "code"
+      }
+    ],
+    "name": "block-content",
+    "type": "array"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "title": "href"
+      },
+      {
+        "name": "target",
+        "type": "boolean",
+        "title": "Open in new tab"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Default",
+              "value": "default"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Outline",
+              "value": "outline"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Ghost",
+              "value": "ghost"
+            },
+            {
+              "title": "Link",
+              "value": "link"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "default",
+        "name": "buttonVariant",
+        "type": "button-variant"
+      }
+    ],
+    "name": "link",
+    "type": "object"
+  },
+  {
+    "options": {
+      "list": [
+        {
+          "title": "Background",
+          "value": "background"
+        },
+        {
+          "title": "Primary",
+          "value": "primary"
+        },
+        {
+          "title": "Secondary",
+          "value": "secondary"
+        },
+        {
+          "title": "Card",
+          "value": "card"
+        },
+        {
+          "title": "Accent",
+          "value": "accent"
+        },
+        {
+          "title": "Destructive",
+          "value": "destructive"
+        },
+        {
+          "title": "Muted",
+          "value": "muted"
+        }
+      ]
+    },
+    "initialValue": "background",
+    "name": "color-variant",
+    "type": "string"
+  },
+  {
+    "options": {
+      "list": [
+        {
+          "title": "Default",
+          "value": "default"
+        },
+        {
+          "title": "Destructive",
+          "value": "destructive"
+        },
+        {
+          "title": "Outline",
+          "value": "outline"
+        },
+        {
+          "title": "Secondary",
+          "value": "secondary"
+        },
+        {
+          "title": "Ghost",
+          "value": "ghost"
+        },
+        {
+          "title": "Link",
+          "value": "link"
+        }
+      ],
+      "layout": "radio"
+    },
+    "initialValue": "default",
+    "name": "button-variant",
+    "type": "string"
+  },
+  {
+    "description": "Add padding to the section. Based on design system spacing",
+    "fields": [
+      {
+        "name": "top",
+        "type": "boolean",
+        "title": "Top Padding"
+      },
+      {
+        "name": "bottom",
+        "type": "boolean",
+        "title": "Bottom Padding"
+      }
+    ],
+    "name": "section-padding",
+    "type": "object",
+    "title": "Padding"
+  },
+  {
+    "fields": [
+      {
+        "name": "tagLine",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      },
+      {
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 2
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "of": [
+          {
+            "type": "link"
+          }
+        ],
+        "name": "links",
+        "type": "array"
+      }
+    ],
+    "name": "hero-1",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "tagLine",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 2
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "of": [
+          {
+            "type": "link"
+          }
+        ],
+        "name": "links",
+        "type": "array"
+      },
+      {
+        "description": "This image will be used as the background.",
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "name": "backgroundImage",
+        "type": "image"
+      }
+    ],
+    "name": "hero-2",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "block-content"
+      },
+      {
+        "name": "button_text",
+        "type": "string"
+      },
+      {
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "name": "side_image",
+        "type": "image"
+      }
+    ],
+    "name": "contactform",
+    "type": "object",
+    "title": "Contact Form"
+  },
+  {
+    "description": "A section header with a tag line, title, and description",
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Default",
+              "value": "default"
+            },
+            {
+              "title": "Narrow",
+              "value": "narrow"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "default",
+        "name": "sectionWidth",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Left",
+              "value": "left"
+            },
+            {
+              "title": "Center",
+              "value": "center"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "left",
+        "name": "stackAlign",
+        "type": "string",
+        "title": "Stack Layout Alignment"
+      },
+      {
+        "name": "tagLine",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "block-content"
+      }
+    ],
+    "name": "section-header",
+    "type": "object"
+  },
+  {
+    "description": "Split Row: Customizable split row with multiple columns variants",
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "initialValue": false,
+        "description": "Remove gap between columns",
+        "name": "noGap",
+        "type": "boolean"
+      },
+      {
+        "options": {
+          "insertMenu": {
+            "views": [
+              {
+                "name": "grid"
+              },
+              {
+                "name": "list"
+              }
+            ]
+          }
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 2
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "of": [
+          {
+            "description": "Column with tag line, title and content body.",
+            "type": "split-content"
+          },
+          {
+            "description": "Column with list of cards. Each card has a tag line, title and content body.",
+            "type": "split-cards-list"
+          },
+          {
+            "description": "Column with full image.",
+            "type": "split-image"
+          },
+          {
+            "description": "Column with list of cards. Each card has a title, content body, image and tags",
+            "type": "split-info-list"
+          }
+        ],
+        "name": "splitColumns",
+        "type": "array"
+      }
+    ],
+    "name": "split-row",
+    "type": "object"
+  },
+  {
+    "description": "Column with tag line, title and content body.",
+    "fields": [
+      {
+        "initialValue": false,
+        "description": "Sticky column on desktop",
+        "name": "sticky",
+        "type": "boolean"
+      },
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "name": "tagLine",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      },
+      {
+        "description": "Link to a page or external URL. Leave empty to hide the link.",
+        "name": "link",
+        "type": "link"
+      }
+    ],
+    "name": "split-content",
+    "type": "object"
+  },
+  {
+    "description": "Column with list of cards. Each card has a tag line, title and content body.",
+    "fields": [
+      {
+        "of": [
+          {
+            "description": "Column with tag line, title and content body. Part of a split cards.",
+            "type": "split-card"
+          }
+        ],
+        "name": "list",
+        "type": "array"
+      }
+    ],
+    "name": "split-cards-list",
+    "type": "object"
+  },
+  {
+    "description": "Column with tag line, title and content body. Part of a split cards.",
+    "fields": [
+      {
+        "name": "tagLine",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      }
+    ],
+    "name": "split-card",
+    "type": "object"
+  },
+  {
+    "description": "Column with full image.",
+    "fields": [
+      {
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "name": "image",
+        "type": "image"
+      }
+    ],
+    "name": "split-image",
+    "type": "object"
+  },
+  {
+    "description": "Column with list of cards. Each card has a title, content body, image and tags",
+    "fields": [
+      {
+        "of": [
+          {
+            "description": "Column with a title, content body, image and tags. Part of a split cards.",
+            "type": "split-info"
+          }
+        ],
+        "name": "list",
+        "type": "array"
+      }
+    ],
+    "name": "split-info-list",
+    "type": "object"
+  },
+  {
+    "description": "Column with a title, content body, image and tags. Part of a split cards.",
+    "fields": [
+      {
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "tags",
+        "type": "array"
+      }
+    ],
+    "name": "split-info",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative Text"
+          }
+        ],
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "name": "link",
+        "type": "link"
+      }
+    ],
+    "name": "grid-card",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "tagLine",
+        "type": "string"
+      },
+      {
+        "fields": [
+          {
+            "name": "value",
+            "type": "number"
+          },
+          {
+            "name": "period",
+            "type": "string"
+          }
+        ],
+        "name": "price",
+        "type": "object"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "list",
+        "type": "array"
+      },
+      {
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "name": "link",
+        "type": "link"
+      }
+    ],
+    "name": "pricing-card",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "description": "Select a blog post to link to.",
+        "to": [
+          {
+            "type": "post"
+          }
+        ],
+        "name": "post",
+        "type": "reference",
+        "title": "Blog Post"
+      }
+    ],
+    "name": "grid-post",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "2 Columns",
+              "value": "grid-cols-2"
+            },
+            {
+              "title": "3 Columns",
+              "value": "grid-cols-3"
+            },
+            {
+              "title": "4 Columns",
+              "value": "grid-cols-4"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "grid-cols-3",
+        "name": "gridColumns",
+        "type": "string"
+      },
+      {
+        "description": "Optional title for the grid row",
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "insertMenu": {
+            "views": [
+              {
+                "name": "grid"
+              },
+              {
+                "name": "list"
+              }
+            ]
+          }
+        },
+        "of": [
+          {
+            "type": "grid-card"
+          },
+          {
+            "type": "grid-post"
+          },
+          {
+            "type": "pricing-card"
+          }
+        ],
+        "name": "columns",
+        "type": "array"
+      }
+    ],
+    "name": "grid-row",
+    "type": "object"
+  },
+  {
+    "description": "A carousel of images",
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "One",
+              "value": "one"
+            },
+            {
+              "title": "Two",
+              "value": "two"
+            },
+            {
+              "title": "Three",
+              "value": "three"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "one",
+        "name": "size",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "None",
+              "value": "none"
+            },
+            {
+              "title": "Dots",
+              "value": "dots"
+            },
+            {
+              "title": "Count",
+              "value": "count"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "none",
+        "description": "Choose how to indicate carousel progress and position",
+        "name": "indicators",
+        "type": "string",
+        "title": "Slide Indicators"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "alt",
+                "type": "string",
+                "title": "Alternative Text"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "images",
+        "type": "array"
+      }
+    ],
+    "name": "carousel-1",
+    "type": "object"
+  },
+  {
+    "description": "A carousel of testimonials",
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "testimonial"
+              }
+            ],
+            "type": "testimonial",
+            "title": "Reference to testimonials"
+          }
+        ],
+        "name": "testimonial",
+        "type": "array"
+      }
+    ],
+    "name": "carousel-2",
+    "type": "object"
+  },
+  {
+    "description": "Row of Timeline Sections",
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "options": {
+          "insertMenu": {
+            "views": [
+              {
+                "name": "grid"
+              },
+              {
+                "name": "list"
+              }
+            ]
+          }
+        },
+        "of": [
+          {
+            "type": "timelines-1"
+          }
+        ],
+        "name": "timelines",
+        "type": "array"
+      }
+    ],
+    "name": "timeline-row",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "description": "A short tag line to display under the title, e.g. date, location, job title, etc.",
+        "name": "tagLine",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      }
+    ],
+    "name": "timelines-1",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Default",
+              "value": "default"
+            },
+            {
+              "title": "Narrow",
+              "value": "narrow"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "default",
+        "name": "sectionWidth",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Left",
+              "value": "left"
+            },
+            {
+              "title": "Center",
+              "value": "center"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "left",
+        "name": "stackAlign",
+        "type": "string",
+        "title": "Stack Layout Alignment"
+      },
+      {
+        "name": "tagLine",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "block-content"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 2
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "of": [
+          {
+            "type": "link"
+          }
+        ],
+        "name": "links",
+        "type": "array"
+      }
+    ],
+    "name": "cta-1",
+    "type": "object",
+    "title": "CTA 1"
+  },
+  {
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "alt",
+                "type": "string",
+                "title": "Alternative Text"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "images",
+        "type": "array"
+      }
+    ],
+    "name": "logo-cloud-1",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "faq"
+              }
+            ],
+            "type": "faq",
+            "title": "Reference to faq"
+          }
+        ],
+        "name": "faqs",
+        "type": "array",
+        "title": "FAQs"
+      }
+    ],
+    "name": "faqs",
+    "type": "object"
+  },
+  {
+    "description": "A subscription form ideal for collecting email addresses for newsletters and waitlists.",
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Left",
+              "value": "left"
+            },
+            {
+              "title": "Center",
+              "value": "center"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "left",
+        "name": "stackAlign",
+        "type": "string",
+        "title": "Stack Layout Alignment"
+      },
+      {
+        "initialValue": "By subscribing, you agree to receive emails from us. You can unsubscribe at any time.",
+        "name": "consentText",
+        "type": "text"
+      },
+      {
+        "initialValue": "Subscribe",
+        "name": "buttonText",
+        "type": "string"
+      },
+      {
+        "initialValue": "Thank you for subscribing!",
+        "name": "successMessage",
+        "type": "text"
+      }
+    ],
+    "name": "form-newsletter",
+    "type": "object",
+    "title": "Form: Newsletter"
+  },
+  {
+    "description": "A list of all posts",
+    "fields": [
+      {
+        "description": "Add padding to the section. Based on design system spacing",
+        "name": "padding",
+        "type": "section-padding"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Primary",
+              "value": "primary"
+            },
+            {
+              "title": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "title": "Card",
+              "value": "card"
+            },
+            {
+              "title": "Accent",
+              "value": "accent"
+            },
+            {
+              "title": "Destructive",
+              "value": "destructive"
+            },
+            {
+              "title": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "initialValue": "background",
+        "description": "Select a background color variant",
+        "name": "colorVariant",
+        "type": "color-variant"
+      }
+    ],
+    "name": "all-posts",
+    "type": "object"
+  }
+]
