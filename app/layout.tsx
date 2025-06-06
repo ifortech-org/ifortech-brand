@@ -5,6 +5,7 @@ import { cn } from "@/shared/lib/utils";
 import { ThemeProvider } from "@/shared/components/theme-provider";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { fetchSiteColors } from "@/shared/sanity/lib/siteColors";
+import { SiteColorsProvider } from "@/shared/components/site-colors-provider";
 
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
@@ -65,31 +66,10 @@ export default async function RootLayout({
     };
   }
 
-  // Applica le variabili dark mode su .dark lato client
-  if (typeof window !== "undefined" && siteColors) {
-    const root = document.documentElement;
-    const darkVars = {
-      "--background": siteColors.backgroundDark,
-      "--primary": siteColors.primaryDark,
-      "--secondary": siteColors.secondaryDark,
-      "--card": siteColors.cardDark,
-      "--accent": siteColors.accentDark,
-      "--destructive": siteColors.destructiveDark,
-      "--muted": siteColors.mutedDark,
-      "--foreground": siteColors.textDark,
-    };
-    if (root.classList.contains("dark")) {
-      Object.entries(darkVars).forEach(([key, value]) => {
-        if (value) root.style.setProperty(key, value);
-      });
-    }
-  }
-
   return (
     <html lang="en" suppressHydrationWarning>
       <link rel="icon" href="/favicon.ico" />
       <body
-        style={getColorVars(siteColors)}
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",
           fontSans.variable
@@ -99,7 +79,9 @@ export default async function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          {children}
+          <SiteColorsProvider siteColors={siteColors}>
+            {children}
+          </SiteColorsProvider>
         </ThemeProvider>
         <Toaster position="top-center" richColors />
       </body>

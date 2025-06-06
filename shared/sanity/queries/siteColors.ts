@@ -1,6 +1,6 @@
 import { groq } from "next-sanity";
 
-export const siteColorsQuery = groq`*[_type == "siteColors"][0]{
+export const siteColorsQuery = groq`*[_type == "siteColors"] | order(_createdAt desc)[0]{
   background,
   primary,
   secondary,

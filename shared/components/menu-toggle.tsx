@@ -11,9 +11,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+import { fetchSiteColors } from "@/shared/sanity/lib/siteColors";
+import { applySiteColors } from "@/shared/components/site-colors-provider";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
+
+  async function handleThemeChange(theme: "light" | "dark" | "system") {
+    const colors = await fetchSiteColors();
+    applySiteColors(colors);
+    setTheme(theme);
+    window.location.reload();
+  }
 
   return (
     <DropdownMenu>
@@ -25,13 +34,13 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => handleThemeChange("light")}>
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => handleThemeChange("dark")}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => handleThemeChange("system")}>
           System
         </DropdownMenuItem>
       </DropdownMenuContent>
