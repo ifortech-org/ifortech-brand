@@ -1,155 +1,169 @@
-# Schema UI - Next.js Sanity Starter Template
+# Cos'è questo progetto
 
-This starter is a part of [Schema UI](https://schemaui.com) project, a comprehensive page builder that provides production-ready React components with pre-built Sanity schemas and GROQ queries, enabling rapid development of content-driven websites with Sanity CMS and Next.js.
+Questo repository è un template avanzato per la creazione di siti web content-driven con Next.js e Sanity CMS, basato su Schema UI. Offre un page builder visuale, componenti React già pronti, schemi Sanity preconfigurati e query GROQ ottimizzate. L'obiettivo è permettere a sviluppatori e content editor di realizzare rapidamente siti moderni, scalabili e facilmente personalizzabili, con un'esperienza di editing visuale direttamente dal browser.
 
-![Screenshot of Sanity Studio using Presentation Tool to do Visual Editing](https://cdn.sanity.io/images/a03xrv11/production/e83fee6a672a9df53548878eccddc0f962d1cac8-1920x931.webp)
+## Caratteristiche principali
 
-[![Next.js][next-js]][next-js-url] [![Sanity][sanity]][sanity-url] [![React][react]][react-url] [![Typescript][typescript]][typescript-url] [![Tailwind][tailwind]][tailwind-url] [![Shadcn][shadcn]][shadcn-url]
+- **Next.js** per rendering SSR/SSG e routing avanzato
+- **Sanity CMS** come backend headless, con Studio integrato su `/studio`
+- **Schema UI**: libreria di componenti React e schemi Sanity modulari
+- **Tailwind CSS** e design system moderno
+- **Supporto multi-sito e multi-tema**
+- **Newsletter integrata (Resend)**
+- **SEO avanzata e gestione metadati**
+- **Estendibilità semplice per nuovi componenti e blocchi**
 
-[Docs](https://schemaui.com/docs) | [Components](https://schemaui.com/docs/components) | [Demo](https://starter.schemaui.com)
+---
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fserge-0v%2Fnext-js-sanity-starter&env=NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SITE_ENV,NEXT_PUBLIC_SANITY_API_VERSION,NEXT_PUBLIC_SANITY_PROJECT_ID,NEXT_PUBLIC_SANITY_DATASET,SANITY_API_READ_TOKEN,RESEND_API_KEY,RESEND_AUDIENCE_ID&demo-title=Next.js%20Sanity%20Starter&demo-description=Next.js%20Sanity%20Starter%20by%20Schema%20UI&demo-url=https%3A%2F%2Fstarter.schemaui.com)
+# Guida all'utilizzo del template
 
-## Getting Started
+## 1. Requisiti
 
-### Installing the template
+- Node.js >= 18
+- pnpm (o npm/yarn)
+- Account [Sanity.io](https://www.sanity.io/) (gratuito)
+- Account [Resend](https://resend.com/) (opzionale, per newsletter)
 
-#### 1. Initialize template with Sanity CLI
+## 2. Setup iniziale
 
-Run the command in your Terminal to initialize this template on your local computer:
+### a) Clona il repository
+
+```bash
+git clone <url-del-tuo-repo>
+cd <nome-cartella>
+```
+
+### b) Inizializza il progetto Sanity
+
+Esegui:
 
 ```bash
 npm create sanity@latest -- --template serge-0v/next-js-sanity-starter
 ```
 
-See the documentation if you are [having issues with the CLI](https://www.sanity.io/help/cli-errors).
+Segui le istruzioni per creare un nuovo progetto su Sanity.io. Verranno generati Project ID, Dataset e Token.
 
-This command will:
+### c) Installa le dipendenze
 
-- Create a new Sanity project
-- Add API Read Token
-- Configure CORS origin for http://localhost:3000
-- Set up environment variables
-- Clone the repository
-- Install dependencies
+```bash
+pnpm install
+```
 
-#### 2. Run the template locally
+## 3. Configurazione del file `.env.local`
 
-Start the development servers:
+Copia il file di esempio e compila i valori:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Compila così:
+
+```
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_ENV=development
+
+# Chiavi Resend (opzionale, per newsletter)
+RESEND_API_KEY=la-tua-api-key
+RESEND_AUDIENCE_ID=il-tuo-audience-id
+
+# --- SANITY CMS ---
+NEXT_PUBLIC_SANITY_API_VERSION=YYYY-MM-DD # Usa la data odierna o quella del progetto
+NEXT_PUBLIC_SANITY_PROJECT_ID=il-tuo-project-id
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_READ_TOKEN=il-tuo-read-token
+
+# (Opzionale) reCAPTCHA per form
+CAPTCHA_SECRET_KEY=...
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=...
+```
+
+**Dove trovo questi valori?**
+
+- Project ID, Dataset e Token li trovi su [manage.sanity.io](https://www.sanity.io/manage) > Project > API.
+- Per Resend, crea un account e genera API Key e Audience ID.
+
+## 4. Configurazione su Sanity.io
+
+- Vai su [manage.sanity.io](https://www.sanity.io/manage) e crea un nuovo progetto.
+- Aggiungi il dominio di sviluppo (es: `http://localhost:3000`) e quello di produzione tra le CORS Origins.
+- Copia Project ID, Dataset e Token nel `.env.local`.
+- (Opzionale) Importa dati demo:
+  ```bash
+  npx sanity dataset import sample-data.tar.gz production --replace
+  ```
+
+## 5. Avvio in locale
 
 ```bash
 pnpm dev
 ```
 
-#### 3. Open the app and sign in to the Studio
+- App Next.js: [http://localhost:3000](http://localhost:3000)
+- Sanity Studio: [http://localhost:3000/studio](http://localhost:3000/studio)
 
-- Open the Next.js app at [http://localhost:3000](http://localhost:3000)
-- Open the Studio running locally in your browser on [http://localhost:3000/studio](http://localhost:3000/studio). You should now see a screen prompting you to log in to the Studio. Use the same service (Google, GitHub, or email) that you used when you logged in to the CLI.
+Accedi con lo stesso account usato su Sanity CLI.
 
-### Adding content with Sanity
+## 6. Deploy
 
-#### 1. Import Sample Data (Optional)
+- Aggiungi il dominio di produzione tra le CORS Origins su Sanity.io
+- Segui la procedura Vercel (o altro hosting) e copia tutte le variabili d'ambiente dal `.env.local` nelle impostazioni del progetto.
 
-Import the demo dataset to get started with sample content:
+## 7. Estendere il template (nuovi componenti)
 
-```bash
-npx sanity dataset import sample-data.tar.gz production --replace
+Per aggiungere un nuovo blocco:
+
+1. Crea lo schema in `shared/sanity/schemas/blocks/[nome]/[nome].ts`
+2. Aggiungi il type in `shared/sanity/schemas/documents/page.ts`
+3. Importa e aggiungi il blocco in `shared/sanity/schema.ts`
+4. (Opzionale) Crea la query in `shared/sanity/queries/[nome]/[nome].ts`
+5. Crea il componente React in `shared/components/ui/[nome]/[nome].tsx`
+6. Aggiungilo alla `componentMap` in `shared/components/blocks.tsx`
+
+---
+
+# FAQ e Risorse
+
+- [Documentazione Schema UI](https://schemaui.com/docs)
+- [Sanity Docs](https://www.sanity.io/docs)
+- [Next.js Docs](https://nextjs.org/docs)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+
+Per problemi con la CLI Sanity: https://www.sanity.io/help/cli-errors
+
+---
+
+# Esempio di `.env.local`
+
+```
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_ENV=development
+RESEND_API_KEY=1234
+RESEND_AUDIENCE_ID=1234
+NEXT_PUBLIC_SANITY_API_VERSION=2024-10-18
+NEXT_PUBLIC_SANITY_PROJECT_ID=xxxxxxx
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_READ_TOKEN=sk_xxx
+CAPTCHA_SECRET_KEY=xxxx
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=xxxx
 ```
 
-#### 2. Publish your first document
+---
 
-The template comes pre-defined with a schema containing `Author`, `Category`, `FAQ`, `Page`, `Post`, and `Testimonial` document types.
+# Struttura dei contenuti
 
-From the Studio, click "+ Create" and select the `Page` document type. Go ahead and create and publish the document.
+- **Documenti principali**: Page, Post, Author, Category, FAQ, Testimonial
+- **Blocchi componibili**: hero, section-header, grid, split, carousel, timeline, cta, logo-cloud, faqs, newsletter, all-posts, contactform
+- **SEO**: ogni pagina ha campi meta, og:image, noindex
 
-Your content should now appear in your Next.js app ([http://localhost:3000](http://localhost:3000))
+---
 
-#### 3. Extending the Sanity schema
+# Note di sicurezza
 
-The schema for the `Page` document type is defined in the `sanity/schemas/document/page.ts` file. You can [add more document types](https://www.sanity.io/docs/schema-types) to the schema to suit your needs.
+Non condividere mai i token di accesso Sanity o Resend pubblicamente. Usa sempre variabili d'ambiente e repository privati per progetti reali.
 
-#### 4. Adding new components
+---
 
-This template includes all components from the [Schema UI](https://schemaui.com/docs/components) library. Visit [Schema UI Docs](https://schemaui.com/docs/how-to-use) to learn how to add new components.
+# Credits
 
-### Deploying your application
-
-#### 1. Configure CORS settings
-
-Add your production URL to the CORS Origins in your Sanity project settings to allow your deployed site to communicate with Sanity.
-
-#### 2. Deploy to Vercel
-
-Deploy your website to Vercel:
-
-1. Create a new repository on [GitHub](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github).
-2. Push your code to GitHub
-3. Create a [new Vercel project](https://vercel.com/new)
-4. Connect your GitHub repository and import the project
-5. Copy the environment variables from the `.env.local` file and paste them to your Vercel project settings. Vercel supports pasting all variables at once.
-6. Deploy
-
-### Inviting collaborators
-
-Now that you've deployed your Next.js application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
-
-They will be able to access the deployed Studio, where you can collaborate together on creating content.
-
-### Configuring Resend (optional)
-
-To use the newsletter form, you need to configure Resend.
-
-1. Create a new [Resend account](https://resend.com/signup)
-2. Create a new [API key](https://resend.com/api-keys)
-3. Copy the [audience](https://resend.com/audiences) id
-4. Set the API key and audience ID in the Vercel project settings or in the `.env.local` file
-
-## Sanity TypeGen
-
-To generate the types, run the following command:
-
-```bash
-npx sanity schema extract
-```
-
-This will generate `schema.json` file in the root of the project.
-
-To generate the types, run the following command:
-
-```bash
-npx sanity typegen generate
-```
-
-This will generate the types in the `sanity.types.ts` file in the root of the project.
-
-## Environment variables
-
-All environment variables and their descriptions:
-
-- `NEXT_PUBLIC_SITE_URL` - your website url. For example, `https://yourwebsite.com` without trailing slash.
-- `NEXT_PUBLIC_SITE_ENV` - specifies the environment type (development/production) and affects metadata configuration. Setting this to "development" prevents search engine indexing, which is useful for staging environments (e.g., `dev.yourwebsite.com`).
-- `NEXT_PUBLIC_SANITY_API_VERSION` - your Sanity API version. You don't have to use specific dates, any past or present date is valid, and today's date will always give you the latest version - no need to check release history. For example: YYYY-MM-DD.
-- `NEXT_PUBLIC_SANITY_PROJECT_ID` - your Sanity project ID. For example, abc12345.
-- `NEXT_PUBLIC_SANITY_DATASET` - your Sanity dataset name. For example, production.
-- `SANITY_API_READ_TOKEN` - your Sanity read token for Next.js to fetch data.
-- `RESEND_API_KEY` - your RESEND api key for the newsletter form.
-- `RESEND_AUDIENCE_ID` - your RESEND audience id for the newsletter form to store contacts.
-
-## Examples
-
-New i18n example added as separate branch at [example/i18n](https://github.com/serge-0v/next-js-sanity-starter/tree/example/i18n). Example is fully integrated with the template.
-
-[Preview i18n example Live](https://starter-i18n.schemaui.com/en)
-
-[react-url]: https://reactjs.org/
-[next-js-url]: https://nextjs.org/
-[typescript-url]: https://www.typescriptlang.org/
-[tailwind-url]: https://tailwindcss.com/
-[shadcn-url]: https://ui.shadcn.com/
-[sanity-url]: https://www.sanity.io/
-[react]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[next-js]: https://img.shields.io/badge/Next.js-20232A?style=for-the-badge&logo=Next.js
-[typescript]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
-[tailwind]: https://img.shields.io/badge/Tailwind_CSS-20232A?style=for-the-badge&logo=tailwindcss&logoColor=319795
-[shadcn]: https://img.shields.io/badge/shadcn/ui-20232A?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2IiBjbGFzcz0iaC02IHctNiI+PHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIGZpbGw9Im5vbmUiPjwvcmVjdD48bGluZSB4MT0iMjA4IiB5MT0iMTI4IiB4Mj0iMTI4IiB5Mj0iMjA4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMzIiPjwvbGluZT48bGluZSB4MT0iMTkyIiB5MT0iNDAiIHgyPSI0MCIgeTI9IjE5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjMyIj48L2xpbmU+PC9zdmc+&logoColor=ffffff
-[sanity]: https://img.shields.io/badge/Sanity-20232A?style=for-the-badge&logo=sanity&logoColor=F97316
+Template realizzato con [Schema UI](https://schemaui.com), Next.js, Sanity CMS, Tailwind CSS.
