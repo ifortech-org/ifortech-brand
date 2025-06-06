@@ -1,5 +1,5 @@
 import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
-import { Files, BookA, User, ListCollapse, Quote } from "lucide-react";
+import { Files, BookA, User, ListCollapse, Quote, Palette } from "lucide-react";
 
 export const structure = (S: any, context: any) =>
   S.list()
@@ -34,6 +34,15 @@ export const structure = (S: any, context: any) =>
         S,
         context,
       }),
+      S.listItem()
+        .title("Colori del sito")
+        .icon(Palette)
+        .schemaType("siteColors")
+        .child(
+          S.documentList()
+            .title("Colori del sito")
+            .filter('_type == "siteColors"')
+        ),
     ]);
 
 /*

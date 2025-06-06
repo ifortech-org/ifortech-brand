@@ -6,13 +6,14 @@ import author from "./schemas/documents/author";
 import category from "./schemas/documents/category";
 import faq from "./schemas/documents/faq";
 import testimonial from "./schemas/documents/testimonial";
+import siteColors from "./schemas/documents/siteColors";
 
 // Schema UI shared objects
 import blockContent from "./schemas/blocks/shared/block-content";
 import link from "./schemas/blocks/shared/link";
-import { colorVariant } from "./schemas/blocks/shared/color-variant";
 import { buttonVariant } from "./schemas/blocks/shared/button-variant";
 import sectionPadding from "./schemas/blocks/shared/section-padding";
+import { colorVariant } from "./schemas/blocks/shared/color-variant";
 // Schema UI objects
 import hero1 from "./schemas/blocks/hero/hero-1";
 import hero2 from "./schemas/blocks/hero/hero-2";
@@ -49,12 +50,13 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     category,
     faq,
     testimonial,
+    siteColors,
     // shared objects
     blockContent,
     link,
-    colorVariant,
     buttonVariant,
     sectionPadding,
+    colorVariant,
     // blocks
     hero1,
     hero2,
