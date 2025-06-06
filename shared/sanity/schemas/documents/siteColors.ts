@@ -3,6 +3,8 @@ export default {
   name: "siteColors",
   title: "Colori del sito",
   type: "document",
+  // Limita a un solo documento
+  __experimental_actions: ["update", "publish"], // Disabilita create/delete
   fields: [
     // Colori chiari
     {

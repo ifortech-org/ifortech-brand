@@ -37,11 +37,12 @@ export const structure = (S: any, context: any) =>
       S.listItem()
         .title("Colori del sito")
         .icon(Palette)
-        .schemaType("siteColors")
         .child(
-          S.documentList()
+          S.editor()
+            .id("siteColorsSingleton")
+            .schemaType("siteColors")
+            .documentId("siteColorsSingleton")
             .title("Colori del sito")
-            .filter('_type == "siteColors"')
         ),
     ]);
 
