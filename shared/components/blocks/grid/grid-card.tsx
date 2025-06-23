@@ -38,7 +38,7 @@ export default function GridCard({
         <div>
           {image && image.asset?._id && (
             <div className="flex items-center justify-center">
-              <div className="mb-4 relative h-[15rem] sm:h-[20rem] md:h-[25rem] lg:h-[9.5rem] xl:h-[12rem] rounded-full overflow-hidden aspect-square border-4 border-primary">
+              <div className="mb-4 relative h-[15rem] sm:h-[20rem] md:h-[25rem] lg:h-[9.5rem] xl:h-[12rem] rounded-md overflow-hidden  border-4 border-primary">
                 <Image
                   src={urlFor(image).url()}
                   alt={image.alt || ""}
