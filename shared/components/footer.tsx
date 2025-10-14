@@ -50,7 +50,7 @@ export default async function Footer() {
         </div>
         {footerSettings?.customText && (
           <div className="mt-6 text-center">
-            <p className="text-foreground/70 text-sm leading-relaxed whitespace-pre-line max-w-2xl mx-auto">
+            <p className="text-foreground/70 text-sm leading-relaxed whitespace-pre-line mx-auto">
               {footerSettings.customText}
             </p>
           </div>
