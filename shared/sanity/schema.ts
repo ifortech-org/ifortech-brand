@@ -23,6 +23,7 @@ import { colorVariant } from "./schemas/blocks/shared/color-variant";
 // Schema UI objects
 import hero1 from "./schemas/blocks/hero/hero-1";
 import hero2 from "./schemas/blocks/hero/hero-2";
+import hero3 from "./schemas/blocks/hero/hero-3";
 import sectionHeader from "./schemas/blocks/section-header";
 import splitRow from "./schemas/blocks/split/split-row";
 import splitContent from "./schemas/blocks/split/split-content";
@@ -72,6 +73,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // blocks
     hero1,
     hero2,
+    hero3,
     contactform,
     sectionHeader,
     splitRow,

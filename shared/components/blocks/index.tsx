@@ -1,6 +1,7 @@
 import { PAGE_QUERYResult } from "@/sanity.types";
 import Hero1 from "@/shared/components/blocks/hero/hero-1";
 import Hero2 from "@/shared/components/blocks/hero/hero-2";
+import Hero3 from "@/shared/components/blocks/hero/hero-3";
 import SectionHeader from "@/shared/components/blocks/section-header";
 import SplitRow from "@/shared/components/blocks/split/split-row";
 import GridRow from "@/shared/components/blocks/grid/grid-row";
@@ -21,6 +22,7 @@ const componentMap: {
 } = {
   "hero-1": Hero1,
   "hero-2": Hero2,
+  "hero-3": Hero3,
   "section-header": SectionHeader,
   "split-row": SplitRow,
   "grid-row": GridRow,

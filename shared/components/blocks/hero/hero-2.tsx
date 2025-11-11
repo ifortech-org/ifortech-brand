@@ -18,8 +18,8 @@ export default function Hero2({
   backgroundImage,
 }: Hero2Props) {
   const containerClassName = backgroundImage
-    ? "dark:bg-background py-20 lg:pt-40 text-center text-white relative"
-    : "container dark:bg-background py-20 lg:pt-40 text-center";
+    ? "dark:bg-background py-20  lg:pt-40 text-center text-white relative"
+    : "container dark:bg-background py-20 lg:pt-40 text-center ";
 
   const bgImage = backgroundImage ? urlFor(backgroundImage).url() : undefined;
 
@@ -31,9 +31,7 @@ export default function Hero2({
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}>
-      {backgroundImage && (
-        <div className="absolute inset-0 bg-black/30 dark:bg-black/50" />
-      )}
+      {backgroundImage && <div className="absolute inset-0 bg-black/40" />}
       {tagLine && (
         <h1 className="leading-[0] font-sans animate-fade-up [animation-delay:100ms] opacity-0">
           <span className="text-base font-semibold">{tagLine}</span>
