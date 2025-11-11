@@ -24,11 +24,11 @@ export default function Hero3({
   return (
     <section className="relative isolate overflow-hidden dark:bg-background">
       <div
-        className="absolute inset-x-0 top-0 h-4 bg-primary z-10"
+        className="absolute inset-x-0 top-0 h-2 bg-primary z-10"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-x-0 bottom-0 h-4 bg-primary z-10"
+        className="absolute inset-x-0 bottom-0 h-2 bg-primary z-10"
         aria-hidden="true"
       />
       <div className="container py-12 lg:py-20">
