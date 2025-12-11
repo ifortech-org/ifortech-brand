@@ -50,7 +50,7 @@ function ContactForm({
     description: "",
   });
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
 
     if (!isVerified) {
@@ -58,26 +58,47 @@ function ContactForm({
       return;
     }
 
-    fetch("/api/contactform", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: formData.email,
-        name: formData.name,
-        surname: formData.surname,
-        business_name: formData.business_name,
-        request: formData.request,
-        description: formData.description,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        toast(
-          "Richiesta di contatto registrata con successo, a breve verrà contattato da uno dei nostri operatori"
-        );
+    try {
+      const response = await fetch("/api/contactform", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          name: formData.name,
+          surname: formData.surname,
+          business_name: formData.business_name,
+          request: formData.request,
+          description: formData.description,
+        }),
       });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        toast(
+          data?.error ||
+            "Errore durante l'invio del form. Riprova tra qualche istante."
+        );
+        return;
+      }
+
+      toast(
+        "Richiesta di contatto registrata con successo, a breve verrà contattato da uno dei nostri operatori"
+      );
+      setFormData({
+        email: "",
+        name: "",
+        surname: "",
+        business_name: "",
+        request: "",
+        description: "",
+      });
+      captchaRef.current?.reset();
+      setIsverified(false);
+    } catch (error) {
+      toast("Errore durante l'invio del form. Riprova tra qualche istante.");
+    }
   }
 
   async function handleCaptchaSubmission(token: string | null) {
