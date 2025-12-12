@@ -33,20 +33,54 @@ export async function POST(request: Request) {
       return new Response("Email configuration missing", { status: 500 });
     }
 
+    // CONFIGURAZIONE INIZIALE
+    // const transporter = nodemailer.createTransport({
+    //   host: "smtp.office365.com",
+    //   port: 587,
+    //   secure: false,
+    //   tls: {
+    //     ciphers: "SSLv3",
+    //     rejectUnauthorized: false,
+    //   },
+    //   auth: {
+    //     user: mailSenderAccount.user,
+    //     pass: mailSenderAccount.pass,
+    //   },
+    // });
+
+    // CONFIGURAZIONE DA NEWS.INTEGYS
     const transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com",
       port: 587,
       secure: false,
       requireTLS: true,
+      tls: {
+        minVersion: 'TLSv1.2',
+        rejectUnauthorized: true,
+      },
       auth: {
         user: mailSenderAccount.user,
         pass: mailSenderAccount.pass,
       },
-      // tls: {
-      //   minVersion: 'TLSv1.2',
-      //   maxVersion: 'TLSv1.3',
-      // }
+      // Timeout più lungo per Office 365
+      connectionTimeout: 60000,
+      greetingTimeout: 30000,
     });
+
+    // CONFIGURAZIONE DA CLEWAY
+    // const transporter = nodemailer.createTransport({
+    //   host: "smtp.office365.com",
+    //   port: 587,
+    //   secure: false,
+    //   tls: {
+    //     ciphers: "SSLv3",
+    //     rejectUnauthorized: false,
+    //   },
+    //   auth: {
+    //     user: mailSenderAccount.user,
+    //     pass: mailSenderAccount.pass,
+    //   },
+    // });
 
     const mailData = {
       from: mailSenderAccount.email,
