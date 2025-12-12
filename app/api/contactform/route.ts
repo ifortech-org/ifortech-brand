@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 const mailSenderAccount = {
-  user: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
-  pass: process.env.MAIL_SENDER_ACCOUNT_PASSWORD,
-  email: process.env.MAIL_SENDER_ACCOUNT_EMAIL,
+  user: process.env.MAIL_SENDER_ACCOUNT_USERNAME ?? null,
+  pass: process.env.MAIL_SENDER_ACCOUNT_PASSWORD ?? null,
+  email: process.env.MAIL_SENDER_ACCOUNT_EMAIL ?? null,
 };
 
 export async function POST(request: Request) {
@@ -23,6 +23,13 @@ export async function POST(request: Request) {
     }
 
     if (!mailSenderAccount.user || !mailSenderAccount.pass || !mailSenderAccount.email) {
+      console.error("Email configuration missing:", {
+        hasUser: !!mailSenderAccount.user,
+        hasPass: !!mailSenderAccount.pass,
+        hasEmail: !!mailSenderAccount.email,
+        // Log solo i primi e ultimi caratteri della password per debug
+        passPreview: mailSenderAccount.pass ? `${mailSenderAccount.pass.substring(0, 2)}...${mailSenderAccount.pass.slice(-2)}` : "undefined"
+      });
       return new Response("Email configuration missing", { status: 500 });
     }
 
@@ -88,6 +95,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("Error in contact form API:", error);
+    console.error("Error details:", {
+      message: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : "No stack trace"
+    });
     return NextResponse.json(
       { success: false, error: "Internal server error" },
       { status: 500 }
