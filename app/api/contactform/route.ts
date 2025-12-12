@@ -1,20 +1,28 @@
+import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 const mailSenderAccount = {
   user: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
   pass: process.env.MAIL_SENDER_ACCOUNT_PASSWORD,
+  email: process.env.MAIL_SENDER_ACCOUNT_EMAIL,
 };
 
 export async function POST(request: Request) {
   try {
-    const { name, email, businessName, requestType, message } =
-      await request.json();
+    const {
+      email,
+      name,
+      surname,
+      business_name,
+      request: subject,
+      description,
+    } = await request.json();
 
-    if (!name || !email || !businessName || !requestType || !message) {
+    if ( !email || !name || !surname || !business_name || !subject || !description ) {
       return new Response("Missing required fields", { status: 400 });
     }
 
-    if (!mailSenderAccount.user || !mailSenderAccount.pass) {
+    if (!mailSenderAccount.user || !mailSenderAccount.pass || !mailSenderAccount.email) {
       return new Response("Email configuration missing", { status: 500 });
     }
 
@@ -33,25 +41,56 @@ export async function POST(request: Request) {
     });
 
     const mailData = {
-      from: mailSenderAccount.user,
-      to: "commerciale@integys.com",
-      subject: `Richiesta di contatto da INTEGYS`,
-      text: message,
-      html: `<div> Nome: ${name} <br/> Email aziendale: ${email} <br/> Azienda: ${businessName} <br/> Richiesta: ${requestType} <br/> Messaggio: <br/> ${message} </div>`,
+      from: mailSenderAccount.email,
+      to: mailSenderAccount.email,
+      subject: `IFORTECH - Richiesta di contatto`,
+      html: `
+        <div>
+          <h1>Nuova richiesta di contatto</h1>
+          <p><strong>Nome:</strong> ${name}</p>
+          <p><strong>Cognome:</strong> ${surname}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Azienda:</strong> ${business_name}</p>
+          <p><strong>Oggetto della richiesta:</strong> ${subject}</p>
+          <p><strong>Descrizione:</strong></p>
+          <p>${description}</p>
+        </div>
+      `,
     };
 
     await transporter.sendMail(mailData);
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Richiesta inviata correttamente",
-        data: { name, email, businessName, requestType },
-      }),
-      { status: 200 }
-    );
+    // Confirmation email to user
+    const mailDataUser = {
+      from: mailSenderAccount.email,
+      to: email,
+      subject: `Riepilogo richiesta di contatto - iFortech`,
+      html: `
+        <div>
+          <h1>iFortech</h1>
+          <div>
+            <p>
+              Gentile ${name} ${surname}, <br>
+              Grazie per averci contattato. Di seguito il riepilogo della tua richiesta: <br>
+              <br>
+              <strong>Oggetto:</strong> ${subject} <br>
+              <strong>Messaggio:</strong> ${description} <br>
+              <br>
+              Ti contatteremo al più presto. <br><br>
+              Cordiali saluti, <br><br>
+              Il Team di iFortech
+            </p>
+          </div>
+        </div>
+      `,
+    };
+    await transporter.sendMail(mailDataUser);
+
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("contactform error", error);
-    return new Response("Internal Server Error", { status: 500 });
+    return NextResponse.json(
+      { success: false, error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
