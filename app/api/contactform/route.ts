@@ -42,10 +42,10 @@ export async function POST(request: Request) {
         user: mailSenderAccount.user,
         pass: mailSenderAccount.pass,
       },
-      tls: {
-        minVersion: 'TLSv1.2',
-        maxVersion: 'TLSv1.3',
-      }
+      // tls: {
+      //   minVersion: 'TLSv1.2',
+      //   maxVersion: 'TLSv1.3',
+      // }
     });
 
     const mailData = {
