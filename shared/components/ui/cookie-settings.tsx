@@ -14,7 +14,11 @@ import {
 import { useCookieConsent } from "@/shared/lib/use-cookie-consent";
 import { Badge } from "@/shared/components/ui/badge";
 
-export function CookieSettings() {
+interface CookieSettingsProps {
+  cookieSettings?: any;
+}
+
+export function CookieSettings({ cookieSettings }: CookieSettingsProps) {
   const {
     consent,
     categories,
@@ -27,6 +31,8 @@ export function CookieSettings() {
   } = useCookieConsent();
 
   const [localConsent, setLocalConsent] = React.useState(consent);
+  
+  const texts = cookieSettings || {};
 
   React.useEffect(() => {
     setLocalConsent(consent);
@@ -48,10 +54,22 @@ export function CookieSettings() {
 
   const getStatusBadge = () => {
     const statusConfig = {
-      pending: { label: "In attesa", variant: "secondary" as const },
-      accepted: { label: "Tutti accettati", variant: "default" as const },
-      rejected: { label: "Tutti rifiutati", variant: "destructive" as const },
-      customized: { label: "Personalizzati", variant: "outline" as const },
+      pending: { 
+        label: texts.statusLabels?.pending || "In attesa", 
+        variant: "secondary" as const 
+      },
+      accepted: { 
+        label: texts.statusLabels?.accepted || "Tutti accettati", 
+        variant: "default" as const 
+      },
+      rejected: { 
+        label: texts.statusLabels?.rejected || "Tutti rifiutati", 
+        variant: "destructive" as const 
+      },
+      customized: { 
+        label: texts.statusLabels?.customized || "Personalizzati", 
+        variant: "outline" as const 
+      },
     };
 
     const config = statusConfig[status] || statusConfig.pending;
@@ -62,18 +80,18 @@ export function CookieSettings() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Preferenze Cookie</CardTitle>
+          <CardTitle>{texts.preferencesTitle || "Preferenze Cookie"}</CardTitle>
           <CardDescription>
-            Non hai ancora configurato le tue preferenze sui cookie.
+            {texts.noConsentText || "Non hai ancora configurato le tue preferenze sui cookie."}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <Button onClick={acceptAll} className="w-full">
-              Accetta tutti i cookie
+              {texts.acceptAllCookiesText || "Accetta tutti i cookie"}
             </Button>
             <Button onClick={rejectAll} variant="outline" className="w-full">
-              Rifiuta tutti i cookie (solo necessari)
+              {texts.rejectAllCookiesText || "Rifiuta tutti i cookie (solo necessari)"}
             </Button>
           </div>
         </CardContent>
@@ -86,9 +104,9 @@ export function CookieSettings() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Preferenze Cookie</CardTitle>
+            <CardTitle>{texts.preferencesTitle || "Preferenze Cookie"}</CardTitle>
             <CardDescription>
-              Gestisci le tue preferenze sui cookie per questo sito.
+              {texts.preferencesDescription || "Gestisci le tue preferenze sui cookie per questo sito."}
             </CardDescription>
           </div>
           {getStatusBadge()}
@@ -106,7 +124,7 @@ export function CookieSettings() {
                     {category.name}
                     {category.required && (
                       <Badge variant="secondary" className="text-xs">
-                        Obbligatori
+                        {texts.requiredBadgeText || "Obbligatori"}
                       </Badge>
                     )}
                   </Label>
@@ -129,13 +147,13 @@ export function CookieSettings() {
 
         <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t">
           <Button onClick={handleSave} className="flex-1">
-            Salva Preferenze
+            {texts.savePreferencesText || "Salva Preferenze"}
           </Button>
           <Button onClick={acceptAll} variant="outline" className="flex-1">
-            Accetta Tutti
+            {texts.acceptAllPreferencesText || "Accetta Tutti"}
           </Button>
           <Button onClick={rejectAll} variant="outline" className="flex-1">
-            Solo Necessari
+            {texts.onlyNecessaryText || "Solo Necessari"}
           </Button>
         </div>
 
@@ -145,7 +163,7 @@ export function CookieSettings() {
             variant="ghost"
             size="sm"
             className="text-xs">
-            Resetta Preferenze
+            {texts.resetPreferencesText || "Resetta Preferenze"}
           </Button>
         </div>
       </CardContent>

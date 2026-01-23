@@ -5,6 +5,7 @@ import { CookieConsentProvider } from "@/shared/lib/use-cookie-consent";
 import { CookieBanner } from "@/shared/components/cookie-banner";
 import { client } from "@/shared/sanity/lib/client";
 import { COOKIE_SETTINGS_QUERY } from "@/shared/sanity/queries/policies";
+import { useParams } from "next/navigation";
 
 interface CookieProviderProps {
   children: React.ReactNode;
@@ -13,11 +14,13 @@ interface CookieProviderProps {
 export function CookieProvider({ children }: CookieProviderProps) {
   const [cookieSettings, setCookieSettings] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(true);
+  const params = useParams();
+  const language = params.locale || 'it';
 
   React.useEffect(() => {
     const fetchCookieSettings = async () => {
       try {
-        const settings = await client.fetch(COOKIE_SETTINGS_QUERY);
+        const settings = await client.fetch(COOKIE_SETTINGS_QUERY, { language });
         setCookieSettings(settings);
       } catch (error) {
         console.error(
@@ -70,7 +73,7 @@ export function CookieProvider({ children }: CookieProviderProps) {
     };
 
     fetchCookieSettings();
-  }, []);
+  }, [language]);
 
   // Default categories to use while loading or if fetch fails
   const defaultCategories = [
@@ -116,7 +119,21 @@ export function CookieProvider({ children }: CookieProviderProps) {
   };
 
   // Use fetched categories when available, otherwise fallback to defaults
-  const categories = cookieSettings?.cookieCategories || defaultCategories;
+  let categories = cookieSettings?.cookieCategories || defaultCategories;
+  
+  // Force necessary cookies to always be required (security fix)
+  categories = categories.map(category => {
+    if (category.id === 'necessary') {
+      return {
+        ...category,
+        required: true,
+        defaultEnabled: true
+      };
+    }
+    return category;
+  });
+  
+  console.log('Final categories after necessary fix:', categories);
 
   return (
     <CookieConsentProvider categories={categories}>

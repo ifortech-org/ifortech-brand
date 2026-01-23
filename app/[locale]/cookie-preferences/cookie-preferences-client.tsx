@@ -10,7 +10,11 @@ import {
 import { useCookieConsentSafe } from "@/shared/lib/use-cookie-consent";
 import { useEffect, useState } from "react";
 
-export function CookiePreferencesClient() {
+interface CookiePreferencesClientProps {
+  cookieSettings: any;
+}
+
+export function CookiePreferencesClient({ cookieSettings }: CookiePreferencesClientProps) {
   const context = useCookieConsentSafe();
   const [isClient, setIsClient] = useState(false);
 
@@ -18,15 +22,17 @@ export function CookiePreferencesClient() {
     setIsClient(true);
   }, []);
 
+  const texts = cookieSettings || {};
+
   if (!isClient) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Caricamento...</CardTitle>
+          <CardTitle>{texts.loadingText || "Caricamento..."}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            Caricamento delle preferenze cookie...
+            {texts.loadingDescriptionText || "Caricamento delle preferenze cookie..."}
           </p>
         </CardContent>
       </Card>
@@ -37,17 +43,16 @@ export function CookiePreferencesClient() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Preferenze Cookie</CardTitle>
+          <CardTitle>{texts.preferencesTitle || "Preferenze Cookie"}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            Il sistema di gestione cookie non è disponibile al momento. Riprova
-            tra qualche istante.
+            {texts.notAvailableText || "Il sistema di gestione cookie non è disponibile al momento. Riprova tra qualche istante."}
           </p>
         </CardContent>
       </Card>
     );
   }
 
-  return <CookieSettings />;
+  return <CookieSettings cookieSettings={cookieSettings} />;
 }

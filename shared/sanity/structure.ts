@@ -79,42 +79,34 @@ export const structure = (S: any, context: any) =>
         .title("Impostazioni Footer")
         .icon(Settings)
         .child(
-          S.editor()
-            .id("footerSettingsSingleton")
-            .schemaType("footerSettings")
-            .documentId("footerSettingsSingleton")
+          S.documentTypeList("footerSettings")
             .title("Impostazioni Footer")
+            .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
       S.divider(),
       S.listItem()
         .title("Privacy Policy")
         .icon(Shield)
         .child(
-          S.editor()
-            .id("privacyPolicySingleton")
-            .schemaType("privacyPolicy")
-            .documentId("privacyPolicySingleton")
+          S.documentTypeList("privacyPolicy")
             .title("Privacy Policy")
+            .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
       S.listItem()
         .title("Cookie Policy")
         .icon(Cookie)
         .child(
-          S.editor()
-            .id("cookiePolicySingleton")
-            .schemaType("cookiePolicy")
-            .documentId("cookiePolicySingleton")
+          S.documentTypeList("cookiePolicy")
             .title("Cookie Policy")
+            .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
       S.listItem()
         .title("Impostazioni Cookie")
         .icon(Settings)
         .child(
-          S.editor()
-            .id("cookieSettingsSingleton")
-            .schemaType("cookieSettings")
-            .documentId("cookieSettingsSingleton")
+          S.documentTypeList("cookieSettings")
             .title("Impostazioni Cookie")
+            .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
     ]);
 

@@ -14,6 +14,9 @@ import cookieSettings from "./schemas/documents/cookie-settings";
 import footerSettings from "./schemas/documents/footerSettings";
 import seo from "./schemas/seo";
 
+// Translation system
+import translationManager from "./schemas/objects/translationManager";
+
 // Schema UI shared objects
 import blockContent from "./schemas/blocks/shared/block-content";
 import link from "./schemas/blocks/shared/link";
@@ -96,5 +99,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     faqs,
     newsletter,
     allPosts,
+    
+    // Translation system
+    translationManager,
   ],
 };

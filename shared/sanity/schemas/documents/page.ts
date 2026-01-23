@@ -25,6 +25,35 @@ export default defineType({
   fields: [
     defineField({ name: "title", type: "string", group: "content" }),
     defineField({
+      name: "language",
+      title: "Lingua",
+      type: "string",
+      options: {
+        list: [
+          { title: "Italiano", value: "it" },
+          { title: "English", value: "en" }
+        ],
+      },
+      initialValue: "it",
+      validation: (Rule) => Rule.required(),
+      group: "settings",
+    }),
+    defineField({
+      name: "contentId",
+      title: "Content ID",
+      type: "string",
+      description: "Identificativo comune per tutte le traduzioni di questo contenuto",
+      validation: (Rule) => Rule.required(),
+      group: "settings",
+    }),
+    defineField({
+      name: "translations",
+      title: "Traduzioni",
+      type: "translationManager",
+      group: "settings",
+      readOnly: true,
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -163,4 +192,17 @@ export default defineType({
     }),
     orderRankField({ type: "page" }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      language: "language",
+      media: "seo.image",
+    },
+    prepare({ title, language, media }) {
+      return {
+        title: `${title} (${language?.toUpperCase() || 'IT'})`,
+        media,
+      };
+    },
+  },
 });

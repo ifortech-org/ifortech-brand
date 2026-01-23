@@ -15,8 +15,8 @@ import { formNewsletterQuery } from "./forms/newsletter";
 import { allPostsQuery } from "./all-posts";
 import { contactformQuery } from "./contactform/contactform";
 
-export const PAGE_QUERY = groq`
-  *[_type == "page" && slug.current == $slug && language == $language][0]{
+export const HOMEPAGE_QUERY = groq`
+  *[_type == "page" && contentId == "homepage" && language == $language][0]{
     _id,
     title,
     language,
@@ -56,5 +56,3 @@ export const PAGE_QUERY = groq`
     }
   }
 `;
-
-export const PAGES_SLUGS_QUERY = groq`*[_type == "page" && defined(slug) && language == $language]{slug}`;

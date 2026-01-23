@@ -12,14 +12,17 @@ import React from "react";
 type AllPostsProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
   { _type: "all-posts" }
->;
+> & {
+  language?: string;
+};
 
 export default async function AllPosts({
   padding,
   colorVariant,
+  language = "it",
 }: AllPostsProps) {
   const color = stegaClean(colorVariant);
-  const posts = await fetchSanityPosts();
+  const posts = await fetchSanityPosts({ language });
 
   const categories: Category[] = posts
     .flatMap((post) => post?.categories ?? [])

@@ -1,20 +1,28 @@
-import Header from "@/shared/components/header";
-import Footer from "@/shared/components/footer";
+import FooterWithMenu from "@/shared/components/footer-with-menu";
 import { DisableDraftMode } from "@/shared/components/disable-draft-mode";
 import { VisualEditing } from "next-sanity";
 import { draftMode } from "next/headers";
 import { SanityLive } from "@/shared/sanity/lib/live";
 import { Suspense } from "react";
 import PageTracker from "@/shared/components/PageTracker";
+import { notFound } from "next/navigation";
 
-export default async function MainLayout({
+const locales = ["it", "en"];
+
+export default async function LocaleLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  
+  if (!locales.includes(locale)) {
+    notFound();
+  }
   return (
     <>
-      <Header />
       <main>{children}</main>
       <SanityLive />
       {(await draftMode()).isEnabled && (
@@ -23,7 +31,7 @@ export default async function MainLayout({
           <VisualEditing />
         </>
       )}
-      <Footer />
+      <FooterWithMenu language={locale} />
       <Suspense fallback={<div>Loading...</div>}>
         <PageTracker />
       </Suspense>

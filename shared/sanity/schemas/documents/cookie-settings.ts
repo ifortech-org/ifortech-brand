@@ -7,6 +7,46 @@ export default defineType({
   icon: () => "🍪",
   fields: [
     defineField({
+      name: "language",
+      title: "Language",
+      type: "string",
+      options: {
+        list: [
+          { title: "Italiano", value: "it" },
+          { title: "English", value: "en" },
+        ],
+      },
+      validation: (rule) => [
+        rule.required(),
+        rule.custom((language, context) => {
+          const { document, getClient } = context;
+          if (!language || !document?._type) return true;
+          
+          const client = getClient({ apiVersion: '2023-01-01' });
+          const id = document._id?.replace(/^drafts\./, '');
+          
+          return client
+            .fetch(
+              `count(*[_type == "cookieSettings" && language == $language && !(_id in [
+                "drafts." + $id,
+                $id
+              ])])
+              `,
+              { language, id }
+            )
+            .then((count: number) => {
+              return count === 0 ? true : `Esistono già Impostazioni Cookie in ${language === 'it' ? 'italiano' : 'inglese'}`;
+            });
+        }),
+      ],
+      initialValue: "it",
+    }),
+    defineField({
+      name: "translationManager",
+      title: "Translation Manager",
+      type: "translationManager",
+    }),
+    defineField({
       name: "title",
       title: "Titolo del banner",
       type: "string",
@@ -83,6 +123,135 @@ export default defineType({
       title: "Mostra pulsante 'Personalizza'",
       type: "boolean",
       initialValue: true,
+    }),
+    // Testi per la pagina di personalizzazione
+    defineField({
+      name: "preferencesTitle",
+      title: "Titolo pagina preferenze",
+      type: "string",
+      initialValue: "Preferenze Cookie",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "preferencesDescription",
+      title: "Descrizione pagina preferenze",
+      type: "text",
+      rows: 2,
+      initialValue: "Gestisci le tue preferenze sui cookie per questo sito.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "savePreferencesText",
+      title: "Testo pulsante 'Salva preferenze'",
+      type: "string",
+      initialValue: "Salva Preferenze",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "acceptAllPreferencesText",
+      title: "Testo pulsante 'Accetta tutti' (preferenze)",
+      type: "string",
+      initialValue: "Accetta Tutti",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "onlyNecessaryText",
+      title: "Testo pulsante 'Solo necessari'",
+      type: "string",
+      initialValue: "Solo Necessari",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "resetPreferencesText",
+      title: "Testo pulsante 'Resetta preferenze'",
+      type: "string",
+      initialValue: "Resetta Preferenze",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "requiredBadgeText",
+      title: "Testo badge 'Obbligatori'",
+      type: "string",
+      initialValue: "Obbligatori",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "loadingText",
+      title: "Testo caricamento",
+      type: "string",
+      initialValue: "Caricamento...",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "loadingDescriptionText",
+      title: "Descrizione caricamento",
+      type: "string",
+      initialValue: "Caricamento delle preferenze cookie...",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "notAvailableText",
+      title: "Testo sistema non disponibile",
+      type: "string",
+      initialValue: "Il sistema di gestione cookie non è disponibile al momento. Riprova tra qualche istante.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "statusLabels",
+      title: "Etichette stato",
+      type: "object",
+      fields: [
+        {
+          name: "pending",
+          title: "In attesa",
+          type: "string",
+          initialValue: "In attesa",
+          validation: (rule) => rule.required(),
+        },
+        {
+          name: "accepted",
+          title: "Tutti accettati",
+          type: "string",
+          initialValue: "Tutti accettati",
+          validation: (rule) => rule.required(),
+        },
+        {
+          name: "rejected",
+          title: "Tutti rifiutati",
+          type: "string",
+          initialValue: "Tutti rifiutati",
+          validation: (rule) => rule.required(),
+        },
+        {
+          name: "customized",
+          title: "Personalizzati",
+          type: "string",
+          initialValue: "Personalizzati",
+          validation: (rule) => rule.required(),
+        },
+      ],
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "noConsentText",
+      title: "Testo nessun consenso configurato",
+      type: "string",
+      initialValue: "Non hai ancora configurato le tue preferenze sui cookie.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "acceptAllCookiesText",
+      title: "Testo pulsante 'Accetta tutti i cookie' (prima configurazione)",
+      type: "string",
+      initialValue: "Accetta tutti i cookie",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "rejectAllCookiesText",
+      title: "Testo pulsante 'Rifiuta tutti' (prima configurazione)",
+      type: "string",
+      initialValue: "Rifiuta tutti i cookie (solo necessari)",
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "cookieCategories",
@@ -173,10 +342,13 @@ export default defineType({
     select: {
       title: "title",
       position: "position",
+      language: "language",
     },
-    prepare({ title, position }) {
+    prepare({ title, position, language }) {
+      const langFlag = language === "en" ? "🇬🇧" : "🇮🇹";
+      const languageLabel = language === "it" ? "IT" : "EN";
       return {
-        title: title || "Impostazioni Cookie",
+        title: `${title || "Impostazioni Cookie"} (${languageLabel})`,
         subtitle: `Posizione: ${position || "bottom"}`,
       };
     },

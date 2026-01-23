@@ -8,14 +8,20 @@ import { CopyButton } from "@/shared/components/ui/copy-button";
 const portableTextComponents: PortableTextProps["components"] = {
   types: {
     image: ({ value }) => {
-      const { url, metadata } = value.asset;
-      const { lqip, dimensions } = metadata;
+      const { url, metadata } = value.asset || {};
+      const { lqip, dimensions } = metadata || {};
+      
+      // Non renderizzare se l'URL è mancante o vuoto
+      if (!url) {
+        return null;
+      }
+      
       return (
         <Image
           src={url}
           alt={value.alt || "Image"}
-          width={dimensions.width}
-          height={dimensions.height}
+          width={dimensions?.width || 800}
+          height={dimensions?.height || 600}
           placeholder={lqip ? "blur" : undefined}
           blurDataURL={lqip || undefined}
           style={{

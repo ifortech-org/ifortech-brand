@@ -37,7 +37,7 @@ const componentMap: {
   contactform: ContactForm,
 };
 
-export default function Blocks({ blocks }: { blocks: Block[] }) {
+export default function Blocks({ blocks, language = "it" }: { blocks: Block[]; language?: string }) {
   return (
     <>
       {blocks?.map((block) => {
@@ -49,7 +49,13 @@ export default function Blocks({ blocks }: { blocks: Block[] }) {
           );
           return <div data-type={block._type} key={block._key} />;
         }
-        return <Component {...(block as any)} key={block._key} />;
+        
+        // Passa la lingua a componenti che ne hanno bisogno
+        const props = block._type === "all-posts" 
+          ? { ...(block as any), language } 
+          : (block as any);
+          
+        return <Component {...props} key={block._key} />;
       })}
     </>
   );

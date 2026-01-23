@@ -2,42 +2,78 @@ import Link from "next/link";
 import LogoDynamic from "@/shared/components/logo-dynamic";
 import { fetchFooterSettings } from "@/shared/sanity/lib/footerSettings";
 
-const navItems = [
+interface FooterProps {
+  locale: string;
+  navItems?: Array<{
+    label: string;
+    href: string;
+    target: boolean;
+  }>;
+  policyTitles?: {
+    privacyPolicy?: { title?: string };
+    cookiePolicy?: { title?: string };
+    cookieSettings?: { preferencesTitle?: string; customizeText?: string };
+  } | null;
+}
+
+const getDefaultNavItems = (locale: string) => [
   {
     label: "Home",
-    href: "/",
+    href: `/${locale}`,
     target: false,
   },
   {
     label: "Blog",
-    href: "/blog",
+    href: `/${locale}/blog`,
     target: false,
   },
   {
     label: "About",
-    href: "/about",
+    href: `/${locale}/about`,
     target: false,
   },
 ];
 
-export default async function Footer() {
+export default async function Footer({ locale, navItems, policyTitles }: FooterProps) {
+  const menuItems = navItems || getDefaultNavItems(locale);
   const getCurrentYear = () => {
     return new Date().getFullYear();
   };
 
-  const footerSettings = await fetchFooterSettings();
+  const footerSettings = await fetchFooterSettings(locale);
+
+  // Testi fallback per le policy
+  const getPolicyTexts = () => {
+    const defaults = {
+      privacyPolicy: locale === 'en' ? 'Privacy Policy' : 'Privacy Policy',
+      cookiePolicy: locale === 'en' ? 'Cookie Policy' : 'Cookie Policy', 
+      cookiePreferences: locale === 'en' ? 'Cookie Preferences' : 'Preferenze Cookie',
+    };
+
+    if (!policyTitles) return defaults;
+
+    return {
+      privacyPolicy: policyTitles.privacyPolicy?.title || defaults.privacyPolicy,
+      cookiePolicy: policyTitles.cookiePolicy?.title || defaults.cookiePolicy,
+      cookiePreferences: policyTitles.cookieSettings?.preferencesTitle || 
+                         policyTitles.cookieSettings?.customizeText || 
+                         defaults.cookiePreferences,
+    };
+  };
+
+  const policyTexts = getPolicyTexts();
 
   return (
     <footer>
       <div className="dark:bg-background p-5 xl:p-5 dark:text-gray-300">
         <Link
           className="block w-[6.25rem] mx-auto"
-          href="/"
+          href={`/${locale}`}
           aria-label="Home page">
           <LogoDynamic />
         </Link>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-7 text-primary">
-          {navItems.map((navItem) => (
+          {menuItems.map((navItem) => (
             <Link
               key={navItem.label}
               href={navItem.href}
@@ -61,21 +97,21 @@ export default async function Footer() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 text-foreground/60">
             <Link
-              href="/privacy-policy"
+              href={`/${locale}/privacy-policy`}
               className="transition-colors hover:text-foreground/80">
-              Privacy Policy
+              {policyTexts.privacyPolicy}
             </Link>
             <span>•</span>
             <Link
-              href="/cookie-policy"
+              href={`/${locale}/cookie-policy`}
               className="transition-colors hover:text-foreground/80">
-              Cookie Policy
+              {policyTexts.cookiePolicy}
             </Link>
             <span>•</span>
             <Link
-              href="/cookie-preferences"
+              href={`/${locale}/cookie-preferences`}
               className="transition-colors hover:text-foreground/80">
-              Preferenze Cookie
+              {policyTexts.cookiePreferences}
             </Link>
           </div>
         </div>

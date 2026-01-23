@@ -1,11 +1,31 @@
 import { groq } from "next-sanity";
+import { client } from "../lib/client";
 
 export const PRIVACY_POLICY_QUERY = groq`
-  *[_type == "privacyPolicy" && _id == "privacyPolicySingleton"][0] {
+  *[_type == "privacyPolicy" && language == $language][0] {
     _id,
     title,
-    content,
+    content[]{
+      ...,
+      _type == "image" => {
+        ...,
+        asset->{
+          _id,
+          url,
+          mimeType,
+          metadata {
+            lqip,
+            dimensions {
+              width,
+              height
+            }
+          }
+        },
+        alt
+      }
+    },
     lastUpdated,
+    language,
     seo {
       title,
       description,
@@ -24,11 +44,31 @@ export const PRIVACY_POLICY_QUERY = groq`
 `;
 
 export const COOKIE_POLICY_QUERY = groq`
-  *[_type == "cookiePolicy" && _id == "cookiePolicySingleton"][0] {
+  *[_type == "cookiePolicy" && language == $language][0] {
     _id,
     title,
-    content,
+    content[]{
+      ...,
+      _type == "image" => {
+        ...,
+        asset->{
+          _id,
+          url,
+          mimeType,
+          metadata {
+            lqip,
+            dimensions {
+              width,
+              height
+            }
+          }
+        },
+        alt
+      }
+    },
     lastUpdated,
+    language,
+
     seo {
       title,
       description,
@@ -47,8 +87,9 @@ export const COOKIE_POLICY_QUERY = groq`
 `;
 
 export const COOKIE_SETTINGS_QUERY = groq`
-  *[_type == "cookieSettings" && _id == "cookieSettingsSingleton"][0] {
+  *[_type == "cookieSettings" && language == $language][0] {
     _id,
+    language,
     title,
     description,
     acceptAllText,
@@ -59,6 +100,20 @@ export const COOKIE_SETTINGS_QUERY = groq`
     position,
     showRejectButton,
     showCustomizeButton,
+    preferencesTitle,
+    preferencesDescription,
+    savePreferencesText,
+    acceptAllPreferencesText,
+    onlyNecessaryText,
+    resetPreferencesText,
+    requiredBadgeText,
+    loadingText,
+    loadingDescriptionText,
+    notAvailableText,
+    statusLabels,
+    noConsentText,
+    acceptAllCookiesText,
+    rejectAllCookiesText,
     cookieCategories[] {
       id,
       name,
@@ -68,3 +123,28 @@ export const COOKIE_SETTINGS_QUERY = groq`
     }
   }
 `;
+
+// Function to fetch cookie settings server-side
+export const fetchSanityCookieSettings = async (language: string = 'it') => {
+  return client.fetch(COOKIE_SETTINGS_QUERY, { language });
+};
+
+// Quick query for policy titles in footer
+export const POLICY_TITLES_QUERY = groq`
+  {
+    "privacyPolicy": *[_type == "privacyPolicy" && language == $language][0] {
+      title
+    },
+    "cookiePolicy": *[_type == "cookiePolicy" && language == $language][0] {
+      title
+    },
+    "cookieSettings": *[_type == "cookieSettings" && language == $language][0] {
+      preferencesTitle,
+      customizeText
+    }
+  }
+`;
+
+export const fetchPolicyTitles = async (language: string = 'it') => {
+  return client.fetch(POLICY_TITLES_QUERY, { language });
+};

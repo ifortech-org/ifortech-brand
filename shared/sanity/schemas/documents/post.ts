@@ -30,6 +30,35 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "language",
+      title: "Lingua",
+      type: "string",
+      options: {
+        list: [
+          { title: "Italiano", value: "it" },
+          { title: "English", value: "en" }
+        ],
+      },
+      initialValue: "it",
+      validation: (Rule) => Rule.required(),
+      group: "settings",
+    }),
+    defineField({
+      name: "contentId",
+      title: "Content ID",
+      type: "string",
+      description: "Identificativo comune per tutte le traduzioni di questo post",
+      validation: (Rule) => Rule.required(),
+      group: "settings",
+    }),
+    defineField({
+      name: "translations",
+      title: "Traduzioni",
+      type: "translationManager",
+      group: "settings",
+      readOnly: true,
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -119,11 +148,16 @@ export default defineType({
     select: {
       title: "title",
       author: "author.name",
+      language: "language",
       media: "image",
     },
     prepare(selection) {
-      const { author } = selection;
-      return { ...selection, subtitle: author && `by ${author}` };
+      const { author, title, language } = selection;
+      return { 
+        title: `${title} (${language?.toUpperCase() || 'IT'})`,
+        subtitle: author && `by ${author}`,
+        media: selection.media
+      };
     },
   },
 });
