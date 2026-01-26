@@ -1,3 +1,16 @@
+import { BLOGPAGE_QUERY } from "@/shared/sanity/queries/blogPage";
+
+export const fetchSanityBlogPage = async ({
+  language = "it",
+}: {
+  language?: string;
+}) => {
+  const { data } = await sanityFetch({
+    query: BLOGPAGE_QUERY,
+    params: { language },
+  });
+  return data;
+};
 import { sanityFetch } from "@/shared/sanity/lib/live";
 import { PAGE_QUERY, PAGES_SLUGS_QUERY } from "@/shared/sanity/queries/page";
 import { HOMEPAGE_QUERY } from "@/shared/sanity/queries/homepage";
@@ -53,7 +66,7 @@ export const fetchSanityTranslations = async ({
   documentType = "page",
 }: {
   contentId: string;
-  documentType?: "page" | "post";
+  documentType?: "page" | "post" | "blogPage" | "privacyPolicy" | "cookiePolicy" | "cookieSettings" | "policy";
 }) => {
   const { data } = await sanityFetch({
     query: TRANSLATIONS_QUERY,

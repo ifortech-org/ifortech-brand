@@ -43,37 +43,43 @@ export default function FooterWithMenu({ language }: FooterWithMenuProps) {
     const items = [];
     
     // Configura l'ordine e le etichette desiderate
+
     const menuConfig = [
       { contentId: "homepage", label: "Home" },
-      { contentId: "news", label: "Blog" },
+      { contentId: "news", label: "Blog", isBlog: true },
       { contentId: "about", label: "About" }
     ];
 
     for (const config of menuConfig) {
-      const page = menuPages.find(p => p.contentId === config.contentId);
-      
-      if (page) {
-        const href = page.contentId === "homepage" 
-          ? `/${language}` 
-          : `/${language}/${page.slug.current}`;
-        
+      if (config.isBlog) {
+        // Link fisso per la pagina blog
         items.push({
           label: config.label,
-          href,
+          href: `/${language}/blog`,
           target: false,
         });
       } else {
-        // Fallback se la pagina non esiste in questa lingua
-        console.warn(`Page with contentId "${config.contentId}" not found for language "${language}"`);
-        const fallbackHref = config.contentId === "homepage" 
-          ? `/${language}` 
-          : `/${language}`;
-        
-        items.push({
-          label: config.label,
-          href: fallbackHref,
-          target: false,
-        });
+        const page = menuPages.find(p => p.contentId === config.contentId);
+        if (page) {
+          const href = page.contentId === "homepage" 
+            ? `/${language}` 
+            : `/${language}/${page.slug.current}`;
+          items.push({
+            label: config.label,
+            href,
+            target: false,
+          });
+        } else {
+          // Fallback se la pagina non esiste in questa lingua
+          const fallbackHref = config.contentId === "homepage" 
+            ? `/${language}` 
+            : `/${language}`;
+          items.push({
+            label: config.label,
+            href: fallbackHref,
+            target: false,
+          });
+        }
       }
     }
 

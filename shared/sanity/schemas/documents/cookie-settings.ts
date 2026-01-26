@@ -9,37 +9,9 @@ export default defineType({
     defineField({
       name: "language",
       title: "Language",
-      type: "string",
-      options: {
-        list: [
-          { title: "Italiano", value: "it" },
-          { title: "English", value: "en" },
-        ],
-      },
-      validation: (rule) => [
-        rule.required(),
-        rule.custom((language, context) => {
-          const { document, getClient } = context;
-          if (!language || !document?._type) return true;
-          
-          const client = getClient({ apiVersion: '2023-01-01' });
-          const id = document._id?.replace(/^drafts\./, '');
-          
-          return client
-            .fetch(
-              `count(*[_type == "cookieSettings" && language == $language && !(_id in [
-                "drafts." + $id,
-                $id
-              ])])
-              `,
-              { language, id }
-            )
-            .then((count: number) => {
-              return count === 0 ? true : `Esistono già Impostazioni Cookie in ${language === 'it' ? 'italiano' : 'inglese'}`;
-            });
-        }),
-      ],
-      initialValue: "it",
+      type: "reference",
+      to: [{ type: "siteLanguage" }],
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "translationManager",
@@ -342,13 +314,12 @@ export default defineType({
     select: {
       title: "title",
       position: "position",
-      language: "language",
+      language: "language.label",
+      code: "language.code",
     },
-    prepare({ title, position, language }) {
-      const langFlag = language === "en" ? "🇬🇧" : "🇮🇹";
-      const languageLabel = language === "it" ? "IT" : "EN";
+    prepare({ title, position, language, code }) {
       return {
-        title: `${title || "Impostazioni Cookie"} (${languageLabel})`,
+        title: `${title || "Impostazioni Cookie"} (${code?.toUpperCase() || language || "?"})`,
         subtitle: `Posizione: ${position || "bottom"}`,
       };
     },

@@ -27,8 +27,7 @@ export default async function CookiePreferencesPage({ params }: { params: Promis
           </h1>
           <LanguageSwitcher 
             currentLanguage={locale} 
-            documentType="policy" 
-            contentId="cookie-preferences"
+            documentType="cookieSettings"
             fallbackPath="/cookie-preferences"
           />
         </div>

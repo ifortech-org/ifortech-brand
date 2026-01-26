@@ -1,10 +1,13 @@
 import { groq } from "next-sanity";
 
 export const MENU_PAGES_QUERY = groq`
-  *[_type == "page" && contentId in $contentIds && language == $language] {
+  *[_type == "page" && contentId in $contentIds && language->code == $language] {
     contentId,
     title,
     slug,
-    language
+    language->{
+      code,
+      label
+    }
   }
 `;

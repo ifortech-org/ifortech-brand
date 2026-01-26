@@ -2,7 +2,7 @@ import { groq } from "next-sanity";
 
 export const TRANSLATIONS_QUERY = groq`
   *[_type == $documentType && contentId == $contentId] {
-    language,
+    language-> { code, label },
     slug,
     title
   }

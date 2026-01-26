@@ -5,6 +5,7 @@ import PortableTextRenderer from "@/shared/components/portable-text-renderer";
 import { Metadata } from "next";
 import HeaderWithMenu from "@/shared/components/header-with-menu";
 import { notFound } from "next/navigation";
+import LanguageSwitcher from "@/shared/components/language-switcher";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;

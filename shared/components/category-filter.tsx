@@ -4,7 +4,12 @@ import { Category } from "@/shared/types";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-function CategoryFilter({ categories }: { categories: Category[] }) {
+interface CategoryFilterProps {
+  categories: Category[];
+  allCategoriesLabel?: string;
+}
+
+function CategoryFilter({ categories, allCategoriesLabel = "Tutte le categorie" }: CategoryFilterProps) {
   const uniqueCategories = Array.from(
     new Set(categories.map((category) => category.title))
   ).map((title) => {
@@ -38,7 +43,7 @@ function CategoryFilter({ categories }: { categories: Category[] }) {
         value={currentCategory || "0"} // Imposta il valore della select
         onChange={(e) => setCurrentCategory(e.target.value)}
         className="block w-full p-1 rounded-none text-base font-normal bg-background  bg-clip-padding border border-solid  transition ease-in-out m-0 focus:text-primary focus:outline-none">
-        <option value="0">Tutte le categorie</option>
+        <option value="0">{allCategoriesLabel}</option>
         {uniqueCategories.map((category) => (
           <option key={category?.title} value={category?.title}>
             {category?.title}

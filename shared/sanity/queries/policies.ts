@@ -2,7 +2,7 @@ import { groq } from "next-sanity";
 import { client } from "../lib/client";
 
 export const PRIVACY_POLICY_QUERY = groq`
-  *[_type == "privacyPolicy" && language == $language][0] {
+  *[_type == "privacyPolicy" && language->code == $language][0] {
     _id,
     title,
     content[]{
@@ -44,7 +44,7 @@ export const PRIVACY_POLICY_QUERY = groq`
 `;
 
 export const COOKIE_POLICY_QUERY = groq`
-  *[_type == "cookiePolicy" && language == $language][0] {
+  *[_type == "cookiePolicy" && language->code == $language][0] {
     _id,
     title,
     content[]{
@@ -87,7 +87,7 @@ export const COOKIE_POLICY_QUERY = groq`
 `;
 
 export const COOKIE_SETTINGS_QUERY = groq`
-  *[_type == "cookieSettings" && language == $language][0] {
+  *[_type == "cookieSettings" && language->code == $language][0] {
     _id,
     language,
     title,

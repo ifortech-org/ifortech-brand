@@ -1,3 +1,4 @@
+import { Newspaper } from "lucide-react";
 import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 import {
   Files,
@@ -29,7 +30,15 @@ export const structure = (S: any, context: any) =>
         .child(
           S.documentTypeList("post")
             .title("Articoli")
-            .defaultOrdering([{ field: "_createdAt", direction: "desc" }]) // Default ordering
+            .defaultOrdering([{ field: "_createdAt", direction: "desc" }])
+        ),
+      S.listItem()
+        .title("Pagina Blog")
+        .icon(Newspaper)
+        .child(
+          S.documentTypeList("blogPage")
+            .title("Pagina Blog")
+            .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
       orderableDocumentListDeskItem({
         type: "category",
@@ -107,6 +116,14 @@ export const structure = (S: any, context: any) =>
           S.documentTypeList("cookieSettings")
             .title("Impostazioni Cookie")
             .defaultOrdering([{ field: "language", direction: "asc" }])
+        ),
+      S.listItem()
+        .title("Lingue disponibili")
+        .icon(Settings)
+        .child(
+          S.documentTypeList("siteLanguage")
+            .title("Lingue disponibili")
+            .defaultOrdering([{ field: "code", direction: "asc" }])
         ),
     ]);
 

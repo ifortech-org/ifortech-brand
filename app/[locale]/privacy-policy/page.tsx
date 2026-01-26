@@ -5,6 +5,7 @@ import PortableTextRenderer from "@/shared/components/portable-text-renderer";
 import { Metadata } from "next";
 import HeaderWithMenu from "@/shared/components/header-with-menu";
 import { notFound } from "next/navigation";
+import LanguageSwitcher from "@/shared/components/language-switcher";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -54,6 +55,13 @@ export default async function PrivacyPolicyPage(props: {
   return (
     <>
       <HeaderWithMenu locale={locale} slug="privacy-policy" />
+      <div className="flex justify-end mb-4">
+        <LanguageSwitcher 
+          currentLanguage={locale} 
+          documentType="policy"
+          fallbackPath="/privacy-policy"
+        />
+      </div>
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-4">{policy.title}</h1>

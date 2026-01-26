@@ -27,14 +27,8 @@ export default defineType({
     defineField({
       name: "language",
       title: "Lingua",
-      type: "string",
-      options: {
-        list: [
-          { title: "Italiano", value: "it" },
-          { title: "English", value: "en" }
-        ],
-      },
-      initialValue: "it",
+      type: "reference",
+      to: [{ type: "siteLanguage" }],
       validation: (Rule) => Rule.required(),
       group: "settings",
     }),
@@ -195,12 +189,13 @@ export default defineType({
   preview: {
     select: {
       title: "title",
-      language: "language",
+      language: "language.label",
+      code: "language.code",
       media: "seo.image",
     },
-    prepare({ title, language, media }) {
+    prepare({ title, language, code, media }) {
       return {
-        title: `${title} (${language?.toUpperCase() || 'IT'})`,
+        title: `${title} (${code?.toUpperCase() || language || 'IT'})`,
         media,
       };
     },

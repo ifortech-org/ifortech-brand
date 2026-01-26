@@ -16,7 +16,7 @@ import { allPostsQuery } from "./all-posts";
 import { contactformQuery } from "./contactform/contactform";
 
 export const PAGE_QUERY = groq`
-  *[_type == "page" && slug.current == $slug && language == $language][0]{
+  *[_type == "page" && slug.current == $slug && language->code == $language][0]{
     _id,
     title,
     language,
@@ -57,4 +57,4 @@ export const PAGE_QUERY = groq`
   }
 `;
 
-export const PAGES_SLUGS_QUERY = groq`*[_type == "page" && defined(slug) && language == $language]{slug}`;
+export const PAGES_SLUGS_QUERY = groq`*[_type == "page" && defined(slug) && language->code == $language]{slug}`;

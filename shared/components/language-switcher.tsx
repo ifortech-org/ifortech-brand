@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/shared/components/ui/button";
 import { Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface Translation {
-  language: string;
+  language: {
+    _ref: string;
+    label: string;
+    code: string;
+  } | string;
   slug: { current: string };
   title: string;
 }
@@ -14,125 +17,101 @@ interface Translation {
 interface LanguageSwitcherProps {
   currentLanguage: string;
   contentId?: string;
-  documentType?: "page" | "post" | "policy";
+  documentType?: "page" | "post" | "policy" | "blogPage" | "cookieSettings" | "privacyPolicy" | "cookiePolicy";
   fallbackPath?: string;
+  isBlogPage?: boolean;
 }
 
-export default function LanguageSwitcher({ 
-  currentLanguage, 
+export default function LanguageSwitcher({
+  currentLanguage,
   contentId,
   documentType = "page",
-  fallbackPath = ""
+  fallbackPath = "",
+  isBlogPage = false
 }: LanguageSwitcherProps) {
   const [translations, setTranslations] = useState<Translation[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!contentId || documentType === "policy") return; // Le policies non usano l'API translations
-
     setLoading(true);
-    
-    // Fetch translations via API route
-    fetch(`/api/translations?contentId=${contentId}&documentType=${documentType}`)
-      .then(res => res.json())
-      .then(setTranslations)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [contentId, documentType]);
+    if (isBlogPage) {
+      // Recupera tutte le lingue disponibili per blogPage
+      fetch(`/api/translations?documentType=blogPage&contentId=`)
+        .then(res => res.json())
+        .then((data) => {
+          setTranslations(data);
+        })
+        .catch(console.error)
+        .finally(() => setLoading(false));
+    } else if (contentId) {
+      fetch(`/api/translations?contentId=${contentId}&documentType=${documentType}`)
+        .then(res => res.json())
+        .then((data) => {
+          setTranslations(data);
+        })
+        .catch(console.error)
+        .finally(() => setLoading(false));
+    } else if (documentType && ["privacyPolicy", "cookiePolicy", "cookieSettings"].includes(documentType)) {
+      fetch(`/api/translations?documentType=${documentType}`)
+        .then(res => res.json())
+        .then((data) => {
+          setTranslations(data);
+        })
+        .catch(console.error)
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [contentId, documentType, isBlogPage]);
 
-  const getTranslationUrl = (targetLanguage: string) => {
-    if (!contentId || loading) {
-      // Fallback per pagine senza contentId o durante il loading
-      return `/${targetLanguage}${fallbackPath}`;
-    }
+  if (!loading && translations.length <= 1) {
+    return null;
+  }
 
-    // Per le policies, l'URL è sempre uguale, cambia solo la lingua
-    if (documentType === "policy" && contentId) {
-      return `/${targetLanguage}/${contentId}`;
-    }
+  const languageOptions = translations.map(t => {
+    let code = typeof t.language === "string" ? t.language : t.language?.code;
+    let label = typeof t.language === "string" ? t.language.toUpperCase() : t.language?.label || code?.toUpperCase();
+    return {
+      code,
+      label,
+      slug: t.slug,
+    };
+  });
 
-    const translation = translations.find(t => t.language === targetLanguage);
-    
-    if (translation?.slug?.current) {
-      // Per i post del blog
-      if (documentType === "post") {
-        return `/${targetLanguage}/blog/${translation.slug.current}`;
-      }
-      
-      // Per le pagine normali
-      // Se la pagina è homepage (slug index o simili), vai alla root
-      if (translation.slug.current === "index" || contentId === "homepage") {
-        return `/${targetLanguage}`;
-      }
-      return `/${targetLanguage}/${translation.slug.current}`;
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = languageOptions.find(l => l.code === e.target.value);
+    if (!selected) return;
+    let href = "/" + selected.code;
+    if (isBlogPage) {
+      href += "/blog";
+    } else if (documentType === "post") {
+      href += "/blog";
     }
-    
-    // Fallback: per i post vai al blog, per le pagine alla homepage
-    if (documentType === "post") {
-      return `/${targetLanguage}/blog`;
+    if (!isBlogPage && selected.slug?.current && selected.slug.current !== "index") {
+      href += "/" + selected.slug.current;
     }
-    return `/${targetLanguage}`;
+    window.location.href = href;
   };
-
-  const hasTranslation = (language: string) => {
-    if (!contentId || loading) return true;
-    
-    // Per le policies, assumiamo che esista sempre una versione 
-    // (sarà creata dall'editor se necessario)
-    if (documentType === "policy") return true;
-    
-    return translations.some(t => t.language === language);
-  };
-
-  const languages = [
-    { code: "it", label: "IT", title: "Italiano" },
-    { code: "en", label: "EN", title: "English" }
-  ];
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-2">
       <Globe className="h-4 w-4 text-muted-foreground" />
-      <div className="flex gap-1">
-        {languages.map((lang) => {
-          const isActive = currentLanguage === lang.code;
-          const isAvailable = hasTranslation(lang.code);
-          
-          if (!isAvailable && !isActive) {
-            return (
-              <Button 
-                key={lang.code}
-                variant="ghost"
-                size="sm"
-                disabled
-                className="text-xs px-2 py-1 h-7 text-muted-foreground/50"
-                title={`${lang.title} - Non disponibile`}
-              >
-                {lang.label}
-              </Button>
-            );
-          }
-          
-          return (
-            <Button 
-              key={lang.code}
-              variant={isActive ? "default" : "ghost"}
-              size="sm"
-              className="text-xs px-2 py-1 h-7"
-              asChild={!isActive}
-              disabled={isActive}
-              title={lang.title}
-            >
-              {isActive ? (
-                <span>{lang.label}</span>
-              ) : (
-                <Link href={getTranslationUrl(lang.code)}>
-                  {lang.label}
-                </Link>
-              )}
-            </Button>
-          );
-        })}
-      </div>
+      <select
+        className="border rounded px-2 py-1 text-xs bg-neutral-900 text-neutral-100 dark:bg-neutral-900 dark:text-neutral-100"
+        value={currentLanguage}
+        onChange={handleChange}
+        aria-label="Cambia lingua"
+      >
+        {languageOptions.map((lang, idx) => (
+          <option
+            key={lang.code || lang.label || idx}
+            value={lang.code}
+            className="bg-neutral-900 text-neutral-100 dark:bg-neutral-900 dark:text-neutral-100"
+          >
+            {lang.code?.toUpperCase() || lang.label || "IT"}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

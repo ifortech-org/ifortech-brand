@@ -13,7 +13,7 @@ import { generatePageMetadata } from "@/shared/sanity/lib/metadata";
 export async function generateStaticParams() {
   const posts = await fetchSanityPostsStaticParams();
 
-  return posts.flatMap((post) => 
+  return posts.flatMap((post: { slug?: { current?: string } }) => 
     ["it", "en"].map((locale) => ({
       locale,
       slug: post.slug?.current,

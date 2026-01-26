@@ -12,7 +12,9 @@ import privacyPolicy from "./schemas/documents/privacy-policy";
 import cookiePolicy from "./schemas/documents/cookie-policy";
 import cookieSettings from "./schemas/documents/cookie-settings";
 import footerSettings from "./schemas/documents/footerSettings";
+import blogPage from "./schemas/documents/blogPage";
 import seo from "./schemas/seo";
+import siteLanguage from "./schemas/documents/site-language";
 
 // Translation system
 import translationManager from "./schemas/objects/translationManager";
@@ -67,6 +69,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     cookiePolicy,
     cookieSettings,
     footerSettings,
+    blogPage,
     // shared objects
     blockContent,
     link,
@@ -99,8 +102,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     faqs,
     newsletter,
     allPosts,
-    
     // Translation system
     translationManager,
+    // site-language
+    siteLanguage,
   ],
 };

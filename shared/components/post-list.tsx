@@ -6,7 +6,12 @@ import PostCard from "@/shared/components/ui/post-card";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-function PostList({ posts }: { posts: POSTS_QUERYResult }) {
+interface PostListProps {
+  posts: POSTS_QUERYResult;
+  language?: string;
+}
+
+function PostList({ posts, language = "it" }: PostListProps) {
   const searchParams = useSearchParams();
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -56,7 +61,7 @@ function PostList({ posts }: { posts: POSTS_QUERYResult }) {
           <Link
             key={post?.slug?.current}
             className={className}
-            href={`/blog/${post?.slug?.current}`}>
+            href={`/${language}/blog/${post?.slug?.current}`}>
             <PostCard
               title={post?.title ?? ""}
               excerpt={post?.excerpt ?? ""}

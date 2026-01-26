@@ -16,7 +16,7 @@ import { allPostsQuery } from "./all-posts";
 import { contactformQuery } from "./contactform/contactform";
 
 export const HOMEPAGE_QUERY = groq`
-  *[_type == "page" && contentId == "homepage" && language == $language][0]{
+  *[_type == "page" && contentId == "homepage" && language->code == $language][0]{
     _id,
     title,
     language,

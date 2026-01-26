@@ -1,22 +1,15 @@
 import { generatePageMetadata } from "@/shared/sanity/lib/metadata";
-import { fetchSanityPosts } from "@/shared/sanity/lib/fetch";
-import PostList from "@/shared/components/post-list";
-import CategoryFilter from "@/shared/components/category-filter";
-import { Category } from "@/shared/types";
+import { fetchSanityBlogPage } from "@/shared/sanity/lib/fetch";
 import HeaderWithMenu from "@/shared/components/header-with-menu";
 import Breadcrumbs from "@/shared/components/ui/breadcrumbs";
-import { BreadcrumbLink } from "@/shared/types";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await props.params;
-  
+  const blogPage = await fetchSanityBlogPage({ language: locale });
   return generatePageMetadata({ 
-    page: { 
-      title: locale === "en" ? "Blog" : "Blog", 
-      description: locale === "en" ? "Read our latest articles and news" : "Leggi i nostri ultimi articoli e notizie"
-    }, 
+    page: blogPage,
     slug: `/${locale}/blog` 
   });
 }
@@ -25,25 +18,15 @@ export default async function BlogPage(props: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await props.params;
-  
-  // Fetch posts filtrati per lingua
-  const posts = await fetchSanityPosts({ language: locale });
+  const blogPage = await fetchSanityBlogPage({ language: locale });
 
-  // Estrai le categorie dai post
-  const categories: Category[] = posts
-    .flatMap((post) => post?.categories ?? [])
-    .map((category) => ({
-      title: category?.title ?? "",
-      slug: category?.slug?.current ?? "",
-    }));
-
-  const links: BreadcrumbLink[] = [
+  const links = [
     {
       label: "Home",
       href: `/${locale}`,
     },
     {
-      label: "Blog",
+      label: blogPage?.title || "Blog",
       href: "#",
     },
   ];
@@ -51,21 +34,22 @@ export default async function BlogPage(props: {
   return (
     <>
       <HeaderWithMenu locale={locale} slug="blog" />
-      <section className="py-16 xl:py-20">
-        <div className="container">
-          <Breadcrumbs links={links} />
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold mb-8">
-              {locale === "en" ? "Blog" : "Blog"}
-            </h1>
-            
-            {categories.length > 0 && (
-              <CategoryFilter categories={categories} />
-            )}
-            
-            <PostList posts={posts} />
-          </div>
-        </div>
+      <section>
+          {blogPage?.heroSubtitle && (
+            <p className="mb-8 text-lg text-muted-foreground">{blogPage.heroSubtitle}</p>
+          )}
+          {/* Renderizza i blocchi custom, inclusi all-posts */}
+          {blogPage?.blocks?.map((block: any, idx: number) => {
+            if (block._type === "all-posts") {
+              const AllPosts = require("@/shared/components/blocks/all-posts").default;
+              return <AllPosts key={idx} {...block} language={locale} />;
+            }
+            if (block._type === "block") {
+              const PortableTextRenderer = require("@/shared/components/portable-text-renderer").default;
+              return <PortableTextRenderer key={idx} value={[block]} />;
+            }
+            return null;
+          })}
       </section>
     </>
   );

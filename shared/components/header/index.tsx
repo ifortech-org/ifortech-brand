@@ -7,7 +7,7 @@ import LanguageSwitcher from "@/shared/components/language-switcher";
 interface HeaderProps {
   locale: string;
   contentId?: string;
-  documentType?: "page" | "post" | "policy";
+  documentType?: "page" | "post" | "policy" | "blogPage" | "cookieSettings" | "cookiePolicy" | "privacyPolicy";
   currentPath?: string;
   navItems?: Array<{
     label: string;
@@ -24,8 +24,9 @@ const getDefaultNavItems = (locale: string) => [
   },
   {
     label: "Blog",
-    href: `/${locale}/blog`,
+    href: `/${locale}/blog`, // link fisso per blog
     target: false,
+    isBlog: true,
   },
   {
     label: "About",
@@ -66,6 +67,7 @@ export default function Header({
             contentId={contentId}
             documentType={documentType}
             fallbackPath={currentPath}
+            isBlogPage={documentType === "blogPage"}
           />
         </div>
         <div className="flex items-center gap-4 xl:hidden">
@@ -74,6 +76,7 @@ export default function Header({
             contentId={contentId}
             documentType={documentType}
             fallbackPath={currentPath}
+            isBlogPage={documentType === "blogPage"}
           />
           <MobileNav navItems={menuItems} />
         </div>

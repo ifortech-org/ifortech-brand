@@ -13,7 +13,7 @@ export async function generateStaticParams() {
   
   for (const locale of locales) {
     const pages = await fetchSanityPagesStaticParams({ language: locale });
-    allPages.push(...pages.map(page => ({
+    allPages.push(...pages.map((page: { slug?: { current?: string } }) => ({
       locale,
       slug: page.slug?.current,
     })));

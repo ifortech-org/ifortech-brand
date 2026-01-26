@@ -122,7 +122,13 @@ export function CookieProvider({ children }: CookieProviderProps) {
   let categories = cookieSettings?.cookieCategories || defaultCategories;
   
   // Force necessary cookies to always be required (security fix)
-  categories = categories.map(category => {
+  categories = categories.map((category: {
+    id: string;
+    name: string;
+    description: string;
+    required: boolean;
+    defaultEnabled: boolean;
+  }) => {
     if (category.id === 'necessary') {
       return {
         ...category,
@@ -132,8 +138,6 @@ export function CookieProvider({ children }: CookieProviderProps) {
     }
     return category;
   });
-  
-  console.log('Final categories after necessary fix:', categories);
 
   return (
     <CookieConsentProvider categories={categories}>

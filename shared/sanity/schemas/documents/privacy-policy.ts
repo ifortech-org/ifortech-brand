@@ -9,37 +9,9 @@ export default defineType({
     defineField({
       name: "language",
       title: "Language",
-      type: "string",
-      options: {
-        list: [
-          { title: "Italiano", value: "it" },
-          { title: "English", value: "en" },
-        ],
-      },
-      validation: (rule) => [
-        rule.required(),
-        rule.custom((language, context) => {
-          const { document, getClient } = context;
-          if (!language || !document?._type) return true;
-          
-          const client = getClient({ apiVersion: '2023-01-01' });
-          const id = document._id?.replace(/^drafts\./, '');
-          
-          return client
-            .fetch(
-              `count(*[_type == "privacyPolicy" && language == $language && !(_id in [
-                "drafts." + $id,
-                $id
-              ])])
-              `,
-              { language, id }
-            )
-            .then((count: number) => {
-              return count === 0 ? true : `Esiste già una Privacy Policy in ${language === 'it' ? 'italiano' : 'inglese'}`;
-            });
-        }),
-      ],
-      initialValue: "it",
+      type: "reference",
+      to: [{ type: "siteLanguage" }],
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "translationManager",
@@ -73,13 +45,13 @@ export default defineType({
   preview: {
     select: {
       title: "title",
-      language: "language",
+      language: "language.label",
+      code: "language.code",
       lastUpdated: "lastUpdated",
     },
-    prepare({ title, language, lastUpdated }) {
-      const languageLabel = language === "en" ? "EN" : "IT";
+    prepare({ title, language, code, lastUpdated }) {
       return {
-        title: `${title || "Privacy Policy"} (${languageLabel})`,
+        title: `${title || "Privacy Policy"} (${code?.toUpperCase() || language || "?"})`,
         subtitle: lastUpdated
           ? `Aggiornata il ${new Date(lastUpdated).toLocaleDateString("it-IT")}`
           : "Nessuna data",

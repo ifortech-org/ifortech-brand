@@ -32,14 +32,8 @@ export default defineType({
     defineField({
       name: "language",
       title: "Lingua",
-      type: "string",
-      options: {
-        list: [
-          { title: "Italiano", value: "it" },
-          { title: "English", value: "en" }
-        ],
-      },
-      initialValue: "it",
+      type: "reference",
+      to: [{ type: "siteLanguage" }],
       validation: (Rule) => Rule.required(),
       group: "settings",
     }),
@@ -148,15 +142,18 @@ export default defineType({
     select: {
       title: "title",
       author: "author.name",
-      language: "language",
-      media: "image",
+      language: "language.label",
+      code: "language.code",
+      publishedAt: "publishedAt",
     },
     prepare(selection) {
-      const { author, title, language } = selection;
-      return { 
-        title: `${title} (${language?.toUpperCase() || 'IT'})`,
-        subtitle: author && `by ${author}`,
-        media: selection.media
+      const { author, title, language, code, publishedAt } = selection;
+      return {
+        title: `${title} (${code?.toUpperCase() || language || 'IT'})`,
+        subtitle: author ? `di ${author}` : undefined,
+        description: publishedAt
+          ? `Pubblicato il ${new Date(publishedAt).toLocaleDateString('it-IT')}`
+          : undefined,
       };
     },
   },
