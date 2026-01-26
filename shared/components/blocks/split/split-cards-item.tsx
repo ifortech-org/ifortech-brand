@@ -3,9 +3,11 @@ import PortableTextRenderer from "@/shared/components/portable-text-renderer";
 import { cn } from "@/shared/lib/utils";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
-import { PAGE_QUERYResult, ColorVariant } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { ColorVariant } from "@/sanity.types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
-type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
+type Block = PAGE_BLOCK;
 type SplitRow = Extract<Block, { _type: "split-row" }>;
 type SplitCardsList = Extract<
   NonNullable<SplitRow["splitColumns"]>[number],

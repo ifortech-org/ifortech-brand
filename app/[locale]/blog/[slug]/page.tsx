@@ -9,11 +9,12 @@ import {
   fetchSanityPostsStaticParams,
 } from "@/shared/sanity/lib/fetch";
 import { generatePageMetadata } from "@/shared/sanity/lib/metadata";
+import { Slug } from "@/sanity.types";
 
 export async function generateStaticParams() {
   const posts = await fetchSanityPostsStaticParams();
 
-  return posts.flatMap((post: { slug?: { current?: string } }) => 
+  return posts.flatMap((post: { slug: Slug | null }) => 
     ["it", "en"].map((locale) => ({
       locale,
       slug: post.slug?.current,
@@ -69,7 +70,7 @@ export default async function PostPage(props: {
             <Breadcrumbs links={links} />
             <LanguageSwitcher 
               currentLanguage={locale} 
-              contentId={post.contentId}
+              contentId={post?.contentId ?? undefined}
               documentType="post" 
             />
           </div>

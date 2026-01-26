@@ -4,9 +4,11 @@ import { stegaClean } from "next-sanity";
 import Link from "next/link";
 import { Badge } from "@/shared/components/ui/badge";
 import { Check } from "lucide-react";
-import { PAGE_QUERYResult, ColorVariant } from "@/sanity.types";
+import { PAGE_BLOCK, PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { ColorVariant } from "@/sanity.types";
 
-type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
+
+type Block = PAGE_BLOCK;
 type GridRow = Extract<Block, { _type: "grid-row" }>;
 type GridColumn = NonNullable<NonNullable<GridRow["columns"]>>[number];
 type PricingCard = Extract<GridColumn, { _type: "pricing-card" }>;

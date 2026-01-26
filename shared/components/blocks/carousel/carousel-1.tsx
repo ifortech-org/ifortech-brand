@@ -12,8 +12,9 @@ import {
 import Image from "next/image";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { cn } from "@/shared/lib/utils";
-import { PagesQueryResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
 import { ColorVariant, SectionPadding } from "@/sanity.types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
 const CAROUSEL_SIZES = {
   one: "basis-full",
@@ -29,13 +30,24 @@ const IMAGE_SIZES = {
 
 type CarouselSize = keyof typeof CAROUSEL_SIZES;
 
-interface Carousel1Props {
-  colorVariant?: ColorVariant;
-  images?: Array<any>;
-  size?: CarouselSize | null;
-  indicators?: "none" | "dots" | "count" | null;
-  padding?: SectionPadding;
+
+type Carousel1 = Extract<PAGE_BLOCK, { _type: "carousel-1" }>;
+
+interface Carousel1Props
+  extends Omit<NonNullable<Carousel1>, "_type" | "_key"> {
+  size: CarouselSize | null;
+  indicators: "none" | "dots" | "count" | null;
+  colorVariant: ColorVariant | null;
+  images?: Array<any> | null | undefined;
+  padding?: SectionPadding | null;
 }
+// interface Carousel1Props {
+//   colorVariant?: ColorVariant;
+//   images?: Array<any>;
+//   size?: CarouselSize | null;
+//   indicators?: "none" | "dots" | "count" | null;
+//   padding?: SectionPadding;
+// }
 
 export default function Carousel1({
   padding,
@@ -44,7 +56,7 @@ export default function Carousel1({
   indicators = "none",
   images,
 }: Carousel1Props) {
-  const color = stegaClean(colorVariant) as ColorVariant | null | undefined;
+  const color = stegaClean(colorVariant);
   const stegaIndicators = stegaClean(indicators);
   const stegaSize = stegaClean(size) as CarouselSize;
 

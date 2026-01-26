@@ -47,9 +47,9 @@ export default function HeaderWithContent({
   return (
     <Header
       locale={locale}
-      contentId={pageData.contentId}
+      contentId={pageData.contentId ?? undefined}
       documentType={pageData.documentType}
-      currentPath={pageData.currentPath}
+      currentPath={pageData.currentPath ?? undefined}
     />
   );
 }

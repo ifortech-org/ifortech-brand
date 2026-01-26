@@ -1,7 +1,7 @@
 import { cn } from "@/shared/lib/utils";
 import SectionContainer from "@/shared/components/ui/section-container";
 import { stegaClean } from "next-sanity";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
 import GridCard from "./grid-card";
 import PricingCard from "./pricing-card";
 import GridPost from "./grid-post";

@@ -131,9 +131,9 @@ export default function HeaderWithMenu({
   return (
     <Header
       locale={locale}
-      contentId={headerData.contentId}
+      contentId={headerData.contentId ?? undefined}
       documentType={headerData.documentType}
-      currentPath={headerData.currentPath}
+      currentPath={headerData.currentPath ?? undefined}
       navItems={navItems}
     />
   );

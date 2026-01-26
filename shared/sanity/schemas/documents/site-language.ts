@@ -30,15 +30,4 @@ export default defineType({
       };
     },
   },
-  __experimental_beforeDelete: async (context) => {
-    const { getClient, documentId } = context;
-    const client = getClient({ apiVersion: "2023-05-03" });
-    const refCount = await client.fetch(
-      `count(*[references($id)])`,
-      { id: documentId }
-    );
-    if (refCount > 0) {
-      throw new Error("Non puoi eliminare questa lingua: ci sono contenuti che la utilizzano.");
-    }
-  },
 });

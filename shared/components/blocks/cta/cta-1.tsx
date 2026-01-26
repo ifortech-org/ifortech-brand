@@ -4,10 +4,11 @@ import SectionContainer from "@/shared/components/ui/section-container";
 import { stegaClean } from "next-sanity";
 import Link from "next/link";
 import PortableTextRenderer from "@/shared/components/portable-text-renderer";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
 type Cta1Props = Extract<
-  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
+  PAGE_BLOCK,
   { _type: "cta-1" }
 >;
 
@@ -50,7 +51,7 @@ export default function Cta1({
             )}>
             {links &&
               links.length > 0 &&
-              links.map((link) => (
+              links.map((link: typeof links[number]) => (
                 <Button
                   key={link.title}
                   variant={stegaClean(link?.buttonVariant)}

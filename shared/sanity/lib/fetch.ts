@@ -31,7 +31,7 @@ import {
   POST_QUERYResult,
   POSTS_QUERYResult,
   POSTS_SLUGS_QUERYResult,
-} from "@/sanity.types";
+} from "@/shared/sanity/queries/query-types";
 
 export const fetchSanityPageBySlug = async ({
   slug,

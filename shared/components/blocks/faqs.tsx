@@ -7,10 +7,12 @@ import {
   AccordionTrigger,
 } from "@/shared/components/ui/accordion";
 import PortableTextRenderer from "@/shared/components/portable-text-renderer";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { ColorVariant } from "@/sanity.types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
 type FAQProps = Extract<
-  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
+  PAGE_BLOCK,
   { _type: "faqs" }
 >;
 
@@ -20,7 +22,7 @@ export default function FAQs({ padding, colorVariant, faqs }: FAQProps) {
     <SectionContainer color={color} padding={padding}>
       {faqs && faqs?.length > 0 && (
         <Accordion className="space-y-4" type="multiple">
-          {faqs.map((faq) => (
+          {faqs.map((faq: typeof faqs[number]) => (
             <AccordionItem key={faq.title} value={`item-${faq._id}`}>
               <AccordionTrigger>{faq.title}</AccordionTrigger>
               <AccordionContent>

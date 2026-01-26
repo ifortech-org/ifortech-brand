@@ -2,7 +2,7 @@ import Image from "next/image";
 import PostDate from "@/shared/components/post-date";
 import { Mail } from "lucide-react";
 import { urlFor } from "@/shared/sanity/lib/image";
-import { POST_QUERYResult } from "@/sanity.types";
+import { POST_QUERYResult } from "@/shared/sanity/queries/query-types";
 
 type PostHeroProps = NonNullable<POST_QUERYResult>;
 

@@ -3,10 +3,11 @@ import SectionContainer from "@/shared/components/ui/section-container";
 import { stegaClean } from "next-sanity";
 import PortableTextRenderer from "@/shared/components/portable-text-renderer";
 
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
 type SectionHeaderProps = Extract<
-  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
+  PAGE_BLOCK,
   { _type: "section-header" }
 >;
 

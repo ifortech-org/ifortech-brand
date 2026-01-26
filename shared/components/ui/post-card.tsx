@@ -2,7 +2,7 @@ import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { ChevronRight } from "lucide-react";
-import { POSTS_QUERYResult } from "@/sanity.types";
+import { POSTS_QUERYResult } from "@/shared/sanity/queries/query-types";
 
 type PostCard = NonNullable<POSTS_QUERYResult[number]>;
 

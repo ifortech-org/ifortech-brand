@@ -1,6 +1,6 @@
 "use client";
 
-import { POSTS_QUERYResult } from "@/sanity.types";
+import { POSTS_QUERYResult } from "@/shared/sanity/queries/query-types";
 import { useSearchParams } from "next/navigation";
 import PostCard from "@/shared/components/ui/post-card";
 import Link from "next/link";

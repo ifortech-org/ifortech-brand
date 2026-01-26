@@ -91,8 +91,15 @@ export default defineType({
   validation: (Rule) => Rule.custom(async (value, context) => {
     if (!value?.language) return true;
     const client = context.getClient({ apiVersion: '2023-01-01' });
+    let langRef = undefined;
+    if (typeof value.language === 'string') {
+      langRef = value.language;
+    } else if (typeof value.language === 'object' && value.language !== null && '_ref' in value.language) {
+      langRef = value.language._ref;
+    }
+    if (!langRef) return true;
     const query = '*[_type == "blogPage" && language._ref == $langRef && !(_id in [$docId, "drafts." + $docId])][0]._id';
-    const params = { langRef: value.language._ref, docId: value._id.replace(/^drafts\./, '') };
+    const params = { langRef, docId: value._id.replace(/^drafts\./, '') };
     const exists = await client.fetch(query, params);
     if (exists) {
       return 'Esiste già una pagina blog per questa lingua.';

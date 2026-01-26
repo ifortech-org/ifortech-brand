@@ -5,7 +5,7 @@ import Image from "next/image";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { Fragment } from "react";
 import { motion } from "motion/react";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
 
 type LogoCloud1Props = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],

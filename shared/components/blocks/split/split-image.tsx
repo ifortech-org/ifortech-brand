@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { urlFor } from "@/shared/sanity/lib/image";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
-type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
+type Block = PAGE_BLOCK;
 type SplitRow = Extract<Block, { _type: "split-row" }>;
 type SplitImage = Extract<
   NonNullable<SplitRow["splitColumns"]>[number],

@@ -17,13 +17,11 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { StarRating } from "@/shared/components/ui/star-rating";
 import PortableTextRenderer from "@/shared/components/portable-text-renderer";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
-type Carousel2Props = Extract<
-  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
-  { _type: "carousel-2" }
->;
 
+type Carousel2Props = Extract<PAGE_BLOCK, { _type: "carousel-2" }>;
 export default function Carousel2({
   padding,
   colorVariant,
@@ -36,7 +34,7 @@ export default function Carousel2({
       {testimonial && testimonial.length > 0 && (
         <Carousel>
           <CarouselContent>
-            {testimonial.map((item) => (
+            {testimonial.map((item: typeof testimonial[number]) => (
               <CarouselItem
                 key={item._id}
                 className="pl-2 md:pl-4 md:basis-1/3">

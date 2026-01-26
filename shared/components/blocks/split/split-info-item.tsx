@@ -6,9 +6,10 @@ import { urlFor } from "@/shared/sanity/lib/image";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import { cn } from "@/shared/lib/utils";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
-type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
+type Block = PAGE_BLOCK;
 type SplitRow = Extract<Block, { _type: "split-row" }>;
 type SplitInfoList = Extract<
   NonNullable<SplitRow["splitColumns"]>[number],
@@ -69,7 +70,7 @@ export default function SplitCardsItem({
             "flex flex-wrap gap-3 mt-4 transition-colors duration-1000 ease-in-out",
             isInView ? "text-background" : "text-foreground"
           )}>
-          {tags.map((tag) => (
+          {tags.map((tag: string) => (
             <Badge
               key={tag}
               className={cn(

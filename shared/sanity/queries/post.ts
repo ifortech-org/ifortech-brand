@@ -1,5 +1,9 @@
 import { groq } from "next-sanity";
 
+/**
+ * Variable: POST_QUERY
+ * Query: *[_type == "post" && slug.current == $slug && language->code == $language][0]{ ... }
+ */
 export const POST_QUERY = groq`*[_type == "post" && slug.current == $slug && language->code == $language][0]{
   title,
   slug,
@@ -82,6 +86,10 @@ export const POST_QUERY = groq`*[_type == "post" && slug.current == $slug && lan
   }
 }`;
 
+/**
+ * Variable: POSTS_QUERY
+ * Query: *[_type == "post" && defined(slug) && language->code == $language] | order(_createdAt desc){ ... }
+ */
 export const POSTS_QUERY = groq`*[_type == "post" && defined(slug) && language->code == $language] | order(_createdAt desc){
   title,
   slug,
@@ -110,4 +118,8 @@ export const POSTS_QUERY = groq`*[_type == "post" && defined(slug) && language->
   },
 }`;
 
+/**
+ * Variable: POSTS_SLUGS_QUERY
+ * Query: *[_type == "post" && defined(slug) && language->code == $language]{slug}
+ */
 export const POSTS_SLUGS_QUERY = groq`*[_type == "post" && defined(slug) && language->code == $language]{slug}`;

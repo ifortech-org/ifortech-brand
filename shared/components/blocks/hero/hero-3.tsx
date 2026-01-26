@@ -3,11 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { stegaClean } from "next-sanity";
 import PortableTextRenderer from "@/shared/components/portable-text-renderer";
-import { PAGE_QUERYResult } from "@/sanity.types";
 import { urlFor } from "@/shared/sanity/lib/image";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
 type Hero3Props = Extract<
-  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
+  PAGE_BLOCK,
   { _type: "hero-3" }
 >;
 
@@ -51,7 +51,7 @@ export default function Hero3({
             )}
             {links && links.length > 0 && (
               <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start animate-fade-up [animation-delay:400ms] opacity-0">
-                {links.map((link) => (
+                {links.map((link: { _key?: string } & import("@/sanity.types").Link) => (
                   <Button
                     key={link._key ?? link.title}
                     variant={stegaClean(link?.buttonVariant)}

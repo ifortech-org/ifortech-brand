@@ -1,4 +1,4 @@
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
 import Hero1 from "@/shared/components/blocks/hero/hero-1";
 import Hero2 from "@/shared/components/blocks/hero/hero-2";
 import Hero3 from "@/shared/components/blocks/hero/hero-3";
@@ -14,8 +14,9 @@ import FAQs from "@/shared/components/blocks/faqs";
 import FormNewsletter from "@/shared/components/blocks/forms/newsletter";
 import AllPosts from "@/shared/components/blocks/all-posts";
 import ContactForm from "./contactform";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
-type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
+type Block = PAGE_BLOCK;
 
 const componentMap: {
   [K in Block["_type"]]: React.ComponentType<Extract<Block, { _type: K }>>;

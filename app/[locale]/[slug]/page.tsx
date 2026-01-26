@@ -1,4 +1,5 @@
 import Blocks from "@/shared/components/blocks";
+import { Slug } from "@/sanity.types";
 import {
   fetchSanityPageBySlug,
   fetchSanityPagesStaticParams,
@@ -13,7 +14,7 @@ export async function generateStaticParams() {
   
   for (const locale of locales) {
     const pages = await fetchSanityPagesStaticParams({ language: locale });
-    allPages.push(...pages.map((page: { slug?: { current?: string } }) => ({
+    allPages.push(...pages.map((page: { slug: Slug | null }, index: number, array: { slug: Slug | null }[]) => ({
       locale,
       slug: page.slug?.current,
     })));

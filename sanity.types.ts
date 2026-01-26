@@ -16,27 +16,13 @@
 export type AllPosts = {
   _type: "all-posts";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
 };
 
 export type FormNewsletter = {
   _type: "form-newsletter";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   stackAlign?: "left" | "center";
   consentText?: string;
   buttonText?: string;
@@ -46,14 +32,7 @@ export type FormNewsletter = {
 export type Faqs = {
   _type: "faqs";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   faqs?: Array<{
     _ref: string;
     _type: "reference";
@@ -66,14 +45,7 @@ export type Faqs = {
 export type LogoCloud1 = {
   _type: "logo-cloud-1";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   title?: string;
   images?: Array<{
     asset?: {
@@ -94,144 +66,109 @@ export type LogoCloud1 = {
 export type Cta1 = {
   _type: "cta-1";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   sectionWidth?: "default" | "narrow";
   stackAlign?: "left" | "center";
   tagLine?: string;
   title?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
-  links?: Array<
-    {
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
       _key: string;
-    } & Link
-  >;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
+  links?: Array<{
+    _key: string;
+  } & Link>;
 };
 
 export type Timelines1 = {
   _type: "timelines-1";
   title?: string;
   tagLine?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
 };
 
 export type TimelineRow = {
   _type: "timeline-row";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
-  timelines?: Array<
-    {
-      _key: string;
-    } & Timelines1
-  >;
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
+  timelines?: Array<{
+    _key: string;
+  } & Timelines1>;
 };
 
 export type Carousel2 = {
   _type: "carousel-2";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   testimonial?: Array<{
     _ref: string;
     _type: "reference";
@@ -244,14 +181,7 @@ export type Carousel2 = {
 export type Carousel1 = {
   _type: "carousel-1";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   size?: "one" | "two" | "three";
   indicators?: "none" | "dots" | "count";
   images?: Array<{
@@ -273,27 +203,16 @@ export type Carousel1 = {
 export type GridRow = {
   _type: "grid-row";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   gridColumns?: "grid-cols-2" | "grid-cols-3" | "grid-cols-4";
   title?: string;
-  columns?: Array<
-    | ({
-        _key: string;
-      } & GridCard)
-    | ({
-        _key: string;
-      } & GridPost)
-    | ({
-        _key: string;
-      } & PricingCard)
-  >;
+  columns?: Array<{
+    _key: string;
+  } & GridCard | {
+    _key: string;
+  } & GridPost | {
+    _key: string;
+  } & PricingCard>;
 };
 
 export type GridPost = {
@@ -355,58 +274,51 @@ export type SplitInfo = {
     _type: "image";
   };
   title?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
   tags?: Array<string>;
 };
 
 export type SplitInfoList = {
   _type: "split-info-list";
-  list?: Array<
-    {
-      _key: string;
-    } & SplitInfo
-  >;
+  list?: Array<{
+    _key: string;
+  } & SplitInfo>;
 };
 
 export type SplitImage = {
@@ -430,250 +342,202 @@ export type SplitCard = {
   _type: "split-card";
   tagLine?: string;
   title?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
 };
 
 export type SplitCardsList = {
   _type: "split-cards-list";
-  list?: Array<
-    {
-      _key: string;
-    } & SplitCard
-  >;
+  list?: Array<{
+    _key: string;
+  } & SplitCard>;
 };
 
 export type SplitContent = {
   _type: "split-content";
   sticky?: boolean;
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   tagLine?: string;
   title?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
   link?: Link;
 };
 
 export type SplitRow = {
   _type: "split-row";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   noGap?: boolean;
-  splitColumns?: Array<
-    | ({
-        _key: string;
-      } & SplitContent)
-    | ({
-        _key: string;
-      } & SplitCardsList)
-    | ({
-        _key: string;
-      } & SplitImage)
-    | ({
-        _key: string;
-      } & SplitInfoList)
-  >;
+  splitColumns?: Array<{
+    _key: string;
+  } & SplitContent | {
+    _key: string;
+  } & SplitCardsList | {
+    _key: string;
+  } & SplitImage | {
+    _key: string;
+  } & SplitInfoList>;
 };
 
 export type SectionHeader = {
   _type: "section-header";
   padding?: SectionPadding;
-  colorVariant?:
-    | "background"
-    | "primary"
-    | "secondary"
-    | "card"
-    | "accent"
-    | "destructive"
-    | "muted";
+  colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   sectionWidth?: "default" | "narrow";
   stackAlign?: "left" | "center";
   tagLine?: string;
   title?: string;
-  description?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
 };
 
 export type Contactform = {
   _type: "contactform";
   title?: string;
-  description?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
   button_text?: string;
   side_image?: {
     asset?: {
@@ -694,53 +558,46 @@ export type Hero3 = {
   _type: "hero-3";
   tagLine?: string;
   title?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
-  links?: Array<
-    {
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
       _key: string;
-    } & Link
-  >;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
+  links?: Array<{
+    _key: string;
+  } & Link>;
   sideImage?: {
     asset?: {
       _ref: string;
@@ -760,53 +617,46 @@ export type Hero2 = {
   _type: "hero-2";
   tagLine?: string;
   title?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
-  links?: Array<
-    {
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
       _key: string;
-    } & Link
-  >;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
+  links?: Array<{
+    _key: string;
+  } & Link>;
   backgroundImage?: {
     asset?: {
       _ref: string;
@@ -826,48 +676,43 @@ export type Hero1 = {
   _type: "hero-1";
   tagLine?: string;
   title?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | {
-        videoId?: string;
-        _type: "youtube";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    videoId?: string;
+    _type: "youtube";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
   image?: {
     asset?: {
       _ref: string;
@@ -881,21 +726,12 @@ export type Hero1 = {
     alt?: string;
     _type: "image";
   };
-  links?: Array<
-    {
-      _key: string;
-    } & Link
-  >;
+  links?: Array<{
+    _key: string;
+  } & Link>;
 };
 
-export type ColorVariant =
-  | "background"
-  | "primary"
-  | "secondary"
-  | "card"
-  | "accent"
-  | "destructive"
-  | "muted";
+export type ColorVariant = "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
 
 export type SectionPadding = {
   _type: "section-padding";
@@ -903,13 +739,7 @@ export type SectionPadding = {
   bottom?: boolean;
 };
 
-export type ButtonVariant =
-  | "default"
-  | "destructive"
-  | "outline"
-  | "secondary"
-  | "ghost"
-  | "link";
+export type ButtonVariant = "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
 
 export type Link = {
   _type: "link";
@@ -919,48 +749,43 @@ export type Link = {
   buttonVariant?: ButtonVariant;
 };
 
-export type BlockContent = Array<
-  | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }
-  | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-      _key: string;
-    }
-  | {
-      videoId?: string;
-      _type: "youtube";
-      _key: string;
-    }
-  | ({
-      _key: string;
-    } & Code)
->;
+export type BlockContent = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+  listItem?: "bullet" | "number";
+  markDefs?: Array<{
+    href?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+} | {
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  };
+  media?: unknown;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt?: string;
+  _type: "image";
+  _key: string;
+} | {
+  videoId?: string;
+  _type: "youtube";
+  _key: string;
+} | {
+  _key: string;
+} & Code>;
 
 export type FooterSettings = {
   _id: string;
@@ -1210,53 +1035,37 @@ export type Page = {
   contentId?: string;
   translations?: TranslationManager;
   slug?: Slug;
-  blocks?: Array<
-    | ({
-        _key: string;
-      } & Hero1)
-    | ({
-        _key: string;
-      } & Hero2)
-    | ({
-        _key: string;
-      } & Hero3)
-    | ({
-        _key: string;
-      } & SectionHeader)
-    | ({
-        _key: string;
-      } & SplitRow)
-    | ({
-        _key: string;
-      } & GridRow)
-    | ({
-        _key: string;
-      } & Carousel1)
-    | ({
-        _key: string;
-      } & Carousel2)
-    | ({
-        _key: string;
-      } & TimelineRow)
-    | ({
-        _key: string;
-      } & Cta1)
-    | ({
-        _key: string;
-      } & LogoCloud1)
-    | ({
-        _key: string;
-      } & Faqs)
-    | ({
-        _key: string;
-      } & FormNewsletter)
-    | ({
-        _key: string;
-      } & AllPosts)
-    | ({
-        _key: string;
-      } & Contactform)
-  >;
+  blocks?: Array<{
+    _key: string;
+  } & Hero1 | {
+    _key: string;
+  } & Hero2 | {
+    _key: string;
+  } & Hero3 | {
+    _key: string;
+  } & SectionHeader | {
+    _key: string;
+  } & SplitRow | {
+    _key: string;
+  } & GridRow | {
+    _key: string;
+  } & Carousel1 | {
+    _key: string;
+  } & Carousel2 | {
+    _key: string;
+  } & TimelineRow | {
+    _key: string;
+  } & Cta1 | {
+    _key: string;
+  } & LogoCloud1 | {
+    _key: string;
+  } & Faqs | {
+    _key: string;
+  } & FormNewsletter | {
+    _key: string;
+  } & AllPosts | {
+    _key: string;
+  } & Contactform>;
   meta_title?: string;
   meta_description?: string;
   noindex?: boolean;
@@ -1427,73 +1236,9 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes =
-  | AllPosts
-  | FormNewsletter
-  | Faqs
-  | LogoCloud1
-  | Cta1
-  | Timelines1
-  | TimelineRow
-  | Carousel2
-  | Carousel1
-  | GridRow
-  | GridPost
-  | PricingCard
-  | GridCard
-  | SplitInfo
-  | SplitInfoList
-  | SplitImage
-  | SplitCard
-  | SplitCardsList
-  | SplitContent
-  | SplitRow
-  | SectionHeader
-  | Contactform
-  | Hero3
-  | Hero2
-  | Hero1
-  | ColorVariant
-  | SectionPadding
-  | ButtonVariant
-  | Link
-  | BlockContent
-  | FooterSettings
-  | CookieSettings
-  | CookiePolicy
-  | PrivacyPolicy
-  | SiteLogo
-  | SiteColors
-  | Testimonial
-  | Faq
-  | Category
-  | Post
-  | Author
-  | Page
-  | Seo
-  | TranslationManager
-  | Code
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityImageHotspot
-  | SanityImageCrop
-  | SanityFileAsset
-  | SanityImageAsset
-  | SanityImageMetadata
-  | Geopoint
-  | Slug
-  | SanityAssetSourceData;
-
+export type AllSanitySchemaTypes = AllPosts | FormNewsletter | Faqs | LogoCloud1 | Cta1 | Timelines1 | TimelineRow | Carousel2 | Carousel1 | GridRow | GridPost | PricingCard | GridCard | SplitInfo | SplitInfoList | SplitImage | SplitCard | SplitCardsList | SplitContent | SplitRow | SectionHeader | Contactform | Hero3 | Hero2 | Hero1 | ColorVariant | SectionPadding | ButtonVariant | Link | BlockContent | FooterSettings | CookieSettings | CookiePolicy | PrivacyPolicy | SiteLogo | SiteColors | Testimonial | Faq | Category | Post | Author | Page | Seo | TranslationManager | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-
-type ArrayOf<T> = Array<
-  T & {
-    _key: string;
-  }
->;
-
-// Source: app\sitemap.ts
+// Source: ./app/sitemap.ts
 // Variable: pagesQuery
 // Query: *[_type == 'page'] | order(slug.current) {      'url': $baseUrl + select(slug.current == 'index' => '', '/' + slug.current),      'lastModified': _updatedAt,      'changeFrequency': 'daily',      'priority': select(        slug.current == 'index' => 1,        0.5      )    }
 export type PagesQueryResult = Array<{
@@ -1502,8 +1247,6 @@ export type PagesQueryResult = Array<{
   changeFrequency: "daily";
   priority: 0.5 | 1;
 }>;
-
-// Source: app\sitemap.ts
 // Variable: postsQuery
 // Query: *[_type == 'post'] | order(_updatedAt desc) {      'url': $baseUrl + '/blog/' + slug.current,      'lastModified': _updatedAt,      'changeFrequency': 'weekly',      'priority': 0.7    }
 export type PostsQueryResult = Array<{

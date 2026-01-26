@@ -23,12 +23,9 @@ import { Textarea } from "../ui/textarea";
 import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "sonner";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { ContactFormBlock } from "@/shared/sanity/queries/query-types";
 
-type ContactFormProps = Extract<
-  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
-  { _type: "contactform" }
->;
+type ContactFormProps = ContactFormBlock;
 
 function ContactForm({
   title,
@@ -36,8 +33,7 @@ function ContactForm({
   button_text,
   side_image,
 }: ContactFormProps) {
-  let imageUrl =
-    side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
+  let imageUrl = side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
   let captchaRef = useRef<ReCAPTCHA>(null);
 
   let [isVerified, setIsverified] = useState(false);

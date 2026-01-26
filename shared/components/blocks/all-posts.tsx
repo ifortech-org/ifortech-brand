@@ -12,8 +12,8 @@ import React from "react";
 
 
 type AllPostsProps = {
-  padding?: SectionPadding;
-  colorVariant?: ColorVariant;
+  padding?: SectionPadding | null;
+  colorVariant?: ColorVariant | null;
   language?: string;
   titleLabel?: string;
   loadingLabel?: string;

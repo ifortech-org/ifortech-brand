@@ -2,11 +2,12 @@ import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
 import { stegaClean } from "next-sanity";
 import PortableTextRenderer from "@/shared/components/portable-text-renderer";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
 import { urlFor } from "@/shared/sanity/lib/image";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
 type Hero2Props = Extract<
-  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
+  PAGE_BLOCK,
   { _type: "hero-2" }
 >;
 
@@ -49,7 +50,7 @@ export default function Hero2({
       )}
       {links && links.length > 0 && (
         <div className="mt-10 flex flex-wrap gap-4 justify-center animate-fade-up [animation-delay:400ms] opacity-0">
-          {links.map((link) => (
+          {links.map((link: typeof links[number]) => (
             <Button
               key={link.title}
               variant={stegaClean(link?.buttonVariant)}

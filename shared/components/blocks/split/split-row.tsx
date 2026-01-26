@@ -1,13 +1,14 @@
 import { cn } from "@/shared/lib/utils";
 import SectionContainer from "@/shared/components/ui/section-container";
 import { stegaClean } from "next-sanity";
-import { PAGE_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
 import SplitContent from "./split-content";
 import SplitCardsList from "./split-cards-list";
 import SplitImage from "./split-image";
 import SplitInfoList from "./split-info-list";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
-type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
+type Block = PAGE_BLOCK;
 type SplitRow = Extract<Block, { _type: "split-row" }>;
 type SplitColumn = NonNullable<NonNullable<SplitRow["splitColumns"]>[number]>;
 
@@ -38,7 +39,7 @@ export default function SplitRow({
             "grid grid-cols-1 lg:grid-cols-2",
             noGap ? "gap-0" : "gap-12 lg:gap-20"
           )}>
-          {splitColumns?.map((column) => {
+          {splitColumns?.map((column: SplitColumn) => {
             const Component = componentMap[column._type];
             if (!Component) {
               // Fallback for development/debugging of new component types

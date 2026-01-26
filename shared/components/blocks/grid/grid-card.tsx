@@ -4,9 +4,11 @@ import { stegaClean } from "next-sanity";
 import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "@/shared/sanity/lib/image";
-import { PAGE_QUERYResult, ColorVariant } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { ColorVariant } from "@/sanity.types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
-type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
+type Block = PAGE_BLOCK;
 type GridRow = Extract<Block, { _type: "grid-row" }>;
 type GridColumn = NonNullable<NonNullable<GridRow["columns"]>>[number];
 type GridCard = Extract<GridColumn, { _type: "grid-card" }>;

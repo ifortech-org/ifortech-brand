@@ -1,5 +1,5 @@
 import { urlFor } from "@/shared/sanity/lib/image";
-import { PAGE_QUERYResult, POST_QUERYResult } from "@/sanity.types";
+import { PAGE_QUERYResult, POST_QUERYResult } from "@/shared/sanity/queries/query-types";
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
 export function generatePageMetadata({

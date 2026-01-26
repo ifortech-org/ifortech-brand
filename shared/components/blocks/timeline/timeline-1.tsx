@@ -3,9 +3,11 @@ import { cn } from "@/shared/lib/utils";
 import PortableTextRenderer from "@/shared/components/portable-text-renderer";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
-import { PAGE_QUERYResult, ColorVariant } from "@/sanity.types";
+import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
+import { ColorVariant } from "@/sanity.types";
+import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
 
-type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
+type Block = PAGE_BLOCK;
 type TimelineRow = Extract<Block, { _type: "timeline-row" }>;
 type Timeline1 = NonNullable<NonNullable<TimelineRow["timelines"]>>[number];
 

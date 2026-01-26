@@ -12,21 +12,15 @@ interface Translation {
   slug: { current: string };
 }
 
-interface TranslationManagerProps {
-  value?: any;
-  document: {
-    _id?: string;
-    _type?: string;
-    contentId?: string;
-    language?: string;
-  };
-  onEdit?: (id: string) => void;
-}
+import { ObjectInputProps, ObjectSchemaType } from "sanity";
 
-export default function TranslationManager({ 
-  document,
-  onEdit 
-}: TranslationManagerProps) {
+type TranslationManagerInputProps = ObjectInputProps<Record<string, any>, ObjectSchemaType>;
+
+export default function TranslationManager(props: TranslationManagerInputProps) {
+  // In Sanity custom input, props.value è il valore del campo, props.parent è il documento intero
+  const { value, parent } = props as any;
+  const document = parent || {};
+  // onEdit non è più passato come prop, ma può essere gestito internamente se serve
   const client = useClient({ apiVersion: "2023-05-03" });
   const [translations, setTranslations] = useState<Translation[]>([]);
   const [loading, setLoading] = useState(false);
@@ -105,7 +99,7 @@ export default function TranslationManager({
             <Card padding={3} radius={1} tone="primary">
               <Flex align="center" justify="space-between">
                 <Flex align="center" gap={2}>
-                  <Badge tone="primary" text={document.language?.toUpperCase()} />
+                  <Badge tone="primary">{document.language?.toUpperCase()}</Badge>
                   <Text size={1} weight="medium">Documento corrente</Text>
                 </Flex>
                 <Button text="Attuale" mode="ghost" disabled />
@@ -117,7 +111,7 @@ export default function TranslationManager({
               <Card key={translation._id} padding={3} radius={1}>
                 <Flex align="center" justify="space-between">
                   <Flex align="center" gap={2}>
-                    <Badge text={translation.language.toUpperCase()} />
+                    <Badge>{translation.language.toUpperCase()}</Badge>
                     <Text size={1}>{translation.title}</Text>
                     <Text size={1} muted>/{translation.slug?.current}</Text>
                   </Flex>
@@ -136,7 +130,7 @@ export default function TranslationManager({
               <Card key={lang.code} padding={3} radius={1} tone="transparent">
                 <Flex align="center" justify="space-between">
                   <Flex align="center" gap={2}>
-                    <Badge tone="default" text={lang.code.toUpperCase()} />
+                    <Badge tone="default">{lang.code.toUpperCase()}</Badge>
                     <Text size={1} muted>Traduzione non disponibile</Text>
                   </Flex>
                   <Button
