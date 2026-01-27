@@ -12,6 +12,7 @@ import privacyPolicy from "./schemas/documents/privacy-policy";
 import cookiePolicy from "./schemas/documents/cookie-policy";
 import cookieSettings from "./schemas/documents/cookie-settings";
 import footerSettings from "./schemas/documents/footerSettings";
+import contactformSettings from "./schemas/documents/contactformSettings";
 import blogPage from "./schemas/documents/blogPage";
 import seo from "./schemas/seo";
 import siteLanguage from "./schemas/documents/site-language";
@@ -69,6 +70,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     cookiePolicy,
     cookieSettings,
     footerSettings,
+    contactformSettings,
     blogPage,
     // shared objects
     blockContent,

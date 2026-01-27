@@ -23,15 +23,19 @@ import { Textarea } from "../ui/textarea";
 import { useRef, useState } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { toast } from "sonner";
-import { ContactFormBlock } from "@/shared/sanity/queries/query-types";
 
-type ContactFormProps = ContactFormBlock;
+import { ContactFormBlock, ContactFormSettingsQueryResult } from "@/shared/sanity/queries/query-types";
+
+type ContactFormProps = ContactFormBlock & {
+  settings: ContactFormSettingsQueryResult;
+};
 
 function ContactForm({
   title,
   description,
   button_text,
   side_image,
+  settings,
 }: ContactFormProps) {
   let imageUrl = side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
   let captchaRef = useRef<HCaptcha>(null);
@@ -167,12 +171,12 @@ function ContactForm({
             }}
           >
             <DialogHeader>
-              <DialogTitle>Contattaci</DialogTitle>
+              <DialogTitle>{settings.title}</DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-2">
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{settings.labelEmail}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -183,7 +187,7 @@ function ContactForm({
                 />
               </div>
               <div>
-                <Label htmlFor="name">Nome</Label>
+                <Label htmlFor="name">{settings.labelName}</Label>
                 <Input
                   id="name"
                   type="text"
@@ -194,7 +198,7 @@ function ContactForm({
                 />
               </div>
               <div>
-                <Label htmlFor="surname">Cognome</Label>
+                <Label htmlFor="surname">{settings.labelSurname}</Label>
                 <Input
                   id="surname"
                   type="text"
@@ -205,7 +209,7 @@ function ContactForm({
                 />
               </div>
               <div>
-                <Label htmlFor="business_name">Azienda</Label>
+                <Label htmlFor="business_name">{settings.labelBusinessName}</Label>
                 <Input
                   id="business_name"
                   type="text"
@@ -216,7 +220,7 @@ function ContactForm({
                 />
               </div>
               <div>
-                <Label htmlFor="request">Richiesta</Label>
+                <Label htmlFor="request">{settings.labelRequest}</Label>
                 <Input
                   id="request"
                   type="text"
@@ -227,7 +231,7 @@ function ContactForm({
                 />
               </div>
               <div>
-                <Label htmlFor="description">Descrizione</Label>
+                <Label htmlFor="description">{settings.labelDescription}</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
@@ -245,8 +249,7 @@ function ContactForm({
                   onError={() => setIsverified(false)}
                 />
                 <p className="text-xs my-2">
-                  Cliccando "Invia" si dichiara di aver preso visione
-                  dell’informativa per il trattamento dei dati personali.
+                  {settings.privacyText}
                 </p>
               </div>
 
@@ -255,13 +258,13 @@ function ContactForm({
                 size="sm"
                 className="px-3"
                 onClick={handleSubmit}>
-                Invia
+                {settings.submitText}
               </Button>
             </div>
             <DialogFooter className="sm:justify-end">
               <DialogClose asChild>
                 <Button type="button" variant="secondary">
-                  Close
+                  {settings.closeText}
                 </Button>
               </DialogClose>
             </DialogFooter>

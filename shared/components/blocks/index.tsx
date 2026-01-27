@@ -15,11 +15,12 @@ import FormNewsletter from "@/shared/components/blocks/forms/newsletter";
 import AllPosts from "@/shared/components/blocks/all-posts";
 import ContactForm from "./contactform";
 import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
+import { fetchContactFormSettings } from "@/shared/sanity/lib/fetchContactFormSettings";
 
 type Block = PAGE_BLOCK;
 
 const componentMap: {
-  [K in Block["_type"]]: React.ComponentType<Extract<Block, { _type: K }>>;
+  [K in Exclude<Block["_type"], "contactform">]: React.ComponentType<Extract<Block, { _type: K }>>;
 } = {
   "hero-1": Hero1,
   "hero-2": Hero2,
@@ -35,27 +36,31 @@ const componentMap: {
   faqs: FAQs,
   "form-newsletter": FormNewsletter,
   "all-posts": AllPosts,
-  contactform: ContactForm,
 };
 
-export default function Blocks({ blocks, language = "it" }: { blocks: Block[]; language?: string }) {
+export default async function Blocks({ blocks, language = "it" }: { blocks: Block[]; language?: string }) {
+  let contactFormSettings: any = null;
+  if (blocks?.some((block) => block._type === "contactform")) {
+    contactFormSettings = await fetchContactFormSettings(language || "it");
+  }
   return (
     <>
       {blocks?.map((block) => {
-        const Component = componentMap[block._type];
+        if (block._type === "contactform") {
+          return <ContactForm {...block} settings={contactFormSettings} key={block._key} />;
+        }
+        const Component = componentMap[block._type as Exclude<Block["_type"], "contactform">];
         if (!Component) {
-          // Fallback for development/debugging of new component types
+          // Fallback per nuovi tipi blocco
           console.warn(
             `No component implemented for block type: ${block._type}`
           );
           return <div data-type={block._type} key={block._key} />;
         }
-        
         // Passa la lingua a componenti che ne hanno bisogno
-        const props = block._type === "all-posts" 
-          ? { ...(block as any), language } 
+        const props = block._type === "all-posts"
+          ? { ...(block as any), language }
           : (block as any);
-          
         return <Component {...props} key={block._key} />;
       })}
     </>

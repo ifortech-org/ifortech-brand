@@ -92,6 +92,14 @@ export const structure = (S: any, context: any) =>
             .title("Impostazioni Footer")
             .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
+      S.listItem()
+        .title("Impostazioni Contact Form")
+        .icon(Settings)
+        .child(
+          S.documentTypeList("contactformSettings")
+            .title("Impostazioni Contact Form")
+            .defaultOrdering([{ field: "language", direction: "asc" }])
+        ),
       S.divider(),
       S.listItem()
         .title("Privacy Policy")

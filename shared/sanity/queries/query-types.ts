@@ -361,10 +361,23 @@ export type PAGES_SLUGS_QUERYResult = Array<{
   slug: Slug | null;
 }>;
 
-export type POSTS_SLUGS_QUERYResult = Array<{
-// Puoi aggiungere qui altri tipi per altre query custom
-  slug: Slug | null;
-}>;
+
+export type POSTS_SLUGS_QUERYResult = Array<{ slug: Slug | null }>;
+
+export type ContactFormSettingsQueryResult = {
+  _id: string;
+  language: { _ref: string; _type: string } | string;
+  title: string;
+  labelEmail: string;
+  labelName: string;
+  labelSurname: string;
+  labelBusinessName: string;
+  labelRequest: string;
+  labelDescription: string;
+  privacyText: string;
+  submitText: string;
+  closeText: string;
+};
 
 export type ContactFormBlock = {
   _type: "contactform";
