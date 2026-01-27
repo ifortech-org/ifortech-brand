@@ -21,7 +21,7 @@ import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Textarea } from "../ui/textarea";
 import { useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { toast } from "sonner";
 import { ContactFormBlock } from "@/shared/sanity/queries/query-types";
 
@@ -34,7 +34,7 @@ function ContactForm({
   side_image,
 }: ContactFormProps) {
   let imageUrl = side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
-  let captchaRef = useRef<ReCAPTCHA>(null);
+  let captchaRef = useRef<HCaptcha>(null);
 
   let [isVerified, setIsverified] = useState(false);
   let [formData, setFormData] = useState({
@@ -50,7 +50,7 @@ function ContactForm({
     e.preventDefault();
 
     if (!isVerified) {
-      toast("Verifica reCAPTCHA fallita, Per favore, completa il reCAPTCHA.");
+      toast("Verifica hCaptcha fallita, Per favore, completa l'hCaptcha.");
       return;
     }
 
@@ -90,14 +90,18 @@ function ContactForm({
         request: "",
         description: "",
       });
-      captchaRef.current?.reset();
+      captchaRef.current?.resetCaptcha();
       setIsverified(false);
     } catch (error) {
       toast("Errore durante l'invio del form. Riprova tra qualche istante.");
     }
   }
 
-  async function handleCaptchaSubmission(token: string | null) {
+  async function handleCaptchaSubmission(token: string) {
+    if (!token) {
+      setIsverified(false);
+      return;
+    }
     // Server function to verify captcha
     const request = fetch("/api/captcha", {
       method: "POST",
@@ -105,7 +109,7 @@ function ContactForm({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: token,
+        "h-captcha-response": token,
       }),
     });
 
@@ -140,15 +144,11 @@ function ContactForm({
             onOpenAutoFocus={(e) => e.preventDefault()}
             onCloseAutoFocus={(e) => e.preventDefault()}
             onPointerDownOutside={(e) => {
-              // Permetti click su elementi reCAPTCHA esterni
+              // Permetti click su elementi hCaptcha esterni
               const target = e.target as Element;
-              if (target.closest('.g-recaptcha') || 
-                  target.closest('iframe[src*="recaptcha"]') ||
-                  target.closest('iframe[src*="google.com"]') ||
-                  target.closest('.rc-anchor') ||
-                  target.closest('.rc-imageselect') ||
-                  target.closest('.rc-challenge') ||
-                  target.closest('[data-recaptcha]') ||
+              if (target.closest(".h-captcha") ||
+                  target.closest('iframe[src*="hcaptcha"]') ||
+                  target.closest('[data-hcaptcha]') ||
                   target.closest('[style*="z-index: 2000000000"]')) {
                 e.preventDefault();
                 return;
@@ -156,11 +156,10 @@ function ContactForm({
             }}
             onEscapeKeyDown={(e) => e.preventDefault()}
             onInteractOutside={(e) => {
-              // Permetti interazioni con reCAPTCHA
+              // Permetti interazioni con hCaptcha
               const target = e.target as Element;
-              if (target.closest('.g-recaptcha') || 
-                  target.closest('iframe[src*="recaptcha"]') ||
-                  target.closest('iframe[src*="google.com"]') ||
+              if (target.closest(".h-captcha") ||
+                  target.closest('iframe[src*="hcaptcha"]') ||
                   target.closest('[style*="z-index: 2000000000"]')) {
                 e.preventDefault();
                 return;
@@ -237,11 +236,13 @@ function ContactForm({
                   }
                 />
               </div>
-              <div>
-                <ReCAPTCHA
+              <div data-hcaptcha className="h-captcha">
+                <HCaptcha
                   ref={captchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                  onChange={handleCaptchaSubmission}
+                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  onVerify={handleCaptchaSubmission}
+                  onExpire={() => setIsverified(false)}
+                  onError={() => setIsverified(false)}
                 />
                 <p className="text-xs my-2">
                   Cliccando "Invia" si dichiara di aver preso visione

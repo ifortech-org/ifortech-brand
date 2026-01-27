@@ -1,51 +1,72 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+type HCaptchaVerifyResponse = {
+  success: boolean;
+  "error-codes"?: string[] | string;
+  challenge_ts?: string;
+  hostname?: string;
+  credit?: boolean;
+  score?: number;
+  score_reason?: string[];
+};
+
+export async function POST(request: Request) {
+  let body: Record<string, unknown> = {};
+
   try {
-    const { token } = await request.json();
+    body = (await request.json()) as Record<string, unknown>;
+  } catch {
+    body = {};
+  }
 
-    if (!token) {
-      return NextResponse.json(
-        { success: false, error: "Missing captcha token" },
-        { status: 400 }
-      );
-    }
+  const token =
+    (body["h-captcha-response"] as string | undefined) ??
+    (body.token as string | undefined);
 
-    const secret = process.env.CAPTCHA_SECRET_KEY;
-    if (!secret) {
-      return NextResponse.json(
-        { success: false, error: "Missing CAPTCHA_SECRET_KEY env" },
-        { status: 500 }
-      );
-    }
-
-    const verifyResponse = await fetch(
-      "https://www.google.com/recaptcha/api/siteverify",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          secret,
-          response: token,
-        }).toString(),
-      }
-    );
-
-    const verification = await verifyResponse.json();
-
-    if (!verification.success) {
-      return NextResponse.json(
-        { success: false, error: "Captcha verification failed", details: verification["error-codes"] },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json({ success: true, score: verification.score, action: verification.action });
-  } catch (error) {
-    console.error("Captcha verification error", error);
+  if (!token) {
     return NextResponse.json(
-      { success: false, error: "Captcha verification error" },
-      { status: 500 }
+      { success: false, message: "missing-input-response" },
+      { status: 400 },
     );
   }
+
+  const secret = process.env.HCAPTCHA_SECRET_KEY;
+  if (!secret) {
+    return NextResponse.json(
+      { success: false, message: "missing-input-secret" },
+      { status: 500 },
+    );
+  }
+
+  const verifyResponse = await fetch("https://hcaptcha.com/siteverify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      secret,
+      response: token,
+    }),
+  });
+
+  if (!verifyResponse.ok) {
+    return NextResponse.json(
+      { success: false, message: "captcha-verify-failed" },
+      { status: 502 },
+    );
+  }
+
+  const data = (await verifyResponse.json()) as HCaptchaVerifyResponse;
+
+  if (!data.success) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: data["error-codes"] ?? "captcha-invalid",
+      },
+      { status: 400 },
+    );
+  }
+
+  return NextResponse.json({ success: true });
 }
