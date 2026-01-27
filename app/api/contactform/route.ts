@@ -121,8 +121,7 @@ export async function POST(request: Request) {
 
     const mailData = {
       from: mailSenderAccount.email,
-      // to: mailSenderAccount.email,
-      to: 'e.salsano@ifortech.com',
+      to: mailSenderAccount.email,
       subject: `IFORTECH - Richiesta di contatto`,
       html: `
         <div>
