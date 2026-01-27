@@ -32,14 +32,6 @@ export const structure = (S: any, context: any) =>
             .title("Articoli")
             .defaultOrdering([{ field: "_createdAt", direction: "desc" }])
         ),
-      S.listItem()
-        .title("Pagina Blog")
-        .icon(Newspaper)
-        .child(
-          S.documentTypeList("blogPage")
-            .title("Pagina Blog")
-            .defaultOrdering([{ field: "language", direction: "asc" }])
-        ),
       orderableDocumentListDeskItem({
         type: "category",
         title: "Categorie",
@@ -54,36 +46,15 @@ export const structure = (S: any, context: any) =>
         S,
         context,
       }),
+      S.divider(),
       S.listItem()
-        .title("Colori del sito")
-        .icon(Palette)
+        .title("Pagina Blog")
+        .icon(Newspaper)
         .child(
-          S.editor()
-            .id("siteColorsSingleton")
-            .schemaType("siteColors")
-            .documentId("siteColorsSingleton")
-            .title("Colori del sito")
-        ),
-      S.listItem()
-        .title("Logo del sito")
-        .icon(Palette)
-        .child(
-          S.editor()
-            .id("siteLogoSingleton")
-            .schemaType("siteLogo")
-            .documentId("siteLogoSingleton")
-            .title("Logo del sito")
-        ),
-      S.listItem()
-        .title("SEO globale")
-        .icon(Search)
-        .child(
-          S.editor()
-            .id("seoSingleton")
-            .schemaType("seo")
-            .documentId("seoSingleton")
-            .title("SEO globale")
-        ),
+          S.documentTypeList("blogPage")
+            .title("Pagina Blog")
+            .defaultOrdering([{ field: "language", direction: "asc" }])
+      ),
       S.listItem()
         .title("Impostazioni Footer")
         .icon(Settings)
@@ -93,14 +64,13 @@ export const structure = (S: any, context: any) =>
             .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
       S.listItem()
-        .title("Impostazioni Contact Form")
+        .title("Impostazioni Contact Form (popup)")
         .icon(Settings)
         .child(
           S.documentTypeList("contactformSettings")
             .title("Impostazioni Contact Form")
             .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
-      S.divider(),
       S.listItem()
         .title("Privacy Policy")
         .icon(Shield)
@@ -132,6 +102,36 @@ export const structure = (S: any, context: any) =>
           S.documentTypeList("siteLanguage")
             .title("Lingue disponibili")
             .defaultOrdering([{ field: "code", direction: "asc" }])
+        ),
+      S.listItem()
+        .title("Colori del sito")
+        .icon(Palette)
+        .child(
+          S.editor()
+            .id("siteColorsSingleton")
+            .schemaType("siteColors")
+            .documentId("siteColorsSingleton")
+            .title("Colori del sito")
+        ),
+      S.listItem()
+        .title("Logo del sito")
+        .icon(Palette)
+        .child(
+          S.editor()
+            .id("siteLogoSingleton")
+            .schemaType("siteLogo")
+            .documentId("siteLogoSingleton")
+            .title("Logo del sito")
+        ),
+      S.listItem()
+        .title("SEO globale")
+        .icon(Search)
+        .child(
+          S.editor()
+            .id("seoSingleton")
+            .schemaType("seo")
+            .documentId("seoSingleton")
+            .title("SEO globale")
         ),
     ]);
 
