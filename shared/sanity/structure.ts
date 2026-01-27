@@ -103,6 +103,15 @@ export const structure = (S: any, context: any) =>
             .title("Lingue disponibili")
             .defaultOrdering([{ field: "code", direction: "asc" }])
         ),
+
+      S.listItem()
+        .title("Email Template")
+        .icon(Files)
+        .child(
+          S.documentTypeList("emailTemplate")
+            .title("Email Template")
+            .defaultOrdering([{ field: "language", direction: "asc" }])
+        ),
       S.listItem()
         .title("Colori del sito")
         .icon(Palette)

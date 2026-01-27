@@ -1,5 +1,74 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { marked } from "marked";
+
+// Escape base per HTML (evita injection nelle variabili utente)
+function escapeHtml(str: string) {
+  return str.replace(/[&<>'"/]/g, function (s) {
+    const entity: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;',
+      '/': '&#x2F;',
+    };
+    return entity[s] || s;
+  });
+}
+
+// Funzione di compilazione template: sostituisce {{var}} con i valori in data (senza escape, il markdown è sicuro)
+function compileTemplate(template: string, data: Record<string, string>) {
+  return template.replace(/{{\s*(\w+)\s*}}/g, (_, key) => data[key] ?? "");
+}
+
+// Recupera il template email da Sanity, gestendo language come reference
+import { createClient } from "@sanity/client";
+import { apiVersion, dataset, projectId } from "../../../shared/sanity/env";
+
+const sanityClient = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+});
+
+async function getEmailTemplate(lang: string) {
+  // Query GROQ: cerca il template con la lingua richiesta
+  const query = `*[_type == "emailTemplate" && language->code == $lang][0]{
+    subject_template,
+    body_template,
+    description
+  }`;
+  const template = await sanityClient.fetch(query, { lang });
+  if (template) {
+    return {
+      subject: template.subject_template,
+      body: template.body_template,
+      description: template.description,
+    };
+  }
+  // Fallback su italiano
+  const fallbackQuery = `*[_type == "emailTemplate" && language->code == "it"][0]{
+    subject_template,
+    body_template,
+    description
+  }`;
+  const fallback = await sanityClient.fetch(fallbackQuery);
+  if (fallback) {
+    return {
+      subject: fallback.subject_template,
+      body: fallback.body_template,
+      description: fallback.description,
+    };
+  }
+  // Fallback statico se non trova nulla
+  return {
+    subject: "Riepilogo richiesta di contatto - iFortech",
+    body: `<div><h1>iFortech</h1><div><p>Gentile {{name}} {{surname}}, <br>Grazie per averci contattato. Di seguito il riepilogo della tua richiesta: <br><br><strong>Oggetto:</strong> {{subject}} <br><strong>Messaggio:</strong> {{description}} <br><br>Ti contatteremo al più presto. <br><br>Cordiali saluti, <br><br>Il Team di iFortech</p></div></div>`,
+    description: "Variabili disponibili: {{name}}, {{surname}}, {{subject}}, {{description}}. Usare le doppie parentesi graffe per inserire i dati dinamici.",
+  };
+}
 
 const mailSenderAccount = {
   user: process.env.MAIL_SENDER_ACCOUNT_USERNAME ?? null,
@@ -9,6 +78,8 @@ const mailSenderAccount = {
 
 export async function POST(request: Request) {
   try {
+
+    // Recupera lingua dalla richiesta, default "it"
     const {
       email,
       name,
@@ -16,6 +87,7 @@ export async function POST(request: Request) {
       business_name,
       request: subject,
       description,
+      lang = "it", // il front-end deve inviare la lingua, default "it"
     } = await request.json();
 
     if ( !email || !name || !surname || !business_name || !subject || !description ) {
@@ -33,41 +105,6 @@ export async function POST(request: Request) {
       return new Response("Email configuration missing", { status: 500 });
     }
 
-    // CONFIGURAZIONE INIZIALE
-    // const transporter = nodemailer.createTransport({
-    //   host: "smtp.office365.com",
-    //   port: 587,
-    //   secure: false,
-    //   tls: {
-    //     ciphers: "SSLv3",
-    //     rejectUnauthorized: false,
-    //   },
-    //   auth: {
-    //     user: mailSenderAccount.user,
-    //     pass: mailSenderAccount.pass,
-    //   },
-    // });
-
-    // CONFIGURAZIONE DA NEWS.INTEGYS
-    // const transporter = nodemailer.createTransport({
-    //   host: "smtp-mail.outlook.com",
-    //   port: 587,
-    //   secure: false,
-    //   requireTLS: true,
-    //   tls: {
-    //     minVersion: 'TLSv1.2',
-    //     rejectUnauthorized: true,
-    //   },
-    //   auth: {
-    //     user: mailSenderAccount.user,
-    //     pass: mailSenderAccount.pass,
-    //   },
-    //   // Timeout più lungo per Office 365
-    //   connectionTimeout: 60000,
-    //   greetingTimeout: 30000,
-    // });
-
-    // CONFIGURAZIONE DA CLEWAY
     const transporter = nodemailer.createTransport({
       host: "smtp.office365.com",
       port: 587,
@@ -84,7 +121,8 @@ export async function POST(request: Request) {
 
     const mailData = {
       from: mailSenderAccount.email,
-      to: mailSenderAccount.email,
+      // to: mailSenderAccount.email,
+      to: 'e.salsano@ifortech.com',
       subject: `IFORTECH - Richiesta di contatto`,
       html: `
         <div>
@@ -102,29 +140,20 @@ export async function POST(request: Request) {
 
     await transporter.sendMail(mailData);
 
-    // Confirmation email to user
+
+    // Recupera il template localizzato dal DB (o fallback IT)
+    const template = await getEmailTemplate(lang);
+    // Compila il template con i dati
+    const subjectUser = compileTemplate(template.subject, { name, surname, subject, description });
+    const bodyUserMarkdown = compileTemplate(template.body, { name, surname, subject, description });
+    // Converte il markdown in HTML sicuro (await per garantire stringa)
+    const bodyUser = await marked.parse(bodyUserMarkdown);
+
     const mailDataUser = {
       from: mailSenderAccount.email,
       to: email,
-      subject: `Riepilogo richiesta di contatto - iFortech`,
-      html: `
-        <div>
-          <h1>iFortech</h1>
-          <div>
-            <p>
-              Gentile ${name} ${surname}, <br>
-              Grazie per averci contattato. Di seguito il riepilogo della tua richiesta: <br>
-              <br>
-              <strong>Oggetto:</strong> ${subject} <br>
-              <strong>Messaggio:</strong> ${description} <br>
-              <br>
-              Ti contatteremo al più presto. <br><br>
-              Cordiali saluti, <br><br>
-              Il Team di iFortech
-            </p>
-          </div>
-        </div>
-      `,
+      subject: subjectUser,
+      html: bodyUser,
     };
     await transporter.sendMail(mailDataUser);
 

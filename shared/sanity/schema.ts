@@ -15,6 +15,7 @@ import footerSettings from "./schemas/documents/footerSettings";
 import contactformSettings from "./schemas/documents/contactformSettings";
 import blogPage from "./schemas/documents/blogPage";
 import seo from "./schemas/seo";
+import emailTemplate from "./schemas/emailTemplate";
 import siteLanguage from "./schemas/documents/site-language";
 
 // Translation system
@@ -108,5 +109,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     translationManager,
     // site-language
     siteLanguage,
+    emailTemplate,
   ],
 };

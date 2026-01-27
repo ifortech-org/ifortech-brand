@@ -25,9 +25,11 @@ import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { toast } from "sonner";
 
 import { ContactFormBlock, ContactFormSettingsQueryResult } from "@/shared/sanity/queries/query-types";
+import { useRouter } from "next/navigation";
 
 type ContactFormProps = ContactFormBlock & {
   settings: ContactFormSettingsQueryResult;
+  lang?: string;
 };
 
 function ContactForm({
@@ -36,7 +38,9 @@ function ContactForm({
   button_text,
   side_image,
   settings,
+  lang,
 }: ContactFormProps) {
+  const router = useRouter();
   let imageUrl = side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
   let captchaRef = useRef<HCaptcha>(null);
 
@@ -59,6 +63,15 @@ function ContactForm({
     }
 
     try {
+      // Determina la lingua: prop lang > router > "it"
+      let locale = lang;
+      if (!locale && typeof window !== "undefined") {
+        // Next.js router: /[locale]/...
+        const match = window.location.pathname.match(/^\/([a-zA-Z-]+)\//);
+        locale = match ? match[1] : "it";
+      }
+      if (!locale) locale = "it";
+
       const response = await fetch("/api/contactform", {
         method: "POST",
         headers: {
@@ -71,6 +84,7 @@ function ContactForm({
           business_name: formData.business_name,
           request: formData.request,
           description: formData.description,
+          lang: locale,
         }),
       });
 
