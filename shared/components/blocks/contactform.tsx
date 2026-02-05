@@ -44,7 +44,7 @@ function ContactForm({
   let imageUrl = side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
   let captchaRef = useRef<HCaptcha>(null);
 
-  let [isVerified, setIsverified] = useState(false);
+  let [hCaptchaToken, setHCaptchaToken] = useState<string | null>(null);
   let [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -57,10 +57,16 @@ function ContactForm({
   async function handleSubmit(e: any) {
     e.preventDefault();
 
-    if (!isVerified) {
+    if (!hCaptchaToken) {
       toast("Verifica hCaptcha fallita, Per favore, completa l'hCaptcha.");
       return;
     }
+
+    console.log('Submitting form with hCaptcha token:', {
+      hasToken: !!hCaptchaToken,
+      tokenLength: hCaptchaToken?.length,
+      tokenPreview: hCaptchaToken ? `${hCaptchaToken.substring(0, 20)}...` : 'none'
+    });
 
     try {
       // Determina la lingua: prop lang > router > "it"
@@ -84,22 +90,34 @@ function ContactForm({
           business_name: formData.business_name,
           request: formData.request,
           description: formData.description,
+          "h-captcha-response": hCaptchaToken,
           lang: locale,
         }),
       });
 
+      const data = await response.json();
+      
       if (!response.ok) {
-        const data = await response.json().catch(() => null);
-        toast(
-          data?.error ||
-            "Errore durante l'invio del form. Riprova tra qualche istante."
-        );
-        return;
+        console.error('Form submission error:', {
+          status: response.status,
+          statusText: response.statusText,
+          data
+        });
+        
+        // Se il problema è hCaptcha, resetta e forza una nuova verifica
+        if (data.error && (data.error.includes('hCaptcha') || data.error.includes('captcha'))) {
+          console.log('Captcha error detected, resetting captcha');
+          captchaRef.current?.resetCaptcha();
+          setHCaptchaToken(null);
+        }
+        
+        throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
       }
 
       toast(
         "Richiesta di contatto registrata con successo, a breve verrà contattato da uno dei nostri operatori"
       );
+      
       setFormData({
         email: "",
         name: "",
@@ -109,33 +127,28 @@ function ContactForm({
         description: "",
       });
       captchaRef.current?.resetCaptcha();
-      setIsverified(false);
-    } catch (error) {
-      toast("Errore durante l'invio del form. Riprova tra qualche istante.");
+      setHCaptchaToken(null);
+      
+    } catch (error: any) {
+      console.error('Form submission failed:', error);
+      toast(`Errore: ${error.message || 'Si è verificato un errore durante l\'invio della richiesta di contatto. Per favore, riprova più tardi.'}`);
     }
   }
 
-  async function handleCaptchaSubmission(token: string) {
-    if (!token) {
-      setIsverified(false);
-      return;
-    }
-    // Server function to verify captcha
-    const request = fetch("/api/captcha", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "h-captcha-response": token,
-      }),
+  function handleCaptchaSubmission(token: string | null) {
+    console.log('New hCaptcha token received:', {
+      hasToken: !!token,
+      tokenLength: token?.length,
+      tokenPreview: token ? `${token.substring(0, 20)}...` : 'none'
     });
 
-    const response = await request;
-    if (response.ok) {
-      setIsverified(true);
+    // Validazione robusta del token hCAPTCHA
+    if (token && typeof token === 'string' && token.length > 20) {
+      setHCaptchaToken(token);
+      console.log('hCaptcha token saved, ready for submission');
     } else {
-      setIsverified(false);
+      setHCaptchaToken(null);
+      console.log('Invalid or missing hCaptcha token');
     }
   }
 
@@ -259,8 +272,8 @@ function ContactForm({
                   ref={captchaRef}
                   sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
                   onVerify={handleCaptchaSubmission}
-                  onExpire={() => setIsverified(false)}
-                  onError={() => setIsverified(false)}
+                  onExpire={() => setHCaptchaToken(null)}
+                  onError={() => setHCaptchaToken(null)}
                 />
                 <p className="text-xs my-2">
                   {settings.privacyText}

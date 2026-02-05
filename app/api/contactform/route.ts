@@ -33,6 +33,40 @@ const sanityClient = createClient({
   useCdn: false,
 });
 
+// Funzione per verificare hCaptcha
+async function verifyHCaptcha(token: string): Promise<boolean> {
+  const secret = process.env.HCAPTCHA_SECRET_KEY;
+  
+  if (!secret) {
+    console.error('HCAPTCHA_SECRET_KEY not configured');
+    return false;
+  }
+
+  try {
+    const response = await fetch('https://hcaptcha.com/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `response=${token}&secret=${secret}`,
+    });
+
+    const data = await response.json();
+    
+    console.log('hCaptcha verification result:', {
+      success: data.success,
+      challenge_ts: data.challenge_ts,
+      hostname: data.hostname,
+      error_codes: data['error-codes']
+    });
+
+    return data.success === true;
+  } catch (error) {
+    console.error('hCaptcha verification error:', error);
+    return false;
+  }
+}
+
 async function getEmailTemplate(lang: string) {
   // Query GROQ: cerca il template con la lingua richiesta
   const query = `*[_type == "emailTemplate" && language->code == $lang][0]{
@@ -78,8 +112,6 @@ const mailSenderAccount = {
 
 export async function POST(request: Request) {
   try {
-
-    // Recupera lingua dalla richiesta, default "it"
     const {
       email,
       name,
@@ -87,22 +119,49 @@ export async function POST(request: Request) {
       business_name,
       request: subject,
       description,
-      lang = "it", // il front-end deve inviare la lingua, default "it"
+      lang = "it",
+      "h-captcha-response": hCaptchaToken,
     } = await request.json();
 
-    if ( !email || !name || !surname || !business_name || !subject || !description ) {
-      return new Response("Missing required fields", { status: 400 });
+    // Verifica campi obbligatori
+    if (!email || !name || !surname || !business_name || !subject || !description) {
+      return NextResponse.json(
+        { success: false, error: "Missing required fields" },
+        { status: 400 }
+      );
     }
+
+    // Verifica hCaptcha token
+    if (!hCaptchaToken) {
+      console.error('hCaptcha token missing');
+      return NextResponse.json(
+        { success: false, error: "hCaptcha verification required" },
+        { status: 400 }
+      );
+    }
+
+    const isValidCaptcha = await verifyHCaptcha(hCaptchaToken);
+    
+    if (!isValidCaptcha) {
+      console.error('hCaptcha verification failed');
+      return NextResponse.json(
+        { success: false, error: "hCaptcha verification failed. Please try again." },
+        { status: 400 }
+      );
+    }
+
+    console.log('hCaptcha verification successful, processing form submission');
 
     if (!mailSenderAccount.user || !mailSenderAccount.pass || !mailSenderAccount.email) {
       console.error("Email configuration missing:", {
         hasUser: !!mailSenderAccount.user,
         hasPass: !!mailSenderAccount.pass,
         hasEmail: !!mailSenderAccount.email,
-        // Log solo i primi e ultimi caratteri della password per debug
-        passPreview: mailSenderAccount.pass ? `${mailSenderAccount.pass.substring(0, 2)}...${mailSenderAccount.pass.slice(-2)}` : "undefined"
       });
-      return new Response("Email configuration missing", { status: 500 });
+      return NextResponse.json(
+        { success: false, error: "Email configuration missing" },
+        { status: 500 }
+      );
     }
 
     const transporter = nodemailer.createTransport({
@@ -126,13 +185,13 @@ export async function POST(request: Request) {
       html: `
         <div>
           <h1>Nuova richiesta di contatto</h1>
-          <p><strong>Nome:</strong> ${name}</p>
-          <p><strong>Cognome:</strong> ${surname}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Azienda:</strong> ${business_name}</p>
-          <p><strong>Oggetto della richiesta:</strong> ${subject}</p>
+          <p><strong>Nome:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Cognome:</strong> ${escapeHtml(surname)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p><strong>Azienda:</strong> ${escapeHtml(business_name)}</p>
+          <p><strong>Oggetto della richiesta:</strong> ${escapeHtml(subject)}</p>
           <p><strong>Descrizione:</strong></p>
-          <p>${description}</p>
+          <p>${escapeHtml(description)}</p>
         </div>
       `,
     };
