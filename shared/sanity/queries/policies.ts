@@ -1,5 +1,6 @@
 import { groq } from "next-sanity";
 import { client } from "../lib/client";
+import { defaultCookieSettings } from "@/shared/fallbacks/site-config";
 
 export const PRIVACY_POLICY_QUERY = groq`
   *[_type == "privacyPolicy" && language->code == $language][0] {
@@ -126,19 +127,20 @@ export const COOKIE_SETTINGS_QUERY = groq`
 
 // Function to fetch cookie settings server-side
 export const fetchSanityCookieSettings = async (language: string = 'it') => {
-  return client.fetch(COOKIE_SETTINGS_QUERY, { language });
+  const settings = await client.fetch(COOKIE_SETTINGS_QUERY, { language });
+  return settings ?? defaultCookieSettings;
 };
 
 // Quick query for policy titles in footer
 export const POLICY_TITLES_QUERY = groq`
   {
-    "privacyPolicy": *[_type == "privacyPolicy" && language == $language][0] {
+    "privacyPolicy": *[_type == "privacyPolicy" && language->code == $language][0] {
       title
     },
-    "cookiePolicy": *[_type == "cookiePolicy" && language == $language][0] {
+    "cookiePolicy": *[_type == "cookiePolicy" && language->code == $language][0] {
       title
     },
-    "cookieSettings": *[_type == "cookieSettings" && language == $language][0] {
+    "cookieSettings": *[_type == "cookieSettings" && language->code == $language][0] {
       preferencesTitle,
       customizeText
     }

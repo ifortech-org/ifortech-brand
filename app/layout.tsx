@@ -9,26 +9,33 @@ import { CookieProvider } from "@/shared/components/cookie-provider";
 import { client } from "@/shared/sanity/lib/client";
 import { GLOBAL_SEO_QUERY } from "@/shared/sanity/queries/seo";
 import { urlFor } from "@/shared/sanity/lib/image";
+import { fetchResolvedSiteSettings } from "@/shared/sanity/lib/siteSettings";
 
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
 export async function generateMetadata() {
-  const seo = await client.fetch(GLOBAL_SEO_QUERY);
+  const [seo, siteSettings] = await Promise.all([
+    client.fetch(GLOBAL_SEO_QUERY),
+    fetchResolvedSiteSettings(),
+  ]);
+  const siteName = seo?.title || siteSettings.siteName;
+  const siteDescription = seo?.description || `${siteSettings.siteName}.`;
+
   return {
-    title: seo?.title || "iFortech",
-    description: seo?.description || "iFortech.",
+    title: siteName,
+    description: siteDescription,
     keywords: seo?.keywords || [
       "Next.js",
       "Sanity",
-      "Schema UI Starter",
+      siteSettings.siteName,
       "Sito web",
       "SEO",
       "React",
       "Template",
     ],
     openGraph: {
-      title: seo?.title || "iFortech",
-      description: seo?.description || "iFortech",
+      title: siteName,
+      description: siteDescription,
       images: [
         seo?.image?.asset?.url
           ? {
@@ -42,24 +49,29 @@ export async function generateMetadata() {
               height: 630,
             },
       ],
-      locale: "en_US",
+      locale: siteSettings.defaultLocale === "it" ? "it_IT" : "en_US",
       type: "website",
-      siteName: "Schema UI Starter",
+      siteName: siteSettings.siteName,
     },
     twitter: {
       card: "summary_large_image",
-      title: seo?.title || "iFortech",
-      description: seo?.description || "iFortech",
+      title: siteName,
+      description: siteDescription,
       images: [
         seo?.image?.asset?.url
           ? urlFor(seo.image).quality(100).url()
           : `${process.env.NEXT_PUBLIC_SITE_URL}/images/og-image.jpg`,
       ],
-      creator: "@tuotwitter", // Sostituisci con il tuo handle Twitter
+      creator: siteSettings.twitterHandle,
     },
     robots:
       seo?.robots || (!isProduction ? "noindex, nofollow" : "index, follow"),
-    authors: [{ name: "iFortech", url: process.env.NEXT_PUBLIC_SITE_URL }],
+    authors: [
+      {
+        name: siteSettings.legalCompanyName || siteSettings.siteName,
+        url: process.env.NEXT_PUBLIC_SITE_URL,
+      },
+    ],
   };
 }
 
@@ -69,13 +81,16 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const siteSettings = await fetchResolvedSiteSettings();
+  const darkEnabled = siteSettings.enableDarkTheme !== false;
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={siteSettings.defaultLocale || "it"} suppressHydrationWarning>
       <link rel="icon" href="/favicon.ico" />
       <body
         className={cn(
@@ -84,10 +99,11 @@ export default function RootLayout({
         )}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme={darkEnabled ? "system" : "light"}
+          enableSystem={darkEnabled}
+          forcedTheme={darkEnabled ? undefined : "light"}
           disableTransitionOnChange>
-          <ColorThemeProvider>
+          <ColorThemeProvider enableDarkTheme={darkEnabled}>
             <CookieProvider>{children}</CookieProvider>
           </ColorThemeProvider>
         </ThemeProvider>

@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Breadcrumbs from "@/shared/components/ui/breadcrumbs";
 import PostHero from "@/shared/components/blocks/post-hero";
 import { BreadcrumbLink } from "@/shared/types";
@@ -10,6 +10,7 @@ import {
 } from "@/shared/sanity/lib/fetch";
 import { generatePageMetadata } from "@/shared/sanity/lib/metadata";
 import { Slug } from "@/sanity.types";
+import { fetchResolvedSiteSettings } from "@/shared/sanity/lib/siteSettings";
 
 export async function generateStaticParams() {
   const posts = await fetchSanityPostsStaticParams();
@@ -26,7 +27,14 @@ export async function generateMetadata(props: {
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await props.params;
-  const post = await fetchSanityPostBySlug({ slug, language: locale });
+  const [post, siteSettings] = await Promise.all([
+    fetchSanityPostBySlug({ slug, language: locale }),
+    fetchResolvedSiteSettings(),
+  ]);
+
+  if (siteSettings.enableBlog === false) {
+    redirect(`/${locale}`);
+  }
 
   if (!post) {
     notFound();

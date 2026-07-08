@@ -1,6 +1,8 @@
 import { client } from "../lib/client";
+import { mergeSiteColors } from "@/shared/fallbacks/site-config";
 import { siteColorsQuery } from "../queries/siteColors";
 
 export async function fetchSiteColors() {
-  return await client.fetch(siteColorsQuery);
+  const siteColors = await client.fetch(siteColorsQuery);
+  return mergeSiteColors(siteColors);
 }

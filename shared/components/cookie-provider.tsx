@@ -6,6 +6,7 @@ import { CookieBanner } from "@/shared/components/cookie-banner";
 import { client } from "@/shared/sanity/lib/client";
 import { COOKIE_SETTINGS_QUERY } from "@/shared/sanity/queries/policies";
 import { useParams } from "next/navigation";
+import { defaultCookieSettings } from "@/shared/fallbacks/site-config";
 
 interface CookieProviderProps {
   children: React.ReactNode;
@@ -27,46 +28,7 @@ export function CookieProvider({ children }: CookieProviderProps) {
           "Errore nel caricamento delle impostazioni cookie:",
           error
         );
-        // Fallback con impostazioni di default
-        setCookieSettings({
-          title: "Questo sito utilizza i cookie",
-          description:
-            "Utilizziamo i cookie per migliorare la tua esperienza di navigazione e per fornire contenuti personalizzati. Continuando a navigare accetti l'uso dei cookie.",
-          acceptAllText: "Accetta tutti",
-          rejectAllText: "Rifiuta tutti",
-          customizeText: "Personalizza",
-          privacyPolicyText: "Leggi la Privacy Policy",
-          cookiePolicyText: "Leggi la Cookie Policy",
-          position: "bottom",
-          showRejectButton: true,
-          showCustomizeButton: true,
-          cookieCategories: [
-            {
-              id: "necessary",
-              name: "Cookie Necessari",
-              description:
-                "Questi cookie sono essenziali per il funzionamento del sito web.",
-              required: true,
-              defaultEnabled: true,
-            },
-            {
-              id: "analytics",
-              name: "Cookie Analytics",
-              description:
-                "Ci aiutano a capire come i visitatori interagiscono con il sito web.",
-              required: false,
-              defaultEnabled: false,
-            },
-            {
-              id: "marketing",
-              name: "Cookie Marketing",
-              description:
-                "Utilizzati per tracciare i visitatori sui siti web per mostrare annunci pertinenti.",
-              required: false,
-              defaultEnabled: false,
-            },
-          ],
-        });
+        setCookieSettings(defaultCookieSettings);
       } finally {
         setLoading(false);
       }
@@ -76,47 +38,10 @@ export function CookieProvider({ children }: CookieProviderProps) {
   }, [language]);
 
   // Default categories to use while loading or if fetch fails
-  const defaultCategories = [
-    {
-      id: "necessary",
-      name: "Cookie Necessari",
-      description:
-        "Questi cookie sono essenziali per il funzionamento del sito web.",
-      required: true,
-      defaultEnabled: true,
-    },
-    {
-      id: "analytics",
-      name: "Cookie Analytics",
-      description:
-        "Ci aiutano a capire come i visitatori interagiscono con il sito web.",
-      required: false,
-      defaultEnabled: false,
-    },
-    {
-      id: "marketing",
-      name: "Cookie Marketing",
-      description:
-        "Utilizzati per tracciare i visitatori sui siti web per mostrare annunci pertinenti.",
-      required: false,
-      defaultEnabled: false,
-    },
-  ];
+  const defaultCategories = defaultCookieSettings.cookieCategories;
 
   // Default full settings used for the banner while loading or on error
-  const defaultSettings = {
-    title: "Questo sito utilizza i cookie",
-    description:
-      "Utilizziamo i cookie per migliorare la tua esperienza di navigazione e per fornire contenuti personalizzati. Continuando a navigare accetti l'uso dei cookie.",
-    acceptAllText: "Accetta tutti",
-    rejectAllText: "Rifiuta tutti",
-    customizeText: "Personalizza",
-    privacyPolicyText: "Leggi la Privacy Policy",
-    cookiePolicyText: "Leggi la Cookie Policy",
-    position: "bottom",
-    showRejectButton: true,
-    showCustomizeButton: true,
-  };
+  const defaultSettings = defaultCookieSettings;
 
   // Use fetched categories when available, otherwise fallback to defaults
   let categories = cookieSettings?.cookieCategories || defaultCategories;

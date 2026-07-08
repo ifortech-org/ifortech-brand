@@ -1,6 +1,11 @@
 import { use } from "react";
 import Header from "@/shared/components/header";
-import { fetchSanityPageBySlug, fetchSanityHomepage, fetchSanityMenuPages, fetchSanityBlogPage } from "@/shared/sanity/lib/fetch";
+import {
+  fetchSanityPageBySlug,
+  fetchSanityHomepage,
+  fetchSanityMenuPages,
+} from "@/shared/sanity/lib/fetch";
+import { fetchResolvedSiteSettings } from "@/shared/sanity/lib/siteSettings";
 
 interface HeaderWithMenuProps {
   locale: string;
@@ -25,10 +30,13 @@ export default function HeaderWithMenu({
     try {
       // Recupera i dati delle pagine del menu
       const menuContentIds = ["homepage", "news", "about"];
-      const menuPages = await fetchSanityMenuPages({
-        contentIds: menuContentIds,
-        language: locale,
-      });
+      const [menuPages, siteSettings] = await Promise.all([
+        fetchSanityMenuPages({
+          contentIds: menuContentIds,
+          language: locale,
+        }),
+        fetchResolvedSiteSettings(),
+      ]);
 
       // Recupera i dati della pagina corrente per il language switcher
       let currentPageData = null;
@@ -58,6 +66,7 @@ export default function HeaderWithMenu({
 
       return {
         menuPages: menuPages as MenuPage[],
+        enableBlog: siteSettings.enableBlog !== false,
         contentId: contentId,
         documentType: documentType,
         currentPath: slug ? `/${slug}` : ""
@@ -66,6 +75,7 @@ export default function HeaderWithMenu({
       console.error("Error fetching header data:", error);
       return {
         menuPages: [],
+        enableBlog: true,
         contentId: undefined,
         documentType: "page" as const,
         currentPath: slug ? `/${slug}` : ""
@@ -76,7 +86,7 @@ export default function HeaderWithMenu({
   const headerData = use(getHeaderData());
 
   // Genera i navItems dai dati dinamici
-  const getNavItems = (menuPages: MenuPage[], locale: string) => {
+  const getNavItems = (menuPages: MenuPage[], locale: string, enableBlog: boolean) => {
     const items = [];
     
     // Configura l'ordine e le etichette desiderate
@@ -84,7 +94,7 @@ export default function HeaderWithMenu({
       { contentId: "homepage", label: "Home" },
       { contentId: "news", label: "Blog", isBlog: true },
       { contentId: "about", label: "About" }
-    ];
+    ].filter((item) => enableBlog || !item.isBlog);
 
     for (const config of menuConfig) {
       if (config.isBlog) {
@@ -126,7 +136,7 @@ export default function HeaderWithMenu({
     return items;
   };
 
-  const navItems = getNavItems(headerData.menuPages, locale);
+  const navItems = getNavItems(headerData.menuPages, locale, headerData.enableBlog);
 
   return (
     <Header

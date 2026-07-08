@@ -102,7 +102,7 @@ export default function PageTracker() {
         }
 
         timeoutId = setTimeout(() => {
-          if (window.location.href.includes("news")) {
+          if (window.location.href.includes("/blog")) {
             let scrollPercentage = Math.round(
               (window.scrollY /
                 (document.documentElement.scrollHeight - window.innerHeight)) *

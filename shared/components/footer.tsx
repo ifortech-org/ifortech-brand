@@ -1,6 +1,7 @@
 import Link from "next/link";
 import LogoDynamic from "@/shared/components/logo-dynamic";
 import { fetchFooterSettings } from "@/shared/sanity/lib/footerSettings";
+import { fetchResolvedSiteSettings } from "@/shared/sanity/lib/siteSettings";
 
 interface FooterProps {
   locale: string;
@@ -40,7 +41,10 @@ export default async function Footer({ locale, navItems, policyTitles }: FooterP
     return new Date().getFullYear();
   };
 
-  const footerSettings = await fetchFooterSettings(locale);
+  const [footerSettings, siteSettings] = await Promise.all([
+    fetchFooterSettings(locale),
+    fetchResolvedSiteSettings(),
+  ]);
 
   // Testi fallback per le policy
   const getPolicyTexts = () => {
@@ -93,7 +97,7 @@ export default async function Footer({ locale, navItems, policyTitles }: FooterP
         )}
         <div className="mt-8 flex flex-col lg:flex-row gap-6 justify-center text-center lg:mt-5 text-xs border-t pt-8">
           <p className="text-foreground/60">
-            &copy; {getCurrentYear()}&nbsp;iFortech. All rights reserved.
+            &copy; {getCurrentYear()}&nbsp;{siteSettings.copyrightText}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 text-foreground/60">
             <Link

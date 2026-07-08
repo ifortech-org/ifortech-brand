@@ -97,7 +97,7 @@ export default function LanguageSwitcher({
     <div className="flex items-center gap-2">
       <Globe className="h-4 w-4 text-muted-foreground" />
       <select
-        className="border rounded px-2 py-1 text-xs bg-neutral-900 text-neutral-100 dark:bg-neutral-900 dark:text-neutral-100"
+        className="border border-input rounded px-2 py-1 text-xs bg-background text-foreground"
         value={currentLanguage}
         onChange={handleChange}
         aria-label="Cambia lingua"
@@ -106,7 +106,7 @@ export default function LanguageSwitcher({
           <option
             key={lang.code || lang.label || idx}
             value={lang.code}
-            className="bg-neutral-900 text-neutral-100 dark:bg-neutral-900 dark:text-neutral-100"
+            className="bg-background text-foreground"
           >
             {lang.code?.toUpperCase() || lang.label || "IT"}
           </option>

@@ -1,7 +1,8 @@
 import { generatePageMetadata } from "@/shared/sanity/lib/metadata";
 import { fetchSanityBlogPage } from "@/shared/sanity/lib/fetch";
 import HeaderWithMenu from "@/shared/components/header-with-menu";
-import Breadcrumbs from "@/shared/components/ui/breadcrumbs";
+import { fetchResolvedSiteSettings } from "@/shared/sanity/lib/siteSettings";
+import { redirect } from "next/navigation";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -18,7 +19,13 @@ export default async function BlogPage(props: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await props.params;
-  const blogPage = await fetchSanityBlogPage({ language: locale });
+  const [blogPage, siteSettings] = await Promise.all([
+    fetchSanityBlogPage({ language: locale }),
+    fetchResolvedSiteSettings(),
+  ]);
+  if (siteSettings.enableBlog === false) {
+    redirect(`/${locale}`);
+  }
 
   const links = [
     {

@@ -8,6 +8,7 @@ import faq from "./schemas/documents/faq";
 import testimonial from "./schemas/documents/testimonial";
 import siteColors from "./schemas/documents/siteColors";
 import siteLogo from "./schemas/documents/siteLogo";
+import siteSettings from "./schemas/documents/siteSettings";
 import privacyPolicy from "./schemas/documents/privacy-policy";
 import cookiePolicy from "./schemas/documents/cookie-policy";
 import cookieSettings from "./schemas/documents/cookie-settings";
@@ -66,6 +67,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     testimonial,
     siteColors,
     siteLogo,
+    siteSettings,
     seo,
     privacyPolicy,
     cookiePolicy,

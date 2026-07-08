@@ -46,7 +46,7 @@ export function CookiePreferencesClient({ cookieSettings }: CookiePreferencesCli
           <CardTitle>{texts.preferencesTitle || "Preferenze Cookie"}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">
+          <p className="text-foreground">
             {texts.notAvailableText || "Il sistema di gestione cookie non è disponibile al momento. Riprova tra qualche istante."}
           </p>
         </CardContent>

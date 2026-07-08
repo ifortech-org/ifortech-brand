@@ -123,7 +123,7 @@ export function CookieSettings({ cookieSettings }: CookieSettingsProps) {
                     className="text-sm font-medium flex items-center gap-2">
                     {category.name}
                     {category.required && (
-                      <Badge variant="secondary" className="text-xs">
+                      <Badge variant="secondary" className="text-xs text-foreground">
                         {texts.requiredBadgeText || "Obbligatori"}
                       </Badge>
                     )}
@@ -146,13 +146,13 @@ export function CookieSettings({ cookieSettings }: CookieSettingsProps) {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t">
-          <Button onClick={handleSave} className="flex-1">
+          <Button onClick={handleSave} className="flex-1 text-foreground">
             {texts.savePreferencesText || "Salva Preferenze"}
           </Button>
-          <Button onClick={acceptAll} variant="outline" className="flex-1">
+          <Button onClick={acceptAll} variant="outline" className="flex-1 text-foreground">
             {texts.acceptAllPreferencesText || "Accetta Tutti"}
           </Button>
-          <Button onClick={rejectAll} variant="outline" className="flex-1">
+          <Button onClick={rejectAll} variant="outline" className="flex-1 text-foreground">
             {texts.onlyNecessaryText || "Solo Necessari"}
           </Button>
         </div>

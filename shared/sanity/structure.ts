@@ -113,6 +113,16 @@ export const structure = (S: any, context: any) =>
             .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
       S.listItem()
+        .title("Impostazioni Sito")
+        .icon(Settings)
+        .child(
+          S.editor()
+            .id("siteSettingsSingleton")
+            .schemaType("siteSettings")
+            .documentId("siteSettingsSingleton")
+            .title("Impostazioni Sito")
+        ),
+      S.listItem()
         .title("Colori del sito")
         .icon(Palette)
         .child(

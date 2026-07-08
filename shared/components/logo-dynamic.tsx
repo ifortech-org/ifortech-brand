@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { fetchSiteLogo } from "@/shared/sanity/lib/siteLogo";
 import { urlFor } from "@/shared/sanity/lib/image";
+import { legacySiteSettingsFallback } from "@/shared/fallbacks/site-config";
 
 export default function Logo({
   className = "",
@@ -71,11 +72,8 @@ export default function Logo({
     );
   }
 
-  // Fallback: scritta con il nome del progetto da env
-  const projectTitle =
-    typeof window !== "undefined"
-      ? process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || "Schema UI Starter"
-      : "Schema UI Starter";
+  // ponytail: fallback centralizzato rimovibile in un solo punto quando tutti i brand avranno config completa
+  const projectTitle = legacySiteSettingsFallback.siteName;
   return (
     <span
       className={className}
@@ -89,7 +87,7 @@ export default function Logo({
         ...props.style,
       }}
       {...props}>
-      {projectTitle.replace(/(^["']|["']$)/g, "")}
+      {(projectTitle || legacySiteSettingsFallback.siteName).replace(/(^["']|["']$)/g, "")}
     </span>
   );
 }

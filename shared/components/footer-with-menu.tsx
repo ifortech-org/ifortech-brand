@@ -2,6 +2,7 @@ import { use } from "react";
 import Footer from "@/shared/components/footer";
 import { fetchSanityMenuPages } from "@/shared/sanity/lib/fetch";
 import { fetchPolicyTitles } from "@/shared/sanity/queries/policies";
+import { fetchResolvedSiteSettings } from "@/shared/sanity/lib/siteSettings";
 
 interface FooterWithMenuProps {
   language: string;
@@ -20,26 +21,31 @@ export default function FooterWithMenu({ language }: FooterWithMenuProps) {
     try {
       // Recupera i dati delle pagine del menu (stesso del header)
       const menuContentIds = ["homepage", "news", "about"];
-      const [menuPages, policyTitles] = await Promise.all([
+      const [menuPages, policyTitles, siteSettings] = await Promise.all([
         fetchSanityMenuPages({
           contentIds: menuContentIds,
           language: language,
         }),
-        fetchPolicyTitles(language)
+        fetchPolicyTitles(language),
+        fetchResolvedSiteSettings(),
       ]);
 
-      return { menuPages: menuPages as MenuPage[], policyTitles };
+      return {
+        menuPages: menuPages as MenuPage[],
+        policyTitles,
+        enableBlog: siteSettings.enableBlog !== false,
+      };
     } catch (error) {
       console.error("Error fetching footer data:", error);
-      return { menuPages: [], policyTitles: null };
+      return { menuPages: [], policyTitles: null, enableBlog: true };
     }
   };
 
   const footerData = use(getFooterData());
-  const { menuPages, policyTitles } = footerData;
+  const { menuPages, policyTitles, enableBlog } = footerData;
 
   // Genera i navItems dai dati dinamici (stesso logic del header)
-  const getNavItems = (menuPages: MenuPage[], language: string) => {
+  const getNavItems = (menuPages: MenuPage[], language: string, enableBlog: boolean) => {
     const items = [];
     
     // Configura l'ordine e le etichette desiderate
@@ -48,7 +54,7 @@ export default function FooterWithMenu({ language }: FooterWithMenuProps) {
       { contentId: "homepage", label: "Home" },
       { contentId: "news", label: "Blog", isBlog: true },
       { contentId: "about", label: "About" }
-    ];
+    ].filter((item) => enableBlog || !item.isBlog);
 
     for (const config of menuConfig) {
       if (config.isBlog) {
@@ -86,7 +92,7 @@ export default function FooterWithMenu({ language }: FooterWithMenuProps) {
     return items;
   };
 
-  const navItems = getNavItems(menuPages, language);
+  const navItems = getNavItems(menuPages, language, enableBlog);
 
   return <Footer locale={language} navItems={navItems} policyTitles={policyTitles} />;
 }

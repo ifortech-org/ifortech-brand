@@ -1,30 +1,27 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { marked } from "marked";
+import { createClient } from "@sanity/client";
+import { legacySiteSettingsFallback } from "@/shared/fallbacks/site-config";
+import { apiVersion, dataset, projectId } from "../../../shared/sanity/env";
 
-// Escape base per HTML (evita injection nelle variabili utente)
 function escapeHtml(str: string) {
   return str.replace(/[&<>'"/]/g, function (s) {
     const entity: Record<string, string> = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      "'": '&#39;',
-      '"': '&quot;',
-      '/': '&#x2F;',
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "'": "&#39;",
+      '"': "&quot;",
+      "/": "&#x2F;",
     };
     return entity[s] || s;
   });
 }
 
-// Funzione di compilazione template: sostituisce {{var}} con i valori in data (senza escape, il markdown è sicuro)
 function compileTemplate(template: string, data: Record<string, string>) {
   return template.replace(/{{\s*(\w+)\s*}}/g, (_, key) => data[key] ?? "");
 }
-
-// Recupera il template email da Sanity, gestendo language come reference
-import { createClient } from "@sanity/client";
-import { apiVersion, dataset, projectId } from "../../../shared/sanity/env";
 
 const sanityClient = createClient({
   projectId,
@@ -33,42 +30,40 @@ const sanityClient = createClient({
   useCdn: false,
 });
 
-// Funzione per verificare hCaptcha
 async function verifyHCaptcha(token: string): Promise<boolean> {
   const secret = process.env.HCAPTCHA_SECRET_KEY;
-  
+
   if (!secret) {
-    console.error('HCAPTCHA_SECRET_KEY not configured');
+    console.error("HCAPTCHA_SECRET_KEY not configured");
     return false;
   }
 
   try {
-    const response = await fetch('https://hcaptcha.com/siteverify', {
-      method: 'POST',
+    const response = await fetch("https://hcaptcha.com/siteverify", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: `response=${token}&secret=${secret}`,
     });
 
     const data = await response.json();
-    
-    console.log('hCaptcha verification result:', {
+
+    console.log("hCaptcha verification result:", {
       success: data.success,
       challenge_ts: data.challenge_ts,
       hostname: data.hostname,
-      error_codes: data['error-codes']
+      error_codes: data["error-codes"],
     });
 
     return data.success === true;
   } catch (error) {
-    console.error('hCaptcha verification error:', error);
+    console.error("hCaptcha verification error:", error);
     return false;
   }
 }
 
 async function getEmailTemplate(lang: string) {
-  // Query GROQ: cerca il template con la lingua richiesta
   const query = `*[_type == "emailTemplate" && language->code == $lang][0]{
     subject_template,
     body_template,
@@ -82,7 +77,7 @@ async function getEmailTemplate(lang: string) {
       description: template.description,
     };
   }
-  // Fallback su italiano
+
   const fallbackQuery = `*[_type == "emailTemplate" && language->code == "it"][0]{
     subject_template,
     body_template,
@@ -96,12 +91,95 @@ async function getEmailTemplate(lang: string) {
       description: fallback.description,
     };
   }
-  // Fallback statico se non trova nulla
+
   return {
-    subject: "Riepilogo richiesta di contatto - iFortech",
-    body: `<div><h1>iFortech</h1><div><p>Gentile {{name}} {{surname}}, <br>Grazie per averci contattato. Di seguito il riepilogo della tua richiesta: <br><br><strong>Oggetto:</strong> {{subject}} <br><strong>Messaggio:</strong> {{description}} <br><br>Ti contatteremo al più presto. <br><br>Cordiali saluti, <br><br>Il Team di iFortech</p></div></div>`,
-    description: "Variabili disponibili: {{name}}, {{surname}}, {{subject}}, {{description}}. Usare le doppie parentesi graffe per inserire i dati dinamici.",
+    subject: `Riepilogo richiesta di contatto - ${legacySiteSettingsFallback.email.brandName}`,
+    body: `# {{brandName}}
+
+Gentile {{name}} {{surname}},
+
+Grazie per averci contattato. Di seguito il riepilogo della tua richiesta:
+
+- **Oggetto:** {{subject}}
+- **Messaggio:** {{description}}
+
+Ti contatteremo al più presto.
+
+Cordiali saluti,
+
+{{teamName}}`,
+    description:
+      "Variabili disponibili: {{name}}, {{surname}}, {{subject}}, {{description}}, {{brandName}}, {{teamName}}.",
   };
+}
+
+async function getSiteMailBranding() {
+  const siteSettingsQuery = `*[_type == "siteSettings"][0]{
+    siteName,
+    legalCompanyName,
+    email{
+      brandName,
+      adminSubjectPrefix,
+      adminTitle,
+      teamName,
+      replyTo,
+      logoMode,
+      customLogo{
+        asset->{
+          url
+        }
+      }
+    }
+  }`;
+
+  const siteLogoQuery = `*[_type == "siteLogo"][0]{
+    alt,
+    logo{
+      asset->{
+        url
+      }
+    }
+  }`;
+
+  const [siteSettings, siteLogo] = await Promise.all([
+    sanityClient.fetch(siteSettingsQuery),
+    sanityClient.fetch(siteLogoQuery),
+  ]);
+
+  const email = {
+    ...legacySiteSettingsFallback.email,
+    ...(siteSettings?.email ?? {}),
+  };
+
+  let logoUrl = "";
+  if (email.logoMode === "custom") {
+    logoUrl = siteSettings?.email?.customLogo?.asset?.url ?? "";
+  } else if (email.logoMode === "siteLogo") {
+    logoUrl = siteLogo?.logo?.asset?.url ?? "";
+  }
+
+  return {
+    siteName: siteSettings?.siteName || legacySiteSettingsFallback.siteName,
+    legalCompanyName:
+      siteSettings?.legalCompanyName ||
+      legacySiteSettingsFallback.legalCompanyName,
+    email,
+    logoUrl,
+    logoAlt:
+      siteLogo?.alt ||
+      siteSettings?.siteName ||
+      legacySiteSettingsFallback.siteName,
+  };
+}
+
+function buildEmailBrandBlock(logoUrl: string, logoAlt: string, brandName: string) {
+  if (logoUrl) {
+    return `<div style="margin-bottom:24px;"><img src="${logoUrl}" alt="${escapeHtml(
+      logoAlt
+    )}" style="max-width:180px;max-height:72px;width:auto;height:auto;" /></div>`;
+  }
+
+  return `<h1>${escapeHtml(brandName)}</h1>`;
 }
 
 const mailSenderAccount = {
@@ -123,17 +201,22 @@ export async function POST(request: Request) {
       "h-captcha-response": hCaptchaToken,
     } = await request.json();
 
-    // Verifica campi obbligatori
-    if (!email || !name || !surname || !business_name || !subject || !description) {
+    if (
+      !email ||
+      !name ||
+      !surname ||
+      !business_name ||
+      !subject ||
+      !description
+    ) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    // Verifica hCaptcha token
     if (!hCaptchaToken) {
-      console.error('hCaptcha token missing');
+      console.error("hCaptcha token missing");
       return NextResponse.json(
         { success: false, error: "hCaptcha verification required" },
         { status: 400 }
@@ -141,18 +224,23 @@ export async function POST(request: Request) {
     }
 
     const isValidCaptcha = await verifyHCaptcha(hCaptchaToken);
-    
+
     if (!isValidCaptcha) {
-      console.error('hCaptcha verification failed');
+      console.error("hCaptcha verification failed");
       return NextResponse.json(
-        { success: false, error: "hCaptcha verification failed. Please try again." },
+        {
+          success: false,
+          error: "hCaptcha verification failed. Please try again.",
+        },
         { status: 400 }
       );
     }
 
-    console.log('hCaptcha verification successful, processing form submission');
-
-    if (!mailSenderAccount.user || !mailSenderAccount.pass || !mailSenderAccount.email) {
+    if (
+      !mailSenderAccount.user ||
+      !mailSenderAccount.pass ||
+      !mailSenderAccount.email
+    ) {
       console.error("Email configuration missing:", {
         hasUser: !!mailSenderAccount.user,
         hasPass: !!mailSenderAccount.pass,
@@ -178,13 +266,24 @@ export async function POST(request: Request) {
       },
     });
 
+    const branding = await getSiteMailBranding();
+    const replyTo = branding.email.replyTo || mailSenderAccount.email;
+    const brandName = branding.email.brandName || branding.siteName;
+    const brandBlock = buildEmailBrandBlock(
+      branding.logoUrl,
+      branding.logoAlt,
+      brandName
+    );
+
     const mailData = {
       from: mailSenderAccount.email,
       to: mailSenderAccount.email,
-      subject: `IFORTECH - Richiesta di contatto`,
+      replyTo,
+      subject: `${branding.email.adminSubjectPrefix} - Richiesta di contatto`,
       html: `
         <div>
-          <h1>Nuova richiesta di contatto</h1>
+          ${brandBlock}
+          <h1>${escapeHtml(branding.email.adminTitle)}</h1>
           <p><strong>Nome:</strong> ${escapeHtml(name)}</p>
           <p><strong>Cognome:</strong> ${escapeHtml(surname)}</p>
           <p><strong>Email:</strong> ${escapeHtml(email)}</p>
@@ -198,20 +297,25 @@ export async function POST(request: Request) {
 
     await transporter.sendMail(mailData);
 
-
-    // Recupera il template localizzato dal DB (o fallback IT)
     const template = await getEmailTemplate(lang);
-    // Compila il template con i dati
-    const subjectUser = compileTemplate(template.subject, { name, surname, subject, description });
-    const bodyUserMarkdown = compileTemplate(template.body, { name, surname, subject, description });
-    // Converte il markdown in HTML sicuro (await per garantire stringa)
+    const templateData = {
+      name,
+      surname,
+      subject,
+      description,
+      brandName,
+      teamName: branding.email.teamName,
+    };
+    const subjectUser = compileTemplate(template.subject, templateData);
+    const bodyUserMarkdown = compileTemplate(template.body, templateData);
     const bodyUser = await marked.parse(bodyUserMarkdown);
 
     const mailDataUser = {
-      from: mailSenderAccount.email,
+      from: `"${branding.email.brandName}" <${mailSenderAccount.email}>`,
       to: email,
+      replyTo,
       subject: subjectUser,
-      html: bodyUser,
+      html: `${brandBlock}${bodyUser}`,
     };
     await transporter.sendMail(mailDataUser);
 
@@ -220,7 +324,7 @@ export async function POST(request: Request) {
     console.error("Error in contact form API:", error);
     console.error("Error details:", {
       message: error instanceof Error ? error.message : "Unknown error",
-      stack: error instanceof Error ? error.stack : "No stack trace"
+      stack: error instanceof Error ? error.stack : "No stack trace",
     });
     return NextResponse.json(
       { success: false, error: "Internal server error" },

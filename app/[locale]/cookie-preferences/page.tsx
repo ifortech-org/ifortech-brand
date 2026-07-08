@@ -31,7 +31,7 @@ export default async function CookiePreferencesPage({ params }: { params: Promis
             fallbackPath="/cookie-preferences"
           />
         </div>
-        <p className="text-muted-foreground mb-8">
+        <p className="text-foreground mb-8">
           {cookieSettings?.preferencesDescription || cookieSettings?.description || "Personalizza le tue impostazioni sui cookie. Puoi cambiare queste impostazioni in qualsiasi momento."}
         </p>
         <CookiePreferencesClient cookieSettings={cookieSettings} />

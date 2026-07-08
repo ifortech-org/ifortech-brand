@@ -1,40 +1,61 @@
 "use client";
 
 import * as React from "react";
-import { useTheme, ThemeProvider as NextThemesProvider } from "next-themes";
+import { useTheme } from "next-themes";
 import { fetchSiteColors } from "@/shared/sanity/lib/siteColors";
 
 export type ColorTheme = "light" | "dark" | "system";
 
-function applySiteColors(siteColors: any, mode: ColorTheme) {
+function applySiteColors(siteColors: any, enableDarkTheme: boolean) {
   if (!siteColors || typeof window === "undefined") return;
   const root = document.documentElement;
-  // Light mode su :root
   const lightVars = {
     "--background": siteColors.background,
-    "--primary": siteColors.primary,
-    "--secondary": siteColors.secondary,
-    "--card": siteColors.card,
-    "--accent": siteColors.accent,
-    "--destructive": siteColors.destructive,
-    "--muted": siteColors.muted,
     "--foreground": siteColors.text,
+    "--card": siteColors.card,
+    "--card-foreground": siteColors.cardForeground,
+    "--popover": siteColors.popover,
+    "--popover-foreground": siteColors.popoverForeground,
+    "--primary": siteColors.primary,
+    "--primary-foreground": siteColors.primaryForeground,
+    "--secondary": siteColors.secondary,
+    "--secondary-foreground": siteColors.secondaryForeground,
+    "--muted": siteColors.muted,
+    "--muted-foreground": siteColors.mutedForeground,
+    "--accent": siteColors.accent,
+    "--accent-foreground": siteColors.accentForeground,
+    "--destructive": siteColors.destructive,
+    "--destructive-foreground": siteColors.destructiveForeground,
+    "--border": siteColors.border,
+    "--input": siteColors.input,
+    "--ring": siteColors.ring,
   };
   Object.entries(lightVars).forEach(([key, value]) => {
     if (value) root.style.setProperty(key, value);
   });
-  // Dark mode su .dark
+  if (!enableDarkTheme) return;
   const dark = document.querySelector<HTMLElement>(".dark");
   if (dark) {
     const darkVars = {
       "--background": siteColors.backgroundDark,
-      "--primary": siteColors.primaryDark,
-      "--secondary": siteColors.secondaryDark,
-      "--card": siteColors.cardDark,
-      "--accent": siteColors.accentDark,
-      "--destructive": siteColors.destructiveDark,
-      "--muted": siteColors.mutedDark,
       "--foreground": siteColors.textDark,
+      "--card": siteColors.cardDark,
+      "--card-foreground": siteColors.cardForegroundDark,
+      "--popover": siteColors.popoverDark,
+      "--popover-foreground": siteColors.popoverForegroundDark,
+      "--primary": siteColors.primaryDark,
+      "--primary-foreground": siteColors.primaryForegroundDark,
+      "--secondary": siteColors.secondaryDark,
+      "--secondary-foreground": siteColors.secondaryForegroundDark,
+      "--muted": siteColors.mutedDark,
+      "--muted-foreground": siteColors.mutedForegroundDark,
+      "--accent": siteColors.accentDark,
+      "--accent-foreground": siteColors.accentForegroundDark,
+      "--destructive": siteColors.destructiveDark,
+      "--destructive-foreground": siteColors.destructiveForegroundDark,
+      "--border": siteColors.borderDark,
+      "--input": siteColors.inputDark,
+      "--ring": siteColors.ringDark,
     };
     Object.entries(darkVars).forEach(([key, value]) => {
       if (value) dark.style.setProperty(key, value);
@@ -44,8 +65,10 @@ function applySiteColors(siteColors: any, mode: ColorTheme) {
 
 export function ColorThemeProvider({
   children,
+  enableDarkTheme = true,
 }: {
   children: React.ReactNode;
+  enableDarkTheme?: boolean;
 }) {
   const { resolvedTheme } = useTheme();
   const [siteColors, setSiteColors] = React.useState<any>(null);
@@ -63,9 +86,10 @@ export function ColorThemeProvider({
   React.useLayoutEffect(() => {
     if (!siteColors || !resolvedTheme) return;
     let mode: ColorTheme = "light";
-    if (resolvedTheme === "dark") mode = "dark";
+    if (enableDarkTheme && resolvedTheme === "dark") mode = "dark";
     else if (resolvedTheme === "system") {
       if (
+        enableDarkTheme &&
         typeof window !== "undefined" &&
         window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -73,8 +97,8 @@ export function ColorThemeProvider({
         mode = "dark";
       }
     }
-    applySiteColors(siteColors, mode);
-  }, [siteColors, resolvedTheme]);
+    applySiteColors(siteColors, enableDarkTheme);
+  }, [enableDarkTheme, siteColors, resolvedTheme]);
 
   function Spinner() {
     return (

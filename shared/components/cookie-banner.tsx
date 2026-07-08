@@ -128,7 +128,7 @@ export function CookieBanner({ settings }: CookieBannerProps) {
               </div>
 
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-semibold text-foreground mb-2">
+                <h3 className="text-sm font-semibold text-card-foreground mb-2">
                   {settings.title}
                 </h3>
                 <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
@@ -158,7 +158,7 @@ export function CookieBanner({ settings }: CookieBannerProps) {
                       onClick={handleCustomize}
                       variant="ghost"
                       size="sm"
-                      className="flex-1 sm:flex-none">
+                      className="flex-1 sm:flex-none text-card-foreground">
                       {settings.customizeText}
                     </Button>
                   )}

@@ -10,7 +10,7 @@ import {
 import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
 import { NavItem } from "@/shared/types";
-import Logo from "@/shared/components/logo";
+import LogoDynamic from "@/shared/components/logo-dynamic";
 import { useState } from "react";
 import { AlignRight } from "lucide-react";
 
@@ -29,7 +29,9 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
       <SheetContent>
         <SheetHeader>
           <div className="mx-auto">
-            <Logo />
+            <div className="w-[6.25rem]">
+              <LogoDynamic />
+            </div>
           </div>
           <div className="sr-only">
             <SheetTitle>Main Navigation</SheetTitle>
