@@ -29,6 +29,14 @@ export default defineType({
       initialValue: "grid-cols-3",
     }),
     defineField({
+      name: "useFlexWrap",
+      type: "boolean",
+      title: "Use Flex Wrap",
+      description:
+        "Enable this to switch the row layout from grid to flex-wrap. The selected number of columns is preserved, and incomplete rows are centered horizontally.",
+      initialValue: false,
+    }),
+    defineField({
       name: "title",
       type: "string",
       title: "Title",

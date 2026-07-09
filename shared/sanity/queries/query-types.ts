@@ -179,6 +179,7 @@ export type GridRowBlock = {
   title: string | null;
   colorVariant: import("@/sanity.types").ColorVariant | null;
   gridColumns: "grid-cols-2" | "grid-cols-3" | "grid-cols-4" | null;
+  useFlexWrap: boolean | null;
   columns: Array<GridCardBlock | GridPostBlock | PricingCardBlock> | null;
 };
 

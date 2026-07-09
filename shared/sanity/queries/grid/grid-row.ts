@@ -12,6 +12,7 @@ export const gridRowQuery = groq`
     title,
     colorVariant,
     gridColumns,
+    useFlexWrap,
     columns[]{
       ${gridCardQuery},
       ${pricingCardQuery},

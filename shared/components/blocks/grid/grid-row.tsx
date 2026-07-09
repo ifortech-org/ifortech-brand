@@ -26,17 +26,29 @@ const gridColumnsClassName: Record<string, string> = {
   "grid-cols-4": "md:grid-cols-2 lg:grid-cols-4",
 };
 
+const flexColumnsWrapperClassName: Record<string, string> = {
+  "grid-cols-2": "w-full md:w-[calc((100%-1.5rem)/2)]",
+  "grid-cols-3": "w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]",
+  "grid-cols-4":
+    "w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4.5rem)/4)]",
+};
+
 export default function GridRow({
   padding,
   colorVariant,
   gridColumns,
+  useFlexWrap,
   columns,
   title,
 }: GridRow) {
   const color = stegaClean(colorVariant);
+  const cleanedGridColumns = stegaClean(gridColumns) ?? "";
   const columnsClassName =
-    gridColumnsClassName[stegaClean(gridColumns) ?? ""] ?? "md:grid-cols-2";
-  const isFourColumns = stegaClean(gridColumns) === "grid-cols-4";
+    gridColumnsClassName[cleanedGridColumns] ?? "md:grid-cols-2";
+  const flexWrapperClassName =
+    flexColumnsWrapperClassName[cleanedGridColumns] ??
+    "w-full md:w-[calc((100%-1.5rem)/2)]";
+  const isFourColumns = cleanedGridColumns === "grid-cols-4";
 
   return (
     <SectionContainer
@@ -47,8 +59,10 @@ export default function GridRow({
       {columns && columns?.length > 0 && (
         <div
           className={cn(
-            "grid grid-cols-1 gap-6",
-            columnsClassName,
+            useFlexWrap
+              ? "flex flex-wrap justify-center gap-6"
+              : "grid grid-cols-1 gap-6",
+            useFlexWrap ? undefined : columnsClassName,
             isFourColumns ? "lg:gap-4 xl:gap-6" : undefined
           )}>
           {columns.map((column) => {
@@ -61,12 +75,15 @@ export default function GridRow({
               return <div data-type={column._type} key={column._key} />;
             }
             return (
-              <Component
-                {...(column as any)}
-                color={color}
-                compactTitle={isFourColumns}
-                key={column._key}
-              />
+              <div
+                className={cn(useFlexWrap ? flexWrapperClassName : undefined)}
+                key={column._key}>
+                <Component
+                  {...(column as any)}
+                  color={color}
+                  compactTitle={isFourColumns}
+                />
+              </div>
             );
           })}
         </div>
