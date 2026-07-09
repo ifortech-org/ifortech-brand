@@ -6,6 +6,7 @@ interface SectionContainerProps {
   padding?: SectionPadding | null;
   children: React.ReactNode;
   className?: string;
+  contentClassName?: string;
 }
 
 export default function SectionContainer({
@@ -13,6 +14,7 @@ export default function SectionContainer({
   padding,
   children,
   className,
+  contentClassName,
 }: SectionContainerProps) {
   return (
     <div
@@ -22,7 +24,7 @@ export default function SectionContainer({
         padding?.bottom ? "pb-16 xl:pb-20" : undefined,
         className
       )}>
-      <div className="container">{children}</div>
+      <div className={cn("container", contentClassName)}>{children}</div>
     </div>
   );
 }
