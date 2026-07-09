@@ -154,7 +154,7 @@ function ContactForm({
 
   return (
     <Dialog>
-      <div className="grid lg:grid-cols-2 bg-muted">
+      <div id="contacts" className="grid lg:grid-cols-2 bg-muted">
         <div
           className="bg-no-repeat bg-cover hidden lg:block"
           style={{
