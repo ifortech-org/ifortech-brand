@@ -65,8 +65,10 @@ export default defineType({
       of: [
         { type: "hero-1" },
         { type: "hero-2" },
+        { type: "hero-split" },
         { type: "hero-3" },
         { type: "section-header" },
+        { type: "metrics" },
         { type: "split-row" },
         { type: "grid-row" },
         { type: "carousel-1" },
@@ -85,7 +87,12 @@ export default defineType({
             {
               name: "hero",
               title: "Hero",
-              of: ["hero-1", "hero-2", "hero-3"],
+              of: ["hero-1", "hero-2", "hero-split", "hero-3"],
+            },
+            {
+              name: "metrics",
+              title: "Metriche",
+              of: ["metrics"],
             },
             {
               name: "logo-cloud",

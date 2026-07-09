@@ -6,6 +6,7 @@ export const legacySiteSettingsFallback = {
   enableBlog: true,
   twitterHandle: "@tuotwitter",
   copyrightText: "iFortech. All rights reserved.",
+  favicon: null,
   email: {
     brandName: "iFortech",
     adminSubjectPrefix: "IFORTECH",

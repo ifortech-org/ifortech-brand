@@ -105,11 +105,11 @@ export const structure = (S: any, context: any) =>
         ),
 
       S.listItem()
-        .title("Email Template")
+        .title("Template Email Cliente")
         .icon(Files)
         .child(
           S.documentTypeList("emailTemplate")
-            .title("Email Template")
+            .title("Template Email Cliente")
             .defaultOrdering([{ field: "language", direction: "asc" }])
         ),
       S.listItem()

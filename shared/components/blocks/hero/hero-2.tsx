@@ -19,8 +19,8 @@ export default function Hero2({
   backgroundImage,
 }: Hero2Props) {
   const containerClassName = backgroundImage
-    ? "dark:bg-background py-20  lg:pt-40 text-center text-white relative"
-    : "container dark:bg-background py-20 lg:pt-40 text-center ";
+    ? "dark:bg-background py-20  lg:py-38 text-center text-white relative"
+    : "container dark:bg-background py-20 lg:py-38 text-center ";
 
   const bgImage = backgroundImage ? urlFor(backgroundImage).url() : undefined;
 

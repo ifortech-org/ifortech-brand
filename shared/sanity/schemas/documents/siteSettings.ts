@@ -48,6 +48,23 @@ export default defineType({
       description: "Es. @brand",
     }),
     defineField({
+      name: "favicon",
+      title: "Favicon",
+      type: "file",
+      description:
+        "Icona del browser per questo brand. Accetta .ico, .png, .svg, .jpg e .webp. Se vuota resta il fallback /favicon.ico.",
+      options: {
+        accept: ".ico,.png,.svg,.jpg,.jpeg,.webp",
+      },
+      fields: [
+        defineField({
+          name: "title",
+          title: "Label interna",
+          type: "string",
+        }),
+      ],
+    }),
+    defineField({
       name: "copyrightText",
       title: "Testo copyright",
       type: "string",

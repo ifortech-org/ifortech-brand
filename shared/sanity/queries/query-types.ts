@@ -286,6 +286,17 @@ export type PAGE_BLOCK =
       links: Array<Link> | null;
     }
   | {
+      _type: "hero-split";
+      _key: string;
+      tagLine: string | null;
+      title: string | null;
+      title_left: string | null;
+      title_right: string | null;
+      image_left: any | null;
+      image_right: any | null;
+      body: any[] | null;
+    }
+  | {
       _type: "hero-3";
       _key: string;
       tagLine: string | null;
@@ -293,6 +304,19 @@ export type PAGE_BLOCK =
       sideImage: any | null;
       body: any[] | null;
       links: Array<Link> | null;
+    }
+  | {
+      _type: "metrics";
+      _key: string;
+      first_metric_name: string | null;
+      first_metric_value: number | null;
+      first_metric_image: any | null;
+      second_metric_name: string | null;
+      second_metric_value: number | null;
+      second_metric_image: any | null;
+      third_metric_name: string | null;
+      third_metric_value: number | null;
+      third_metric_image: any | null;
     }
   | {
       _type: "logo-cloud-1";

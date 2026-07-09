@@ -64,7 +64,7 @@ async function verifyHCaptcha(token: string): Promise<boolean> {
 }
 
 async function getEmailTemplate(lang: string) {
-  const query = `*[_type == "emailTemplate" && language->code == $lang][0]{
+  const query = `*[_type == "emailTemplate" && language->code == $lang] | order(_updatedAt desc)[0]{
     subject_template,
     body_template,
     description
@@ -78,7 +78,7 @@ async function getEmailTemplate(lang: string) {
     };
   }
 
-  const fallbackQuery = `*[_type == "emailTemplate" && language->code == "it"][0]{
+  const fallbackQuery = `*[_type == "emailTemplate" && language->code == "it"] | order(_updatedAt desc)[0]{
     subject_template,
     body_template,
     description

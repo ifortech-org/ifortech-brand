@@ -20,10 +20,16 @@ export async function generateMetadata() {
   ]);
   const siteName = seo?.title || siteSettings.siteName;
   const siteDescription = seo?.description || `${siteSettings.siteName}.`;
+  const faviconUrl = siteSettings.favicon?.asset?.url || "/favicon.ico";
 
   return {
     title: siteName,
     description: siteDescription,
+    icons: {
+      icon: faviconUrl,
+      shortcut: faviconUrl,
+      apple: faviconUrl,
+    },
     keywords: seo?.keywords || [
       "Next.js",
       "Sanity",
@@ -91,7 +97,6 @@ export default async function RootLayout({
 
   return (
     <html lang={siteSettings.defaultLocale || "it"} suppressHydrationWarning>
-      <link rel="icon" href="/favicon.ico" />
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",
