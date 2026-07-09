@@ -52,7 +52,7 @@ export default function GridCard({
                   blurDataURL={image?.asset?.metadata?.lqip || ""}
                   fill
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover rounded-full"
+                  className="object-cover"
                   quality={100}
                 />
               </div>
