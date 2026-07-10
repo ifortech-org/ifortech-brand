@@ -176,7 +176,7 @@ function buildEmailBrandBlock(logoUrl: string, logoAlt: string, brandName: strin
   if (logoUrl) {
     return `<div style="margin-bottom:24px;"><img src="${logoUrl}" alt="${escapeHtml(
       logoAlt
-    )}" style="max-width:180px;max-height:72px;width:auto;height:auto;" /></div>`;
+    )}" width="180" style="display:block;width:180px;height:auto;max-width:100%;" /></div>`;
   }
 
   return `<h1>${escapeHtml(brandName)}</h1>`;
