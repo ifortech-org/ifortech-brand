@@ -159,7 +159,7 @@ function ContactForm({
           className="bg-no-repeat bg-cover hidden lg:block"
           style={{
             backgroundImage: `url(${imageUrl})`,
-            backgroundPosition: "-15% 30%",
+            backgroundPosition: "center 30%",
           }}></div>
         <div className="flex flex-col px-8 py-16 gap-4">
           <h2 className="text-3xl font-bold">{title}</h2>
