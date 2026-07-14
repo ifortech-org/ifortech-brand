@@ -29,7 +29,7 @@ export default function GridCard({
   return (
     <Link
       key={title}
-      className="flex min-w-0 w-full rounded-lg ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group text-center"
+      className="h-full flex min-w-0 w-full rounded-lg ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group text-center"
       href={link?.href ?? "#"}
       target={link?.target ? "_blank" : undefined}>
       <div
@@ -80,7 +80,7 @@ export default function GridCard({
           </div>
         </div>
         <Button
-          className="mt-6 self-center"
+          className="self-center"
           size="lg"
           variant={stegaClean(link?.buttonVariant)}
           asChild>
