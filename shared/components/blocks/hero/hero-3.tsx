@@ -5,6 +5,8 @@ import { stegaClean } from "next-sanity";
 import PortableTextRenderer from "@/shared/components/portable-text-renderer";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { PAGE_BLOCK } from "@/shared/sanity/queries/query-types";
+import { cn } from "@/shared/lib/utils";
+import { resolveThemeColorValue } from "@/shared/lib/theme-colors";
 
 type Hero3Props = Extract<
   PAGE_BLOCK,
@@ -16,24 +18,35 @@ export default function Hero3({
   title,
   body,
   links,
+  topBorderColor,
+  bottomBorderColor,
+  reverseLayout,
   sideImage,
 }: Hero3Props) {
   const imageUrl =
     sideImage && sideImage.asset ? urlFor(sideImage).url() : undefined;
+  const topBorderStyle = { backgroundColor: resolveThemeColorValue(topBorderColor) };
+  const bottomBorderStyle = { backgroundColor: resolveThemeColorValue(bottomBorderColor) };
 
   return (
     <section className="relative isolate overflow-hidden dark:bg-background">
       <div
-        className="absolute inset-x-0 top-0 h-2 bg-primary z-10"
+        className="absolute inset-x-0 top-0 z-10 h-2"
+        style={topBorderStyle}
         aria-hidden="true"
       />
       <div
-        className="absolute inset-x-0 bottom-0 h-2 bg-primary z-10"
+        className="absolute inset-x-0 bottom-0 z-10 h-2"
+        style={bottomBorderStyle}
         aria-hidden="true"
       />
       <div className="container py-12 lg:py-20">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_420px]">
-          <div className="text-center lg:text-left">
+          <div
+            className={cn(
+              "text-center lg:text-left",
+              reverseLayout ? "order-2 lg:order-2" : undefined
+            )}>
             {tagLine && (
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary/90 animate-fade-up [animation-delay:100ms] opacity-0">
                 {tagLine}
@@ -68,7 +81,7 @@ export default function Hero3({
             )}
           </div>
           {imageUrl && (
-            <div className="relative">
+            <div className={cn("relative", reverseLayout ? "order-1 lg:order-1" : undefined)}>
               <div
                 className="absolute inset-0 -z-10 rounded-[32px]"
                 aria-hidden="true"

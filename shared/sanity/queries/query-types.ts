@@ -297,15 +297,18 @@ export type PAGE_BLOCK =
       image_right: any | null;
       body: any[] | null;
     }
-  | {
-      _type: "hero-3";
-      _key: string;
-      tagLine: string | null;
-      title: string | null;
-      sideImage: any | null;
-      body: any[] | null;
-      links: Array<Link> | null;
-    }
+    | {
+        _type: "hero-3";
+        _key: string;
+        tagLine: string | null;
+        title: string | null;
+        topBorderColor: string | null;
+        bottomBorderColor: string | null;
+        reverseLayout: boolean | null;
+        sideImage: any | null;
+        body: any[] | null;
+        links: Array<Link> | null;
+      }
   | {
       _type: "metrics";
       _key: string;

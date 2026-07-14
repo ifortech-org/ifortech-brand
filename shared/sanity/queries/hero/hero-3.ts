@@ -7,6 +7,9 @@ export const hero3Query = groq`
     _key,
     tagLine,
     title,
+    topBorderColor,
+    bottomBorderColor,
+    reverseLayout,
     sideImage{
       asset->{
         _id,

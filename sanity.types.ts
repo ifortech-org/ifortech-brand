@@ -558,6 +558,9 @@ export type Hero3 = {
   _type: "hero-3";
   tagLine?: string;
   title?: string;
+  topBorderColor?: string;
+  bottomBorderColor?: string;
+  reverseLayout?: boolean;
   body?: Array<{
     children?: Array<{
       marks?: Array<string>;

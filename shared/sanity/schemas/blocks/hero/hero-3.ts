@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { LayoutTemplate } from "lucide-react";
+import ThemeColorInput from "../../../components/themeColorInput";
 
 export default defineType({
   name: "hero-3",
@@ -18,6 +19,30 @@ export default defineType({
     defineField({
       name: "body",
       type: "block-content",
+    }),
+    defineField({
+      name: "topBorderColor",
+      title: "Colore bordo superiore",
+      type: "string",
+      description: "Token tema o valore CSS. Se vuoto usa primary.",
+      components: {
+        input: ThemeColorInput,
+      },
+    }),
+    defineField({
+      name: "bottomBorderColor",
+      title: "Colore bordo inferiore",
+      type: "string",
+      description: "Token tema o valore CSS. Se vuoto usa primary.",
+      components: {
+        input: ThemeColorInput,
+      },
+    }),
+    defineField({
+      name: "reverseLayout",
+      title: "Inverti immagine e contenuto",
+      type: "boolean",
+      initialValue: false,
     }),
     defineField({
       name: "links",
