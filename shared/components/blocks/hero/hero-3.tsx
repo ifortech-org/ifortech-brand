@@ -25,6 +25,7 @@ export default function Hero3({
 }: Hero3Props) {
   const imageUrl =
     sideImage && sideImage.asset ? urlFor(sideImage).url() : undefined;
+  const isReversed = Boolean(stegaClean(reverseLayout));
   const topBorderStyle = { backgroundColor: resolveThemeColorValue(topBorderColor) };
   const bottomBorderStyle = { backgroundColor: resolveThemeColorValue(bottomBorderColor) };
 
@@ -41,11 +42,19 @@ export default function Hero3({
         aria-hidden="true"
       />
       <div className="container py-12 lg:py-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_420px]">
+        <div
+          className={cn(
+            "grid items-center gap-12",
+            imageUrl
+              ? isReversed
+                ? "lg:grid-cols-[420px_minmax(0,1fr)]"
+                : "lg:grid-cols-[minmax(0,1fr)_420px]"
+              : undefined
+          )}>
           <div
             className={cn(
-              "text-center lg:text-left",
-              reverseLayout ? "order-2 lg:order-2" : undefined
+              "order-2 text-center lg:text-left",
+              isReversed ? "lg:order-2" : "lg:order-1"
             )}>
             {tagLine && (
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary/90 animate-fade-up [animation-delay:100ms] opacity-0">
@@ -81,7 +90,11 @@ export default function Hero3({
             )}
           </div>
           {imageUrl && (
-            <div className={cn("relative", reverseLayout ? "order-1 lg:order-1" : undefined)}>
+            <div
+              className={cn(
+                "order-1 relative",
+                isReversed ? "lg:order-1" : "lg:order-2"
+              )}>
               <div
                 className="absolute inset-0 -z-10 rounded-[32px]"
                 aria-hidden="true"
