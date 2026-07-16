@@ -297,6 +297,60 @@ export type PAGE_BLOCK =
       image_right: any | null;
       body: any[] | null;
     }
+  | {
+      _type: "hero-split-2";
+      _key: string;
+      tagLine: string | null;
+      title: string | null;
+      subtitle: string | null;
+      image_left: any | null;
+      image_right: any | null;
+      left: {
+        title: string | null;
+        subtitle: string | null;
+        media: any | null;
+        showBackground: boolean | null;
+        centerContent: boolean | null;
+        button: {
+          text: string | null;
+          url: string | null;
+          color: string | null;
+          textColor: string | null;
+        } | null;
+      } | null;
+      right: {
+        title: string | null;
+        subtitle: string | null;
+        media: any | null;
+        showBackground: boolean | null;
+        centerContent: boolean | null;
+        button: {
+          text: string | null;
+          url: string | null;
+          color: string | null;
+          textColor: string | null;
+        } | null;
+      } | null;
+      centerPanel: {
+        backgroundColor: string | null;
+        backgroundOpacity: number | null;
+        title: string | null;
+        left: {
+          title: string | null;
+          description: string | null;
+          linkText: string | null;
+          linkUrl: string | null;
+          linkColor: string | null;
+        } | null;
+        right: {
+          title: string | null;
+          description: string | null;
+          linkText: string | null;
+          linkUrl: string | null;
+          linkColor: string | null;
+        } | null;
+      } | null;
+    }
     | {
         _type: "hero-3";
         _key: string;

@@ -32,6 +32,7 @@ import { colorVariant } from "./schemas/blocks/shared/color-variant";
 import hero1 from "./schemas/blocks/hero/hero-1";
 import hero2 from "./schemas/blocks/hero/hero-2";
 import heroSplit from "./schemas/blocks/hero/hero-split";
+import heroSplit2 from "./schemas/blocks/hero/hero-split-2";
 import hero3 from "./schemas/blocks/hero/hero-3";
 import sectionHeader from "./schemas/blocks/section-header";
 import metrics from "./schemas/blocks/metrics";
@@ -87,6 +88,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     hero1,
     hero2,
     heroSplit,
+    heroSplit2,
     hero3,
     contactform,
     sectionHeader,

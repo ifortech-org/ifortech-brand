@@ -66,6 +66,7 @@ export default defineType({
         { type: "hero-1" },
         { type: "hero-2" },
         { type: "hero-split" },
+        { type: "hero-split-2" },
         { type: "hero-3" },
         { type: "section-header" },
         { type: "metrics" },
@@ -87,7 +88,7 @@ export default defineType({
             {
               name: "hero",
               title: "Hero",
-              of: ["hero-1", "hero-2", "hero-split", "hero-3"],
+              of: ["hero-1", "hero-2", "hero-split", "hero-split-2", "hero-3"],
             },
             {
               name: "metrics",

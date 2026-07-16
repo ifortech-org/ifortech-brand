@@ -2,6 +2,7 @@ import { PAGE_QUERYResult } from "@/shared/sanity/queries/query-types";
 import Hero1 from "@/shared/components/blocks/hero/hero-1";
 import Hero2 from "@/shared/components/blocks/hero/hero-2";
 import HeroSplit from "@/shared/components/blocks/hero/hero-split";
+import HeroSplit2 from "@/shared/components/blocks/hero/hero-split-2";
 import Hero3 from "@/shared/components/blocks/hero/hero-3";
 import Metrics from "@/shared/components/blocks/metrics";
 import SectionHeader from "@/shared/components/blocks/section-header";
@@ -27,6 +28,7 @@ const componentMap: {
   "hero-1": Hero1,
   "hero-2": Hero2,
   "hero-split": HeroSplit,
+  "hero-split-2": HeroSplit2,
   "hero-3": Hero3,
   metrics: Metrics,
   "section-header": SectionHeader,
