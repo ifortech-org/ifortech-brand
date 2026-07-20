@@ -1,9 +1,12 @@
-import { client } from "../lib/client";
+import { sanityFetch } from "./live";
 import { mergeSiteSettings } from "@/shared/fallbacks/site-config";
 import { siteSettingsQuery } from "../queries/siteSettings";
 
 export async function fetchSiteSettings() {
-  return await client.fetch(siteSettingsQuery);
+  const { data } = await sanityFetch({
+    query: siteSettingsQuery,
+  });
+  return data;
 }
 
 export async function fetchResolvedSiteSettings() {

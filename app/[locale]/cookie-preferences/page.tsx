@@ -1,6 +1,6 @@
 import { CookiePreferencesClient } from "./cookie-preferences-client";
 import { Metadata } from "next";
-import { fetchSanityCookieSettings } from "@/shared/sanity/queries/policies";
+import { fetchSanityCookieSettings } from "@/shared/sanity/lib/policies";
 import LanguageSwitcher from "@/shared/components/language-switcher";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {

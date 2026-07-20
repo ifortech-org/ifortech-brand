@@ -6,16 +6,19 @@ import { ThemeProvider } from "@/shared/components/theme-provider";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { ColorThemeProvider } from "@/shared/components/color-theme-provider";
 import { CookieProvider } from "@/shared/components/cookie-provider";
-import { client } from "@/shared/sanity/lib/client";
 import { GLOBAL_SEO_QUERY } from "@/shared/sanity/queries/seo";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { fetchResolvedSiteSettings } from "@/shared/sanity/lib/siteSettings";
+import { sanityFetch } from "@/shared/sanity/lib/live";
 
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
 export async function generateMetadata() {
-  const [seo, siteSettings] = await Promise.all([
-    client.fetch(GLOBAL_SEO_QUERY),
+  const [{ data: seo }, siteSettings] = await Promise.all([
+    sanityFetch({
+      query: GLOBAL_SEO_QUERY,
+      stega: false,
+    }),
     fetchResolvedSiteSettings(),
   ]);
   const siteName = seo?.title || siteSettings.siteName;

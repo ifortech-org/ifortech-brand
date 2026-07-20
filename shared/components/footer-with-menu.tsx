@@ -1,7 +1,7 @@
 import { use } from "react";
 import Footer from "@/shared/components/footer";
 import { fetchSanityMenuPages } from "@/shared/sanity/lib/fetch";
-import { fetchPolicyTitles } from "@/shared/sanity/queries/policies";
+import { fetchPolicyTitles } from "@/shared/sanity/lib/policies";
 import { fetchResolvedSiteSettings } from "@/shared/sanity/lib/siteSettings";
 
 interface FooterWithMenuProps {

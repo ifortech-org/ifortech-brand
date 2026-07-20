@@ -1,6 +1,10 @@
-import { client } from "../lib/client";
+import { sanityFetch } from "./live";
 import { footerSettingsQuery } from "../queries/footerSettings";
 
 export async function fetchFooterSettings(language: string = "it") {
-  return await client.fetch(footerSettingsQuery, { language });
+  const { data } = await sanityFetch({
+    query: footerSettingsQuery,
+    params: { language },
+  });
+  return data;
 }
